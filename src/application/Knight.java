@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 
 
+
+
 public class Knight extends Piece 
 {
 

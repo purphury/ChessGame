@@ -1,5 +1,6 @@
 package application;
 
+
 public class Board 
 {
 	 private boolean[][] board;

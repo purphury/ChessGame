@@ -2,6 +2,7 @@ package application;
 
 import java.util.LinkedList;
 
+
 public class Rook extends Piece 
 {
 	public Rook(int x, int y, boolean color)

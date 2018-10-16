@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 
 
+
 public class Pawn extends Piece
 {
 	private int startX, startY;

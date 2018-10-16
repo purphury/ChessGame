@@ -1,5 +1,6 @@
 package application;
 
+
 public abstract class Piece 
 {
 	private int x, y; //x is the x position , and y is the y position
