@@ -12,10 +12,11 @@ public class Main extends Application {
 	public static Stage stage;
 	@Override
 	public void start(Stage primaryStage) {
-		this.stage = primaryStage;
+		stage = primaryStage;
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("Board.fxml"));
 			primaryStage.setScene(new Scene(root, 500, 600));
+			primaryStage.setTitle("Chess Game");
 			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {

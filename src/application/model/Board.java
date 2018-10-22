@@ -1,6 +1,5 @@
 package application.model;
 
-
 public class Board 
 {
 	 private boolean[][] board;

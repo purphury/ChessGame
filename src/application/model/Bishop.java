@@ -2,9 +2,6 @@ package application.model;
 
 import java.util.ArrayList;
 
-
-
-
 public class Bishop extends Piece 
 {
 	public Bishop(int x, int y, boolean color)

@@ -2,9 +2,6 @@ package application.model;
 
 import java.util.ArrayList;
 
-
-
-
 public class King extends Piece
 {
 	public King(int x, int y, boolean color) 

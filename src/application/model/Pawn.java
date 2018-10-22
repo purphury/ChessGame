@@ -2,9 +2,6 @@ package application.model;
 
 import java.util.ArrayList;
 
-
-
-
 public class Pawn extends Piece
 {
 	private int startX, startY;
