@@ -1,18 +1,15 @@
 package application.model;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
-public class Bishop extends Piece 
-{
-	public Bishop(int x, int y, boolean color)
-	{
+public class Bishop extends Piece {
+	public Bishop(int x, int y, boolean color) {
 		super (x,y,color);
 	}
 	
-	public ArrayList<Integer[]> getAvailableMovements()
-	{
+	public ArrayList<Integer[]> getAvailableMovements() {
 		ArrayList<Integer[]> availCoords = new ArrayList<>();
-		
 		//Coordinates to add to availCoords//
 		Integer[] coord = new Integer[2];
 		//goes through the available y slots
