@@ -1,4 +1,4 @@
-package application.view;
+package application;
 	
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -14,7 +14,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		stage = primaryStage;
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("Board.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("view/Board.fxml"));
 			primaryStage.setScene(new Scene(root, 500, 600));
 			primaryStage.setTitle("Chess Game");
 			primaryStage.setResizable(false);
