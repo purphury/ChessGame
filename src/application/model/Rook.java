@@ -1,5 +1,6 @@
-package application;
+package application.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 
@@ -10,9 +11,9 @@ public class Rook extends Piece
 		super (x,y,color);
 	}
 	
-	public LinkedList<Integer[]> getAvailableMovements()
+	public ArrayList<Integer[]> getAvailableMovements()
 	{
-		LinkedList<Integer[]> availCoords = new LinkedList<Integer[]>();
+		ArrayList<Integer[]> availCoords = new ArrayList<>();
 		
 		//Coordinates to add to availCoords//
 		Integer[] coord = new Integer[2];

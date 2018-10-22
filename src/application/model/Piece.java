@@ -1,5 +1,6 @@
-package application;
+package application.model;
 
+import java.util.ArrayList;
 
 public abstract class Piece 
 {
@@ -12,6 +13,7 @@ public abstract class Piece
 		this.y = y;
 		this.color = color;
 	}
+	public abstract ArrayList<Integer[]> getAvailableMovements();
 	//get the column where the piece is positioned 
 	public int getX()
 	{

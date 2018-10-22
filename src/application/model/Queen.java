@@ -1,6 +1,6 @@
-package application;
+package application.model;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 
 public class Queen extends Piece {
@@ -8,8 +8,8 @@ public class Queen extends Piece {
 		super(x, y, color);
 	}
 
-	public LinkedList<Integer[]> getAvailableMovements() {
-		LinkedList<Integer[]> availCoords = new LinkedList<Integer[]>();
+	public ArrayList<Integer[]> getAvailableMovements() {
+		ArrayList<Integer[]> availCoords = new ArrayList<>();
 
 		// Coordinates to add to availCoords//
 		Integer[] coord = new Integer[2];
