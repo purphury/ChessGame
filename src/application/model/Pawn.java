@@ -5,13 +5,17 @@ import java.util.ArrayList;
 public class Pawn extends Piece
 {
 	private int startX, startY;
+	private String type;
 	public Pawn(int x, int y, boolean color)
 	{
 		super(x,y,color);
 		startX = x;
 		startY = y;
+		type = "Pawn";
 	}
-	
+	public String getType() {
+		return type;
+	}
 	public ArrayList<Integer[]> getAvailableMovements()
 	{
 		ArrayList<Integer[]> availCoords = new ArrayList<>();

@@ -37,4 +37,6 @@ public abstract class Piece
 		this.color = color;
 	}
 	
+	public abstract String getType();
+	
 }
