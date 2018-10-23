@@ -2,12 +2,14 @@ package application.model;
 
 import java.util.ArrayList;
 
+import application.model.Board.Type;
+
 public class Queen extends Piece {
-	public Queen(int x, int y, boolean color) {
-		super(x, y, color);
+	public Queen(Type color) {
+		super(color);
 	}
 
-	public ArrayList<Integer[]> getAvailableMovements() {
+	public ArrayList<Integer[]> getAvailableMovements(int x, int y) {
 		ArrayList<Integer[]> availCoords = new ArrayList<>();
 
 		// Coordinates to add to availCoords//
@@ -17,9 +19,9 @@ public class Queen extends Piece {
 		int yPos, yNeg;
 		for (int i = 0; i < 8; i++) {
 			coord[0] = i;
-			yPos = i - this.getX() + this.getY(); // this checks the available movement on the positive y diagonally
-			yNeg = -i + this.getX() + this.getY();// this checks the available movement on the negative y diagonally
-			if (i != this.getX()) {
+			yPos = i - x + y; // this checks the available movement on the positive y diagonally
+			yNeg = -i + x + y;// this checks the available movement on the negative y diagonally
+			if (i != x) {
 				if (yPos < 8 && yPos >= 0) {
 					coord[1] = yPos;
 					availCoords.add(coord);
@@ -32,25 +34,23 @@ public class Queen extends Piece {
 		}
 		// cross movement
 		// goes through the available y slots
-		coord[0] = this.getX();
+		coord[0] = x;
 		for (int i = 0; i < 8; i++) {
-			if (i != this.getY()) {
+			if (i != y) {
 				coord[1] = i;
 				availCoords.add(coord);
 			}
 		}
 		// goes through the available y slots
-		coord[1] = this.getY();
+		coord[1] = y;
 		for (int i = 0; i < 8; i++) {
 
-			if (i != this.getX()) {
+			if (i != x) {
 				coord[0] = i;
 				availCoords.add(coord);
 			}
 		}
 
 		return availCoords;
-
 	}
-
 }
