@@ -1,14 +1,16 @@
 package application.model;
 
 import java.util.ArrayList;
-import java.util.Vector;
+
+import application.model.Board.Type;
 
 public class Bishop extends Piece {
-	public Bishop(int x, int y, boolean color) {
-		super (x,y,color);
+	public Bishop(Type color) {
+		super(color);
 	}
-	
-	public ArrayList<Integer[]> getAvailableMovements() {
+
+	@Override
+	public ArrayList<Integer[]> getAvailableMovements(int x, int y) {
 		ArrayList<Integer[]> availCoords = new ArrayList<>();
 		//Coordinates to add to availCoords//
 		Integer[] coord = new Integer[2];
@@ -16,9 +18,9 @@ public class Bishop extends Piece {
 		int yPos, yNeg;
 		for (int i = 0; i < 8 ; i++) {
 			coord[0] = i;
-			yPos = i - this.getX() + this.getY(); //this checks the available movement on the positive y
-			yNeg = -i + this.getX() + this.getY();//this checks the available movement on the negative y
-			if(i != this.getX()) {
+			yPos = i - x + y; //this checks the available movement on the positive y
+			yNeg = -i + x + y;//this checks the available movement on the negative y
+			if(i != x) {
 				if (yPos <8 && yPos >= 0 ) {
 				coord[1] = yPos;
 				availCoords.add(coord);
@@ -32,5 +34,6 @@ public class Bishop extends Piece {
 		return availCoords;
 	
 	}
+
 	
 }
