@@ -1,5 +1,6 @@
 package application.model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import application.model.Board.Type;
@@ -11,40 +12,23 @@ public class King extends Piece
 		super(color);
 	}
 	
-	public ArrayList<Integer[]> getAvailableMovements(int x, int y) 
+	public ArrayList<Point> getAvailableMovements(int x, int y) 
 	{
-		ArrayList<Integer[]> availCoords = new ArrayList<>();
-
-		// Coordinates to add to availCoords//
-		Integer[] coord = new Integer[2];
+		ArrayList<Point> availCoords = new ArrayList<>();
 		//forward movement
-		coord[0] = x;
-		coord[1] = y+1;
-		availCoords.add(coord);
+		availCoords.add(new Point(x, y+1));
 		//diagonal forward movement
-		coord[0] = x-1;
-		coord[1] = y+1;
-		availCoords.add(coord);
-		coord[0] = x+1;
-		availCoords.add(coord);
+		availCoords.add(new Point(x-1, y+1));
+		availCoords.add(new Point(x+1, y+1));
 		//backwards movement
-		coord[0] = x;
-		coord[1] = y-1;
-		availCoords.add(coord);
-		//backwards diagonal movement
-		coord[0] = x-1;
-		coord[1] = y-1;
-		availCoords.add(coord);
-		coord[0] = x-1;
-		availCoords.add(coord);
+		availCoords.add(new Point(x, y-1));
+		//backwards diagonal movemen
+		availCoords.add(new Point(x-1, y-1));
+		availCoords.add(new Point(x-1, y-1));
 		//left movement
-		coord[0] = x-1;
-		coord[1] = y;
-		availCoords.add(coord);
+		availCoords.add(new Point(x-1, y));
 		//right movement
-		coord[0] = x+1;
-		coord[1] = y;
-		availCoords.add(coord);
+		availCoords.add(new Point(x+1, y));
 		
 		return availCoords;
 	}

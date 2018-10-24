@@ -1,7 +1,7 @@
 package application.model;
 
+import java.awt.Point;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import application.model.Board.Type;
 
@@ -12,31 +12,16 @@ public class Rook extends Piece
 		super (color);
 	}
 	
-	public ArrayList<Integer[]> getAvailableMovements(int x, int y)
+	public ArrayList<Point> getAvailableMovements(int x, int y)
 	{
-		ArrayList<Integer[]> availCoords = new ArrayList<>();
-		
-		//Coordinates to add to availCoords//
-		Integer[] coord = new Integer[2];
+		ArrayList<Point> availCoords = new ArrayList<>();
 		//goes through the available y slots
-		coord[0] = x;
 		for (int i = 0; i<8 ; i++)
 		{
 			if (i != y)
-			{
-				coord[1] = i;
-				availCoords.add(coord);
-			}
-		}
-		//goes through the available y slots
-		coord[1] = y;
-		for (int i = 0; i<8 ; i++)
-		{
-
-			if (i != x) {
-				coord[0] = i;
-				availCoords.add(coord);
-			}
+				availCoords.add(new Point(x, i));
+			if (i != x)
+				availCoords.add(new Point(i, y));
 		}
 		return availCoords;
 	}

@@ -1,5 +1,6 @@
 package application.model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import application.model.Board.Type;
@@ -7,73 +8,48 @@ import application.model.Board.Type;
 public class Pawn extends Piece
 {
 	private int startX, startY;
-	private String type;
 	public Pawn(int x, int y, Type color)
 	{
 		super(color);
 		startX = x;
 		startY = y;
-		type = "Pawn";
 	}
-	public ArrayList<Integer[]> getAvailableMovements(int x, int y)
+	public ArrayList<Point> getAvailableMovements(int x, int y)
 	{
-		ArrayList<Integer[]> availCoords = new ArrayList<>();
-		
-		//Coordinates to add to availCoords//
-		Integer[] coord = new Integer[2];
-		
+		ArrayList<Point> availCoords = new ArrayList<>();
 		//If pawn is in starting position//
 		if(startX == x && startY == y) 
 		{
 			//Color is white//
 			if(this.getType() == Type.WHITE) 
 			{
-				coord[0] = x;
-				coord[1] = y+1;
-				availCoords.add(coord);
-				coord[1] = y+2;
-				availCoords.add(coord);
+				availCoords.add(new Point(x, y + 1));
+				availCoords.add(new Point(x, y + 2));
 			}
 			//color is black//
 			else {
-				coord[0] = x;
-				coord[1] = y-1;
-				availCoords.add(coord);
-				coord[1] = y-2;
-				availCoords.add(coord);
+				availCoords.add(new Point(x, y - 1));
+				availCoords.add(new Point(x, y - 2));
 			}
 		} 
 		//if pawn is not in starting position//
 		else {
 			//color is white//
 			if(this.getType() == Type.WHITE) 
-			{
-				coord[0] = x;
-				coord[1] = y+1;
-				availCoords.add(coord);
-			}
+				availCoords.add(new Point(x, y + 1));
 			//color is black//
-			else {
-				coord[0] = x;
-				coord[1] = y-1;
-				availCoords.add(coord);
-			}
+			else
+				availCoords.add(new Point(x, y - 1));
 		}
 		//Color is white; these are coordinates to attack diagonal pieces//
 		if(this.getType() == Type.WHITE) {
-			coord[0] = x-1;
-			coord[1] = y+1;
-			availCoords.add(coord);
-			coord[0] = x+1;
-			availCoords.add(coord);
+			availCoords.add(new Point(x - 1, y + 1));
+			availCoords.add(new Point(x + 1, y + 1));
 		}
 		//Color is black; these are coordinates to attack diagonal pieces//
 		else {
-			coord[0] = x-1;
-			coord[1] = y-1;
-			availCoords.add(coord);
-			coord[0] = x+1;
-			availCoords.add(coord);
+			availCoords.add(new Point(x - 1, y - 1));
+			availCoords.add(new Point(x + 1, y - 1));
 		}
 		
 		return availCoords;

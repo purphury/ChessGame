@@ -1,5 +1,6 @@
 package application.model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import application.model.Board.Type;
@@ -13,37 +14,18 @@ public class Knight extends Piece
 	}
 
 	@Override
-	public ArrayList<Integer[]> getAvailableMovements(int x, int y) {
-		ArrayList<Integer[]> availCoords = new ArrayList<>();
-
-		// Coordinates to add to availCoords//
-		Integer[] coord = new Integer[2];
+	public ArrayList<Point> getAvailableMovements(int x, int y) {
+		ArrayList<Point> availCoords = new ArrayList<>();
 		// two squares away horizontally and one square vertically
-		coord[0] = x+1;
-		coord[1] = y+2;
-		availCoords.add(coord);
-		coord[0] = x-1;
-		coord[1] = y+2;
-		availCoords.add(coord);
-		coord[0] = x+1;
-		coord[1] = y-2;
-		availCoords.add(coord);
-		coord[0] = x-1;
-		coord[1] = y-2;
-		availCoords.add(coord);
+		availCoords.add(new Point(x+1, y+2));
+		availCoords.add(new Point(x-1, y+2));
+		availCoords.add(new Point(x+1, y-2));
+		availCoords.add(new Point(x-1, y-2));
 		//two squares vertically and one square horizontally
-		coord[0] = x+2;
-		coord[1] = y+1;
-		availCoords.add(coord);
-		coord[0] = x+2;
-		coord[1] = y-1;
-		availCoords.add(coord);
-		coord[0] = x-2;
-		coord[1] = y-1;
-		availCoords.add(coord);
-		coord[0] = x-2;
-		coord[1] = y+1;
-		availCoords.add(coord);
+		availCoords.add(new Point(x+2, y+1));
+		availCoords.add(new Point(x+2, y-1));
+		availCoords.add(new Point(x-2, y-1));
+		availCoords.add(new Point(x-2, y+1));
 		
 		return availCoords;
 	}
