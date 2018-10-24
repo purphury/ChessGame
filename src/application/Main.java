@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+
 
 
 public class Main extends Application {
@@ -14,7 +14,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		stage = primaryStage;
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("view/Board.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("../StartScreen.fxml"));
 			primaryStage.setScene(new Scene(root, 500, 600));
 			primaryStage.setTitle("Chess Game");
 			primaryStage.setResizable(false);
