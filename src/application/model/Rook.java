@@ -12,16 +12,34 @@ public class Rook extends Piece
 		super (color);
 	}
 	
-	public ArrayList<Point> getAvailableMovements(int x, int y)
-	{
+	public ArrayList<Point> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Point> availCoords = new ArrayList<>();
-		//goes through the available y slots
-		for (int i = 0; i<8 ; i++)
-		{
-			if (i != y)
-				availCoords.add(new Point(x, i));
-			if (i != x)
-				availCoords.add(new Point(i, y));
+		boolean NBlocked = false, EBlocked = false, SBlocked = false, WBlocked = false;
+		for (int i = 1; i < 8 ; i++){
+			//north path
+			if (!NBlocked && r - i >= 0) {
+				availCoords.add(new Point(r - i, c));
+				if(board.getPiece(r - i, c) != null)
+					NBlocked = true;
+			}
+			//east path
+			if (!EBlocked && c + i <= 7) {
+				availCoords.add(new Point(r, c + i));
+				if(board.getPiece(r, c + i) != null)
+					NBlocked = true;
+			}
+			//south path
+			if (!SBlocked && r + i <= 7) {
+				availCoords.add(new Point(r + i, c));
+				if(board.getPiece(r + i, c) != null)
+					NBlocked = true;
+			}
+			//west path
+			if (!WBlocked && c - i >= 0) {
+				availCoords.add(new Point(r, c - i));
+				if(board.getPiece(r, c - i) != null)
+					NBlocked = true;
+			}
 		}
 		return availCoords;
 	}

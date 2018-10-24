@@ -11,26 +11,28 @@ public class King extends Piece
 	{
 		super(color);
 	}
-	
-	public ArrayList<Point> getAvailableMovements(int x, int y) 
-	{
+
+	public ArrayList<Point> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Point> availCoords = new ArrayList<>();
-		//forward movement
-		availCoords.add(new Point(x, y+1));
-		//diagonal forward movement
-		availCoords.add(new Point(x-1, y+1));
-		availCoords.add(new Point(x+1, y+1));
-		//backwards movement
-		availCoords.add(new Point(x, y-1));
-		//backwards diagonal movemen
-		availCoords.add(new Point(x-1, y-1));
-		availCoords.add(new Point(x-1, y-1));
-		//left movement
-		availCoords.add(new Point(x-1, y));
-		//right movement
-		availCoords.add(new Point(x+1, y));
+		int i = 1;
+		
+		if ( r - i >= 0) 
+			availCoords.add(new Point(r - i, c));
+		if ( c + i <= 7) 
+			availCoords.add(new Point(r, c + i));
+		if (r + i <= 7) 
+			availCoords.add(new Point(r + i, c));
+		if (c - i >= 0) 
+			availCoords.add(new Point(r, c - i));
+		if (r - i >= 0 && c - i >= 0) 
+			availCoords.add(new Point(r - i, c - i));
+		if (r - i >= 0 && c + i <= 7) 
+			availCoords.add(new Point(r, c + i));
+		if (r + i <= 7 && c - i >= 0) 
+			availCoords.add(new Point(r + i, c - i));
+		if (r + i <= 7 && c + i <= 7) 
+			availCoords.add(new Point(r + i, c - i));
 		
 		return availCoords;
 	}
-	
 }

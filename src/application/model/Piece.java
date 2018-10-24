@@ -12,7 +12,7 @@ public abstract class Piece
 	public Piece (Type type) {
 		this.type = type;
 	}
-	public abstract ArrayList<Point> getAvailableMovements(int x, int y);
+	public abstract ArrayList<Point> getAvailableMovements(int r, int c, Board board);
 	
 	// gets the color for a given piece
 	public Type getType() {
