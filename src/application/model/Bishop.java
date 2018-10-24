@@ -1,5 +1,6 @@
 package application.model;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import application.model.Board.Type;
@@ -10,30 +11,38 @@ public class Bishop extends Piece {
 	}
 
 	@Override
-	public ArrayList<Integer[]> getAvailableMovements(int x, int y) {
-		ArrayList<Integer[]> availCoords = new ArrayList<>();
-		//Coordinates to add to availCoords//
-		Integer[] coord = new Integer[2];
-		//goes through the available y slots
-		int yPos, yNeg;
+	public ArrayList<Point> getAvailableMovements(int r, int c, Board board) {
+		ArrayList<Point> availCoords = new ArrayList<>();
+		boolean NWBlocked = false, NEBlocked = false, SWBlocked = false, SEBlocked = false;
 		for (int i = 0; i < 8 ; i++) {
-			coord[0] = i;
-			yPos = i - x + y; //this checks the available movement on the positive y
-			yNeg = -i + x + y;//this checks the available movement on the negative y
-			if(i != x) {
-				if (yPos <8 && yPos >= 0 ) {
-				coord[1] = yPos;
-				availCoords.add(coord);
-				}
-				if (yNeg < 8 && yNeg >= 0 ) {
-				coord[1] = yNeg;
-				availCoords.add(coord);
-				}
+			//northwest path
+			if (!NWBlocked && r - i >= 0 && c - i >= 0) {
+				availCoords.add(new Point(r - i, c - i));
+				if(board.getPiece(r - i, c - i) != null)
+					NWBlocked = true;
+			}
+			//northeast path
+			if (!NEBlocked && r - i >= 0 && c + i <= 7) {
+				availCoords.add(new Point(r, c + i));
+				if(board.getPiece(r, c + i) != null)
+					NEBlocked = true;
+			}
+			//southwest path
+			if (!SWBlocked && r + i <= 7 && c - i >= 0) {
+				availCoords.add(new Point(r + i, c - i));
+				if(board.getPiece(r + i, c - i) != null)
+					SWBlocked = true;
+			}
+			//northwest path
+			if (!SEBlocked && r + i <= 7 && c + i <= 7) {
+				availCoords.add(new Point(r + i, c - i));
+				if(board.getPiece(r + i, c - i) != null)
+					SEBlocked = true;
 			}
 		}
 		return availCoords;
-	
+
 	}
 
-	
+
 }

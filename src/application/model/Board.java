@@ -1,7 +1,5 @@
 package application.model;
 
-import java.awt.Color;
-
 public class Board {
 	public static enum Type {
 		BLACK,
@@ -31,5 +29,12 @@ public class Board {
 		
 		board[0][3] = new Queen(Type.BLACK);
 		board[7][3] = new Queen(Type.WHITE);
+		
+		board[0][4] = new King(Type.BLACK);
+		board[7][4] = new King(Type.WHITE);
+	}
+	
+	public Piece getPiece(int row, int col) {
+		return board[row][col];
 	}
 }

@@ -1,7 +1,7 @@
 package application.model;
 
+import java.awt.Point;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import application.model.Board.Type;
 
@@ -12,30 +12,33 @@ public class Rook extends Piece
 		super (color);
 	}
 	
-	public ArrayList<Integer[]> getAvailableMovements(int x, int y)
-	{
-		ArrayList<Integer[]> availCoords = new ArrayList<>();
-		
-		//Coordinates to add to availCoords//
-		Integer[] coord = new Integer[2];
-		//goes through the available y slots
-		coord[0] = x;
-		for (int i = 0; i<8 ; i++)
-		{
-			if (i != y)
-			{
-				coord[1] = i;
-				availCoords.add(coord);
+	public ArrayList<Point> getAvailableMovements(int r, int c, Board board) {
+		ArrayList<Point> availCoords = new ArrayList<>();
+		boolean NBlocked = false, EBlocked = false, SBlocked = false, WBlocked = false;
+		for (int i = 1; i < 8 ; i++){
+			//north path
+			if (!NBlocked && r - i >= 0) {
+				availCoords.add(new Point(r - i, c));
+				if(board.getPiece(r - i, c) != null)
+					NBlocked = true;
 			}
-		}
-		//goes through the available y slots
-		coord[1] = y;
-		for (int i = 0; i<8 ; i++)
-		{
-
-			if (i != x) {
-				coord[0] = i;
-				availCoords.add(coord);
+			//east path
+			if (!EBlocked && c + i <= 7) {
+				availCoords.add(new Point(r, c + i));
+				if(board.getPiece(r, c + i) != null)
+					NBlocked = true;
+			}
+			//south path
+			if (!SBlocked && r + i <= 7) {
+				availCoords.add(new Point(r + i, c));
+				if(board.getPiece(r + i, c) != null)
+					NBlocked = true;
+			}
+			//west path
+			if (!WBlocked && c - i >= 0) {
+				availCoords.add(new Point(r, c - i));
+				if(board.getPiece(r, c - i) != null)
+					NBlocked = true;
 			}
 		}
 		return availCoords;
