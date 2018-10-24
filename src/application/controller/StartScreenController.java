@@ -26,6 +26,8 @@ public void initialize(URL location, ResourceBundle resources) {
 	}
 
 	@SuppressWarnings("null")
+	//this still doesnt work right
+	// idk if i need the board.FXML to be setup first or its just beacause the method is wrong, will look at it tommorow
 	public String[] loadNames() {
 		String[] names = null;
 		if (playerOne.getText() == null){
