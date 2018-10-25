@@ -12,8 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.GridPane;
 
 public class BoardController implements Initializable{
-	@FXML GridPane board;
-	private Board boards;
+	@FXML GridPane gridBoard;
+	private Board board;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
