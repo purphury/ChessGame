@@ -5,26 +5,27 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-
 
 public class Main extends Application {
-	public static Stage stage;
+	
 	@Override
 	public void start(Stage primaryStage) {
-		stage = primaryStage;
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("view/Board.fxml"));
-			primaryStage.setScene(new Scene(root, 500, 600));
-			primaryStage.setTitle("Chess Game");
-			primaryStage.setResizable(false);
+			Parent root = FXMLLoader.load(getClass().getResource("../startScreen.fxml"));
+			Scene scene = new Scene(root,800,800);
+			// the commented out line is giving a null pointer exception and i have no idea why
+			scene.getStylesheets().add(getClass().getResource("view/application.css").toExternalForm());
+			primaryStage.setScene(scene);
 			primaryStage.show();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public static void main(String[] args) {
 		launch(args);
 	}
 }
+
