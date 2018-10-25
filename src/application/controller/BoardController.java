@@ -13,8 +13,6 @@ import javafx.scene.layout.GridPane;
 
 public class BoardController implements Initializable{
 	@FXML GridPane board;
-	ArrayList<Piece> wPieces;
-	ArrayList<Piece> bPieces;
 	private Board boards;
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
