@@ -11,7 +11,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("../startScreen.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("view/startScreen.fxml"));
 			Scene scene = new Scene(root,800,800);
 			// the commented out line is giving a null pointer exception and i have no idea why
 			scene.getStylesheets().add(getClass().getResource("view/application.css").toExternalForm());
