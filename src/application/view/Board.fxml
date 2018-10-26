@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: yellow;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.BoardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #e2ffec;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.BoardController">
    <children>
-      <GridPane prefHeight="600.0" prefWidth="600.0">
+      <GridPane prefHeight="600.0" prefWidth="600.0" style="-fx-border-color: #030303;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="75.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="75.0" />
@@ -33,7 +33,7 @@
          <children>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackRookOne" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_rook.png" />
                      </image>
@@ -41,7 +41,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="1">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackKnightOne" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_knight.png" />
                      </image>
@@ -49,7 +49,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="2">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackBishopOne" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_bishop.png" />
                      </image>
@@ -57,7 +57,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="3">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackQueen" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_queen.png" />
                      </image>
@@ -65,7 +65,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="4">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackKing" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_king.png" />
                      </image>
@@ -73,7 +73,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="5">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackBishopTwo" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_bishop.png" />
                      </image>
@@ -81,7 +81,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="6">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackKnightTwo" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_knight.png" />
                      </image>
@@ -89,7 +89,7 @@
                </children></Pane>
             <Pane prefHeight="77.0" prefWidth="79.0" style="-fx-background-color: #595756;" GridPane.columnIndex="7">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackRookTwo" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_rook.png" />
                      </image>
@@ -97,7 +97,7 @@
                </children></Pane>
             <Pane fx:id="pane1" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackPawnOne" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_pawn.png" />
                      </image>
@@ -106,7 +106,7 @@
             </Pane>
             <Pane fx:id="pane2" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackPawnTwo" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_pawn.png" />
                      </image>
@@ -114,7 +114,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackPawnThree" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_pawn.png" />
                      </image>
@@ -122,7 +122,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackPawnFour" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_pawn.png" />
                      </image>
@@ -130,7 +130,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackPawnFive" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_pawn.png" />
                      </image>
@@ -138,7 +138,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="5" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackPawnSix" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_pawn.png" />
                      </image>
@@ -146,7 +146,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="6" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackPawnSeven" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_pawn.png" />
                      </image>
@@ -154,7 +154,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="7" GridPane.rowIndex="1">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="blackPawnEight" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/black_pawn.png" />
                      </image>
@@ -194,7 +194,7 @@
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="7" GridPane.rowIndex="5" />
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="6">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnOne" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -202,7 +202,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnTwo" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -210,7 +210,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="8.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnThree" fitHeight="57.0" fitWidth="91.0" layoutX="8.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -218,7 +218,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnFour" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -226,7 +226,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="4" GridPane.rowIndex="6">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnFive" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -234,7 +234,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="5" GridPane.rowIndex="6">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnSix" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -242,7 +242,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="6" GridPane.rowIndex="6">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnSeven" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -250,7 +250,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="7" GridPane.rowIndex="6">
                <children>
-                  <ImageView fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnEight" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -258,7 +258,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.rowIndex="7">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whiteRookOne" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_rook.png" />
                      </image>
@@ -266,7 +266,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="7">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whiteKnightOne" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_knight.png" />
                      </image>
@@ -274,7 +274,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="2" GridPane.rowIndex="7">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whiteBishopOne" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_bishop.png" />
                      </image>
@@ -282,7 +282,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="3" GridPane.rowIndex="7">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whiteQueen" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_queen.png" />
                      </image>
@@ -290,7 +290,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="4" GridPane.rowIndex="7">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whiteKing" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_king.png" />
                      </image>
@@ -298,7 +298,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="5" GridPane.rowIndex="7">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whiteBishopTwo" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_bishop.png" />
                      </image>
@@ -306,7 +306,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="6" GridPane.rowIndex="7">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whiteKnightTwo" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_knight.png" />
                      </image>
@@ -314,7 +314,7 @@
                </children></Pane>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="7" GridPane.rowIndex="7">
                <children>
-                  <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whiteRookTwo" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_rook.png" />
                      </image>
