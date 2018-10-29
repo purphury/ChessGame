@@ -34,7 +34,7 @@ public void initialize(URL location, ResourceBundle resources) {
 		names.add(playerTwo.getText());
 		
 		try {
-			AnchorPane pane = FXMLLoader.load(getClass().getResource("../../Board.fxml"));
+			AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/Board.fxml"));
 			rootPane.getChildren().setAll(pane);
 		}
 		catch (IOException e) {
