@@ -9,11 +9,12 @@ import application.model.Board;
 import application.model.Piece;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
 public class BoardController implements Initializable{
-	@FXML GridPane gridBoard;
+	@FXML GridPane boardFX;
 	private Board board;
 	@FXML
 	private ImageView blackRookOne;
@@ -60,7 +61,7 @@ public class BoardController implements Initializable{
 	@FXML
 	private ImageView whitePawnSix;
 	@FXML
-	private ImageView whitePawnseven;
+	private ImageView whitePawnSeven;
 	@FXML
 	private ImageView whitePawnEight;
 	@FXML
@@ -79,11 +80,16 @@ public class BoardController implements Initializable{
 	private ImageView whiteKnightTwo;
 	@FXML
 	private ImageView whiteRookTwo;
+	@FXML
+	Label blackName;
+	@FXML
+	Label whiteName;
 	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		blackName.setText(StartScreenController.names.get(1));
+		whiteName.setText(StartScreenController.names.get(0));
 	}
 
 }
