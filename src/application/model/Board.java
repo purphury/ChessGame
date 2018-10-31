@@ -37,4 +37,8 @@ public class Board {
 	public Piece getPiece(int row, int col) {
 		return board[row][col];
 	}
+	
+	public boolean hasPiece(int row, int col) {
+		return board[row][col] != null;
+	}
 }
