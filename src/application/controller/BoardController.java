@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import application.model.Coordinate;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -135,45 +136,43 @@ public class BoardController {
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
 		if (event.getSource() instanceof Pane && parentOfClickedPiece.equals(event.getSource())) {
-			System.out.println("new Block source:" + event.getSource());
 			aPieceHasBeenClicked = true;
 		} else {
 			if (aPieceHasBeenClicked) {
-				System.out.println(boardFX.getColumnIndex((Node) event.getSource()));
-				int i;
-				int j;
-				if (boardFX.getRowIndex((Node) event.getSource()) != null)
-					i = boardFX.getRowIndex((Node) event.getSource());
-				else
-					i = 0;
-				if (boardFX.getColumnIndex((Node) event.getSource()) != null)
-					j = boardFX.getColumnIndex((Node) event.getSource());
-				else
-					j = 0;
-				System.out.println("Block1-pieceClicked:" + aPieceHasBeenClicked + " " + i + " " + j + " source:"
-						+ event.getSource()+" clickedPiece: "+clickedPiece);
+				Coordinate a = findCoordinate(boardFX, event);
+
 				try {
 					boardFX.getChildren().remove(clickedPiece);
-					boardFX.add(clickedPiece, j, i);
-				}
-				catch(Exception e) {
+					boardFX.add(clickedPiece, a.getColumnIndex(), a.getRowIndex());
+				} catch (Exception e) {
 					e.printStackTrace();
 					System.exit(1);
 				}
 				clickedPiece = null;
 				aPieceHasBeenClicked = false;
 			} else {
-
-				clickedPiece = (ImageView) event.getSource();
-				parentOfClickedPiece= (Pane) clickedPiece.getParent();
-				System.out.println("Block2-pieceClicked:" + aPieceHasBeenClicked + " " + clickedPiece + " source:"
-						+ event.getSource());
-
-				aPieceHasBeenClicked = true;
+				if (event.getSource() instanceof ImageView) {
+					clickedPiece = (ImageView) event.getSource();
+					parentOfClickedPiece = (Pane) clickedPiece.getParent();
+					aPieceHasBeenClicked = true;
+				}
 			}
 		}
 
+	}
 
+	private static Coordinate findCoordinate(GridPane boardFX, MouseEvent event) {
+		Coordinate a = new Coordinate();
+		if (boardFX.getRowIndex((Node) event.getSource()) != null)
+			a.setRowIndex(boardFX.getRowIndex((Node) event.getSource()));
+		else
+			a.setRowIndex(0);
+		if (boardFX.getColumnIndex((Node) event.getSource()) != null)
+			a.setColumnIndex(boardFX.getColumnIndex((Node) event.getSource()));
+		else
+			a.setColumnIndex(0);
+
+		return a;
 	}
 
 	@FXML
@@ -220,5 +219,3 @@ public class BoardController {
 	}
 
 }
-
-
