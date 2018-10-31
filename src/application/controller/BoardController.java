@@ -135,12 +135,11 @@ public class BoardController {
 
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
-		if (event.getSource() instanceof Pane && parentOfClickedPiece.equals(event.getSource())) {
-			aPieceHasBeenClicked = true;
+		if (event.getSource() instanceof Pane && parentOfClickedPiece != null &&parentOfClickedPiece.equals(event.getSource())) {
+					aPieceHasBeenClicked = true;
 		} else {
 			if (aPieceHasBeenClicked) {
 				Coordinate a = findCoordinate(boardFX, event);
-
 				try {
 					boardFX.getChildren().remove(clickedPiece);
 					boardFX.add(clickedPiece, a.getColumnIndex(), a.getRowIndex());
@@ -149,12 +148,14 @@ public class BoardController {
 					System.exit(1);
 				}
 				clickedPiece = null;
+				parentOfClickedPiece =null;
 				aPieceHasBeenClicked = false;
 			} else {
 				if (event.getSource() instanceof ImageView) {
 					clickedPiece = (ImageView) event.getSource();
 					parentOfClickedPiece = (Pane) clickedPiece.getParent();
 					aPieceHasBeenClicked = true;
+					Coordinate b = findCoordinate(boardFX, event);
 				}
 			}
 		}
@@ -163,15 +164,21 @@ public class BoardController {
 
 	private static Coordinate findCoordinate(GridPane boardFX, MouseEvent event) {
 		Coordinate a = new Coordinate();
-		if (boardFX.getRowIndex((Node) event.getSource()) != null)
-			a.setRowIndex(boardFX.getRowIndex((Node) event.getSource()));
+		Node source;
+		if(((Node)event.getSource()).getParent() instanceof GridPane) 
+			source = (Node)event.getSource();
+		else 
+			source = ((Node)event.getSource()).getParent();
+		
+		if (boardFX.getRowIndex(source) != null)
+			a.setRowIndex(boardFX.getRowIndex(source));
 		else
 			a.setRowIndex(0);
-		if (boardFX.getColumnIndex((Node) event.getSource()) != null)
-			a.setColumnIndex(boardFX.getColumnIndex((Node) event.getSource()));
+		if (boardFX.getColumnIndex(source) != null)
+			a.setColumnIndex(boardFX.getColumnIndex(source));
 		else
 			a.setColumnIndex(0);
-
+		
 		return a;
 	}
 
@@ -215,6 +222,8 @@ public class BoardController {
 		aPieceHasBeenClicked = false;
 		isADoublePaneClick = false;
 		isFirstClickHash = new HashMap<ImageView, Integer>();
+		blackName.setText(StartScreenController.names.get(1));
+		whiteName.setText(StartScreenController.names.get(0));
 
 	}
 

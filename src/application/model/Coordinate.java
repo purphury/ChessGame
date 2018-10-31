@@ -22,4 +22,8 @@ public class Coordinate {
 		this.columnIndex = columnIndex;
 	}
 	
+	public String toString() {
+		return "("+getRowIndex()+", "+getColumnIndex()+")";	
+	}
+	
 }
