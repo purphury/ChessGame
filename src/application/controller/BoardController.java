@@ -2,6 +2,7 @@ package application.controller;
 
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import application.model.Coordinate;
@@ -18,8 +19,6 @@ import javafx.scene.layout.Pane;
 public class BoardController {
 	private ImageView clickedPiece;
 	private boolean aPieceHasBeenClicked;
-	private boolean isADoublePaneClick;
-	private HashMap<ImageView, Integer> isFirstClickHash;
 	private Pane parentOfClickedPiece;
 
 	@FXML
@@ -135,14 +134,18 @@ public class BoardController {
 
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
-		if (event.getSource() instanceof Pane && parentOfClickedPiece != null &&parentOfClickedPiece.equals(event.getSource())) {
-					aPieceHasBeenClicked = true;
+		if (event.getSource() instanceof Pane && parentOfClickedPiece != null
+							&&parentOfClickedPiece.equals(event.getSource())) {
+			
+			aPieceHasBeenClicked = true;
 		} else {
 			if (aPieceHasBeenClicked) {
 				Coordinate a = findCoordinate(boardFX, event);
 				try {
+					Pane pane = (Pane)getNodeByRowColumnIndex(a.getRowIndex()
+												, a.getColumnIndex(), boardFX);
 					boardFX.getChildren().remove(clickedPiece);
-					boardFX.add(clickedPiece, a.getColumnIndex(), a.getRowIndex());
+					pane.getChildren().add(clickedPiece);
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.exit(1);
@@ -155,7 +158,6 @@ public class BoardController {
 					clickedPiece = (ImageView) event.getSource();
 					parentOfClickedPiece = (Pane) clickedPiece.getParent();
 					aPieceHasBeenClicked = true;
-					Coordinate b = findCoordinate(boardFX, event);
 				}
 			}
 		}
@@ -181,7 +183,32 @@ public class BoardController {
 		
 		return a;
 	}
+	
+	public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+	    Node result = null;
+	    ObservableList<Node> childrens = gridPane.getChildren();
+	    Iterator<Node> it = childrens.iterator();
+	    while(it.hasNext()) {
+	    	Node node = it.next();
+	    	int i;
+	    	int j;
+	    	if(gridPane.getRowIndex(node) != null)
+	    		i = gridPane.getRowIndex(node);
+	    	else
+	    		i = 0;
+	    	if(gridPane.getColumnIndex(node) != null)
+	    		j = gridPane.getColumnIndex(node);
+	    	else
+	    		j = 0;
+	        if(i == row && j == column) {
+	            result = node;
+	            break;
+	        }
+	    }
+	    return result;
+	}
 
+	
 	@FXML
 	void initialize() {
 		assert blackBishopTwo != null : "fx:id=\"blackBishopTwo\" was not injected: check your FXML file 'Board.fxml'.";
@@ -220,8 +247,6 @@ public class BoardController {
 		assert blackBishopOne != null : "fx:id=\"blackBishopOne\" was not injected: check your FXML file 'Board.fxml'.";
 		assert whiteBishopOne != null : "fx:id=\"whiteBishopOne\" was not injected: check your FXML file 'Board.fxml'.";
 		aPieceHasBeenClicked = false;
-		isADoublePaneClick = false;
-		isFirstClickHash = new HashMap<ImageView, Integer>();
 		blackName.setText(StartScreenController.names.get(1));
 		whiteName.setText(StartScreenController.names.get(0));
 
