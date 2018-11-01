@@ -1,5 +1,7 @@
 package application.model;
 
+import java.util.ArrayList;
+
 public class Board {
 	public static enum Type {
 		BLACK,
@@ -42,14 +44,63 @@ public class Board {
 		board[7][4] = new King(Type.WHITE);
 	}
 
+	/**
+	 * @param row
+	 * @param col
+	 * @return piece at that location
+	 */
 	public Piece getPiece(int row, int col) {
 		return board[row][col];
 	}
+	/**
+	 * @param coord
+	 * @return piece at that location
+	 */
+	public Piece getPiece(Coordinate coord) {
+		return board[coord.getRowIndex()][coord.getColumnIndex()];
+	}
 
+	/**
+	 * @param row
+	 * @param col
+	 * @return boolean if there is a piece at  that location
+	 */
 	public boolean hasPiece(int row, int col) {
 		return board[row][col] != null;
 	}
-	//TODO: 
+	/**
+	 * @param coord
+	 * @return boolean if there is a piece at  that location
+	 */
+	public boolean hasPiece(Coordinate coord) {
+		return board[coord.getRowIndex()][coord.getColumnIndex()] != null;
+	}
+
+	/** Moves piece at oldLoc to newLoc (removing piece at newLoc if there was one)
+	 * @param oldLoc
+	 * @param newLoc
+	 */
+	public void movePieces(Coordinate oldLoc, Coordinate newLoc) {
+		Piece piece = board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()];
+		if(piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this).contains(newLoc))
+			board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; //if new loc was occupied, the piece that was there is now deleted as there is no reference to it
+	}
+	/** Moves piece at oldLoc to newLoc (removing piece at newLoc if there was one)
+	 * @param oldR
+	 * @param oldC
+	 * @param newR
+	 * @param newC
+	 */
+	public void movePieces(int oldR, int oldC, int newR, int newC) {
+		Piece piece = board[oldR][oldC];
+		if(piece.getAvailableMovements(oldR, oldC, this).contains(new Coordinate(newR, newC)))
+			board[newR][newC] = piece; //if new loc was occupied, the piece that was there is now deleted as there is no reference to it
+	}
+	
+	/** Checks if board is in Check for a color
+	 * @param type Color of person that might be in Check
+	 * @return
+	 */
 	public boolean isCheck(Type type) {
 		Coordinate kingLoc = null;
 		//store kingLoc
@@ -65,6 +116,11 @@ public class Board {
 		return isCheck(type, kingLoc);
 	}
 
+	/** Checks if board is in Check for a color given King's location
+	 * @param type type Color of person that might be in check
+	 * @param kingLoc
+	 * @return
+	 */
 	public boolean isCheck(Type type, Coordinate kingLoc) {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
@@ -76,6 +132,10 @@ public class Board {
 		}
 		return false;
 	}
+	/** Checks if board is in Checkmate for a color
+	 * @param type Color of person that might be in Checkmate
+	 * @return
+	 */
 	public boolean isCheckmate(Type type) {
 		Coordinate kingLoc = null;
 		//store kingLoc
@@ -90,6 +150,11 @@ public class Board {
 		//check if king can be attacked
 		return isCheckmate(type, kingLoc);
 	}
+	/** Checks if board is in Checkmate for a color given King's location
+	 * @param type Color of person that might be in Checkmate
+	 * @param kingLoc
+	 * @return
+	 */
 	public boolean isCheckmate(Type type, Coordinate kingLoc) {
 		Coordinate[] kingsPosMoves = {new Coordinate(kingLoc.getRowIndex() - 1, kingLoc.getColumnIndex() - 1), new Coordinate(kingLoc.getRowIndex() - 1, kingLoc.getColumnIndex() + 1), new Coordinate(kingLoc.getRowIndex() + 1, kingLoc.getColumnIndex() - 1),new Coordinate(kingLoc.getRowIndex() + 1, kingLoc.getColumnIndex() + 1)};
 		for(Coordinate posMove : kingsPosMoves) {
@@ -103,5 +168,13 @@ public class Board {
 			}
 		}
 		return false;
+	}
+	
+	public ArrayList<Coordinate> getMoves(Coordinate coord){
+		int r = coord.getRowIndex(), c = coord.getColumnIndex();
+		if(this.board[r][c] != null)
+			return this.board[r][c].getAvailableMovements(r, c, this);
+		else
+			return null;
 	}
 }

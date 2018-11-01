@@ -1,6 +1,5 @@
 package application.model;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import application.model.Board.Type;

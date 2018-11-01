@@ -1,14 +1,11 @@
 package application.controller;
 
-import java.net.URL;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.ResourceBundle;
 
 import application.model.Board;
 import application.model.Coordinate;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -24,7 +21,7 @@ public class BoardController {
 	private Pane parentOfClickedPiece;
 	private Board boardModel;
 	private Coordinate clickedPieceCoordinate;
-//	private ArrayList<Coordinate> availableMoves;
+	private ArrayList<Coordinate> availableMoves;
 	
 	@FXML
 	private Label whiteName;
@@ -37,8 +34,7 @@ public class BoardController {
 
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
-		if (event.getSource() instanceof Pane && parentOfClickedPiece != null
-							&&parentOfClickedPiece.equals(event.getSource())) {
+		if (event.getSource() instanceof Pane && parentOfClickedPiece != null && parentOfClickedPiece.equals(event.getSource())) {
 			
 			aPieceHasBeenClicked = true;
 		} else {
@@ -61,15 +57,16 @@ public class BoardController {
 			//	availableMoves = null;
 				clickedPieceCoordinate = null;
 				clickedPiece = null;
-				parentOfClickedPiece =null;
+				parentOfClickedPiece = null;
 				aPieceHasBeenClicked = false;
 			//	}
 			} else {
 				if (event.getSource() instanceof ImageView) {
 					clickedPiece = (ImageView) event.getSource();
 					Coordinate c = findCoordinate(boardFX,event);
-	//				availableMoves = boardModel.getAvailableMoves(c);
-	//				addDots();
+					System.out.println(c);
+//					availableMoves = boardModel.getMoves(c);
+//					addDots();
 					clickedPieceCoordinate = findCoordinate(boardFX, event);
 					parentOfClickedPiece = (Pane) clickedPiece.getParent();
 					aPieceHasBeenClicked = true;
@@ -80,9 +77,8 @@ public class BoardController {
 	}
 	/*
 	public void addDots(){
-		
 		for(Coordinate c : availableMoves){
-			if(!hasPiece(c)){
+			if(!boardModel.hasPiece(c)){
 				Circle circle = new Circle(37.0,37.0,10.0);
 				Pane pane = (Pane)getNodeByRowColumnIndex(c.getRowIndex()
 												, c.getColumnIndex(), boardFX);
@@ -112,12 +108,12 @@ public class BoardController {
 		else 
 			source = ((Node)event.getSource()).getParent();
 		
-		if (boardFX.getRowIndex(source) != null)
-			a.setRowIndex(boardFX.getRowIndex(source));
+		if (GridPane.getRowIndex(source) != null)
+			a.setRowIndex(GridPane.getRowIndex(source));
 		else
 			a.setRowIndex(0);
-		if (boardFX.getColumnIndex(source) != null)
-			a.setColumnIndex(boardFX.getColumnIndex(source));
+		if (GridPane.getColumnIndex(source) != null)
+			a.setColumnIndex(GridPane.getColumnIndex(source));
 		else
 			a.setColumnIndex(0);
 		
@@ -130,14 +126,13 @@ public class BoardController {
 	    Iterator<Node> it = childrens.iterator();
 	    while(it.hasNext()) {
 	    	Node node = it.next();
-	    	int i;
-	    	int j;
-	    	if(gridPane.getRowIndex(node) != null)
-	    		i = gridPane.getRowIndex(node);
+	    	int i, j;
+	    	if(GridPane.getRowIndex(node) != null)
+	    		i = GridPane.getRowIndex(node);
 	    	else
 	    		i = 0;
-	    	if(gridPane.getColumnIndex(node) != null)
-	    		j = gridPane.getColumnIndex(node);
+	    	if(GridPane.getColumnIndex(node) != null)
+	    		j = GridPane.getColumnIndex(node);
 	    	else
 	    		j = 0;
 	        if(i == row && j == column) {
