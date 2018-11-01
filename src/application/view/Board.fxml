@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #e2ffec;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.BoardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="845.0" style="-fx-background-color: #e2ffec;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.BoardController">
    <children>
-      <GridPane fx:id="boardFX" layoutX="25.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" style="-fx-border-color: #030303;">
+      <GridPane fx:id="boardFX" layoutX="29.0" layoutY="29.0" prefHeight="600.0" prefWidth="600.0" style="-fx-border-color: #030303;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="10.0" prefWidth="75.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.0" minWidth="10.0" prefWidth="75.0" />
@@ -323,47 +323,47 @@
                </children></Pane>
          </children>
       </GridPane>
-      <Label fx:id="blackName" layoutX="290.0" layoutY="14.0" text="name">
+      <Label fx:id="blackName" layoutX="680.0" layoutY="21.0" text="name">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Label fx:id="whiteName" layoutX="290.0" layoutY="756.0" text="name">
+      <Label fx:id="whiteName" layoutX="688.0" layoutY="385.0" text="name">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Label layoutX="59.0" layoutY="85.0" text="1" />
-      <Label layoutX="133.0" layoutY="85.0" text="2" />
-      <Label layoutX="207.0" layoutY="85.0" text="3" />
-      <Label layoutX="286.0" layoutY="85.0" text="4" />
-      <Label layoutX="357.0" layoutY="85.0" text="5" />
-      <Label layoutX="432.0" layoutY="85.0" text="6" />
-      <Label layoutX="503.0" layoutY="85.0" text="7" />
-      <Label layoutX="582.0" layoutY="85.0" text="8" />
-      <Label layoutX="59.0" layoutY="700.0" text="1" />
-      <Label layoutX="133.0" layoutY="700.0" text="2" />
-      <Label layoutX="207.0" layoutY="700.0" text="3" />
-      <Label layoutX="286.0" layoutY="700.0" text="4" />
-      <Label layoutX="357.0" layoutY="700.0" text="5" />
-      <Label layoutX="432.0" layoutY="700.0" text="6" />
-      <Label layoutX="503.0" layoutY="700.0" text="7" />
-      <Label layoutX="582.0" layoutY="700.0" text="8" />
-      <Label layoutX="10.0" layoutY="133.0" text="A" />
-      <Label layoutX="627.0" layoutY="133.0" text="A" />
-      <Label layoutX="10.0" layoutY="209.0" text="B" />
-      <Label layoutX="627.0" layoutY="209.0" text="B" />
-      <Label layoutX="10.0" layoutY="281.0" text="C" />
-      <Label layoutX="626.0" layoutY="281.0" text="C" />
-      <Label layoutX="11.0" layoutY="357.0" text="D" />
-      <Label layoutX="626.0" layoutY="357.0" text="D" />
-      <Label layoutX="11.0" layoutY="429.0" text="E" />
-      <Label layoutX="627.0" layoutY="429.0" text="E" />
-      <Label layoutX="627.0" layoutY="504.0" text="F" />
-      <Label layoutX="11.0" layoutY="504.0" text="F" />
-      <Label layoutX="10.0" layoutY="585.0" text="H" />
-      <Label layoutX="627.0" layoutY="585.0" text="H" />
-      <Label layoutX="627.0" layoutY="658.0" text="I" />
-      <Label layoutX="13.0" layoutY="658.0" text="I" />
+      <Label layoutX="63.0" layoutY="14.0" text="1" />
+      <Label layoutX="137.0" layoutY="14.0" text="2" />
+      <Label layoutX="211.0" layoutY="14.0" text="3" />
+      <Label layoutX="290.0" layoutY="14.0" text="4" />
+      <Label layoutX="361.0" layoutY="14.0" text="5" />
+      <Label layoutX="436.0" layoutY="14.0" text="6" />
+      <Label layoutX="507.0" layoutY="14.0" text="7" />
+      <Label layoutX="586.0" layoutY="14.0" text="8" />
+      <Label layoutX="63.0" layoutY="629.0" text="1" />
+      <Label layoutX="137.0" layoutY="629.0" text="2" />
+      <Label layoutX="211.0" layoutY="629.0" text="3" />
+      <Label layoutX="290.0" layoutY="629.0" text="4" />
+      <Label layoutX="361.0" layoutY="629.0" text="5" />
+      <Label layoutX="436.0" layoutY="629.0" text="6" />
+      <Label layoutX="507.0" layoutY="629.0" text="7" />
+      <Label layoutX="586.0" layoutY="629.0" text="8" />
+      <Label layoutX="14.0" layoutY="62.0" text="A" />
+      <Label layoutX="631.0" layoutY="62.0" text="A" />
+      <Label layoutX="14.0" layoutY="138.0" text="B" />
+      <Label layoutX="631.0" layoutY="138.0" text="B" />
+      <Label layoutX="14.0" layoutY="210.0" text="C" />
+      <Label layoutX="630.0" layoutY="210.0" text="C" />
+      <Label layoutX="15.0" layoutY="286.0" text="D" />
+      <Label layoutX="630.0" layoutY="286.0" text="D" />
+      <Label layoutX="15.0" layoutY="358.0" text="E" />
+      <Label layoutX="631.0" layoutY="358.0" text="E" />
+      <Label layoutX="631.0" layoutY="433.0" text="F" />
+      <Label layoutX="15.0" layoutY="433.0" text="F" />
+      <Label layoutX="14.0" layoutY="514.0" text="H" />
+      <Label layoutX="631.0" layoutY="514.0" text="H" />
+      <Label layoutX="631.0" layoutY="587.0" text="I" />
+      <Label layoutX="17.0" layoutY="587.0" text="I" />
    </children>
 </AnchorPane>
