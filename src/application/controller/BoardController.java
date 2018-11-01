@@ -33,8 +33,7 @@ public class BoardController {
 
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
-		if (event.getSource() instanceof Pane && parentOfClickedPiece != null
-							&&parentOfClickedPiece.equals(event.getSource())) {
+		if (event.getSource() instanceof Pane && parentOfClickedPiece != null && parentOfClickedPiece.equals(event.getSource())) {
 			
 			aPieceHasBeenClicked = true;
 		} else {
@@ -50,7 +49,7 @@ public class BoardController {
 					System.exit(1);
 				}
 				clickedPiece = null;
-				parentOfClickedPiece =null;
+				parentOfClickedPiece = null;
 				aPieceHasBeenClicked = false;
 			} else {
 				if (event.getSource() instanceof ImageView) {
@@ -89,8 +88,7 @@ public class BoardController {
 	    Iterator<Node> it = childrens.iterator();
 	    while(it.hasNext()) {
 	    	Node node = it.next();
-	    	int i;
-	    	int j;
+	    	int i, j;
 	    	if(gridPane.getRowIndex(node) != null)
 	    		i = gridPane.getRowIndex(node);
 	    	else
