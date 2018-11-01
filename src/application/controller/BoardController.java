@@ -1,13 +1,8 @@
 package application.controller;
 
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.ResourceBundle;
-
 import application.model.Coordinate;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -15,7 +10,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 
 public class BoardController {
 	private ImageView clickedPiece;
