@@ -13,6 +13,12 @@ public class King extends Piece
 
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
+//		int[][] possCoords = {{r-1,c},{r,c+1},{r+1,c},{r+1,c},{r,c-1},{r-1,c-1},{r,c+1},{r+1,c-1},{r+1,c-1}};
+//		
+//		for(int[] possCoord : possCoords){
+//			if(0 <= possCoord[0] && possCoord[0] <= 7 && 0 <= possCoord[1] && possCoord[1] <= 7)
+//				availCoords.add(new Coordinate(possCoord[0], possCoord[1]));
+//		}
 		
 		if (r - 1 >= 0) 
 			availCoords.add(new Coordinate(r - 1, c));
