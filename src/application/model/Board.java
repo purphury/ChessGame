@@ -1,5 +1,7 @@
 package application.model;
 
+import java.util.ArrayList;
+
 public class Board {
 	public static enum Type {
 		BLACK,
@@ -166,5 +168,13 @@ public class Board {
 			}
 		}
 		return false;
+	}
+	
+	public ArrayList<Coordinate> getMoves(Coordinate coord){
+		int r = coord.getRowIndex(), c = coord.getColumnIndex();
+		if(this.board[r][c] != null)
+			return this.board[r][c].getAvailableMovements(r, c, this);
+		else
+			return null;
 	}
 }
