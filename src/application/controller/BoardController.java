@@ -64,12 +64,12 @@ public class BoardController {
 		else 
 			source = ((Node)event.getSource()).getParent();
 		
-		if (boardFX.getRowIndex(source) != null)
-			a.setRowIndex(boardFX.getRowIndex(source));
+		if (GridPane.getRowIndex(source) != null)
+			a.setRowIndex(GridPane.getRowIndex(source));
 		else
 			a.setRowIndex(0);
-		if (boardFX.getColumnIndex(source) != null)
-			a.setColumnIndex(boardFX.getColumnIndex(source));
+		if (GridPane.getColumnIndex(source) != null)
+			a.setColumnIndex(GridPane.getColumnIndex(source));
 		else
 			a.setColumnIndex(0);
 		
@@ -83,12 +83,12 @@ public class BoardController {
 	    while(it.hasNext()) {
 	    	Node node = it.next();
 	    	int i, j;
-	    	if(gridPane.getRowIndex(node) != null)
-	    		i = gridPane.getRowIndex(node);
+	    	if(GridPane.getRowIndex(node) != null)
+	    		i = GridPane.getRowIndex(node);
 	    	else
 	    		i = 0;
-	    	if(gridPane.getColumnIndex(node) != null)
-	    		j = gridPane.getColumnIndex(node);
+	    	if(GridPane.getColumnIndex(node) != null)
+	    		j = GridPane.getColumnIndex(node);
 	    	else
 	    		j = 0;
 	        if(i == row && j == column) {
