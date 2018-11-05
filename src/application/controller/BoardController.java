@@ -48,8 +48,6 @@ public class BoardController {
 				//		pane.getChildren().remove(0);
 					pane.getChildren().add(clickedPiece);
 				} catch (Exception e) {
-					e.printStackTrace();
-					System.exit(1);
 				}
 			//	boardModel.move(clickedPieceCoordinate, a);
 			//	removeDots();
