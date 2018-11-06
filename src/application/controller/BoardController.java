@@ -36,6 +36,7 @@ public class BoardController {
 			Pane clickedPane = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), c.getColumnIndex(), boardFX);
 			
 			if(boardModel.movePieces(clickedPieceCoordinate, c)) {
+				System.out.println("here");
 				boardFX.getChildren().remove(clickedPiece);
 				clickedPane.getChildren().add(clickedPiece);
 			
