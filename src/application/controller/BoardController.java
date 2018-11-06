@@ -6,7 +6,6 @@ import java.util.Iterator;
 import application.model.Board;
 import application.model.Coordinate;
 import application.model.Piece;
-import application.model.Board.Type;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

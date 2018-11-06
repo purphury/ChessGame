@@ -22,13 +22,13 @@ public class Pawn extends Piece
 			//Color is white//
 			if(this.getType() == Type.WHITE) 
 			{
-				availCoords.add(new Coordinate(r + 1, c));
-				availCoords.add(new Coordinate(r + 2, c));
+				availCoords.add(new Coordinate(r - 1, c));
+				availCoords.add(new Coordinate(r - 2, c));
 			}
 			//color is black//
 			else {
-				availCoords.add(new Coordinate(r - 1, c));
-				availCoords.add(new Coordinate(r - 2, c));
+				availCoords.add(new Coordinate(r + 1, c));
+				availCoords.add(new Coordinate(r + 2, c));
 			}
 		} 
 		//if pawn is not in starting position//
