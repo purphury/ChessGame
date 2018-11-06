@@ -33,4 +33,10 @@ public class Coordinate {
 		return "("+getRowIndex()+", "+getColumnIndex()+")";	
 	}
 	
+	public boolean equals(Coordinate coord) {
+		if(coord.getRowIndex() == this.rowIndex && coord.getColumnIndex() == this.columnIndex)
+			return true;
+		return false;
+	}
+	
 }
