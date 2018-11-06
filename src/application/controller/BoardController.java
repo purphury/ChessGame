@@ -21,7 +21,6 @@ public class BoardController {
 	private Coordinate clickedPieceCoordinate;
 	private Board boardModel;
 	private ArrayList<Coordinate> availableMoves;
-	private Type turn;
 	@FXML
 	private Label whiteName;
 
@@ -30,52 +29,6 @@ public class BoardController {
 
 	@FXML
 	private GridPane boardFX;
-/*
-	@FXML
-	public void handlePieceClick(MouseEvent event) {
-		if (event.getSource() instanceof Pane && parentOfClickedPiece != null && parentOfClickedPiece.equals(event.getSource())) {
-
-			aPieceHasBeenClicked = true;
-		} else {
-			if (aPieceHasBeenClicked) {
-				Coordinate a = findCoordinate(boardFX, event);
-				//	if(availableMoves.contains(a)){
-				try {
-					Pane pane = (Pane)getNodeByRowColumnIndex(a.getRowIndex()
-							, a.getColumnIndex(), boardFX);
-					boardFX.getChildren().remove(clickedPiece);	
-					//	if(hasPiece(a)){
-					//		pane.getChildren().remove(0);
-					pane.getChildren().add(clickedPiece);
-				} catch (Exception e) {
-				}
-				//	boardModel.move(clickedPieceCoordinate, a);
-				//	removeDots();
-				//	availableMoves = null;
-				clickedPieceCoordinate = null;
-				clickedPiece = null;
-				parentOfClickedPiece = null;
-				aPieceHasBeenClicked = false;
-				turn = !turn;
-				//	}
-			} else {
-				if (event.getSource() instanceof ImageView) {
-					clickedPiece = (ImageView) event.getSource();
-					Coordinate c = findCoordinate(boardFX,event);
-					Type playerTurn = turn ? Type.WHITE : Type.BLACK;
-					if(boardModel.hasPiece(c) && boardModel.getPiece(c, turn).getType() == playerTurn) {
-//						availableMoves = boardModel.getMoves(c);
-//						addDots();
-						clickedPieceCoordinate = findCoordinate(boardFX, event);
-						parentOfClickedPiece = (Pane) clickedPiece.getParent();
-						aPieceHasBeenClicked = true;
-					}
-				}
-			}
-		}
-
-	}
-	*/
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
 		//TODO: check if a pane has been clicked && if a piece has been clicked, then move the piece//
@@ -87,11 +40,9 @@ public class BoardController {
 				boardFX.getChildren().remove(clickedPiece);
 				clickedPane.getChildren().add(clickedPiece);
 			
-				turn = boardModel.changeTurns(turn);
 				clickedPiece = null;
 				clickedPieceCoordinate = null;
 			}
-			
 		}
 		//TODO: check if a piece has been clicked if a piece has already been clicked//
 		else if(clickedPiece != null && event.getSource() instanceof ImageView) {
@@ -100,7 +51,7 @@ public class BoardController {
 		//TODO: if an image (piece) has been clicked, then set aPieceHasBeenClicked to true//
 		else if(event.getSource() instanceof Pane) {
 			clickedPieceCoordinate = findCoordinate(boardFX, event);
-			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, turn);
+			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, boardModel.turn);
 			Pane p = (Pane) event.getSource();
 			if(p.getChildren() != null && clickPiece != null) 
 				clickedPiece = (ImageView) p.getChildren().get(0);
@@ -183,7 +134,6 @@ public class BoardController {
 		//	boardModel = new Board();
 		blackName.setText(StartScreenController.names.get(1));
 		whiteName.setText(StartScreenController.names.get(0));
-		turn = Type.WHITE;
 		boardModel = new Board();
 		clickedPiece = null;
 	}

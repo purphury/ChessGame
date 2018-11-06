@@ -7,6 +7,7 @@ public class Board {
 		BLACK,
 		WHITE
 	}
+	public static Type turn;
 	public Piece[][] board;
 	//	private Rook bRook1, bRook2, wRook1, wRook2;
 	//	private Knight bKnight1, bKnight2, wKnight1, wKnight2;
@@ -16,6 +17,7 @@ public class Board {
 	//	private Pawn bPawn1, bPawn2, bPawn3, bPawn4, bPawn5, bPawn6, bPawn7, bPawn8, wPawn1, wPawn2, wPawn3, wPawn4, wPawn5, wPawn6, wPawn7, wPawn8; 
 
 	public Board() {
+		turn = Type.WHITE;
 		board = new Piece[8][8];
 		for(int i = 0; i < 8; i++) {
 			board[6][i] = new Pawn(6, i, Type.WHITE);
@@ -27,9 +29,9 @@ public class Board {
 		board[7][7] = new Rook(Type.WHITE);
 
 		board[0][1] = new Knight(Type.BLACK);
-		board[0][7] = new Knight(Type.BLACK);
+		board[0][6] = new Knight(Type.BLACK);
 		board[7][1] = new Knight(Type.WHITE);
-		board[7][7] = new Knight(Type.WHITE);
+		board[7][6] = new Knight(Type.WHITE);
 
 		board[0][2] = new Bishop(Type.BLACK);
 		board[0][5] = new Bishop(Type.BLACK);
@@ -43,30 +45,19 @@ public class Board {
 		board[7][4] = new King(Type.WHITE);
 	}
 
-	/**
-	 * @param row
-	 * @param col
-	 * @return piece at that location
-	 */
-	public Piece getPiece(int row, int col, Type turn) {
-		return isGettable(new Coordinate(row, col), turn) ? board[row][col] : null;
-	}
+
 	/**
 	 * @param coord
 	 * @return piece at that location
 	 */
 	public Piece getPiece(Coordinate coord, Type turn) {
 		if(board[coord.getRowIndex()][coord.getColumnIndex()] != null)
-			return isGettable(coord, turn) ? board[coord.getRowIndex()][coord.getColumnIndex()] : null;
+			return isGettable(coord) ? board[coord.getRowIndex()][coord.getColumnIndex()] : null;
 		return null;
 	}
+
 	
-	public Piece getPiece(Coordinate coord, boolean turn) {
-		Type playerTurn = turn ? Type.WHITE : Type.BLACK;
-		return isGettable(coord, playerTurn) ? board[coord.getRowIndex()][coord.getColumnIndex()] : null;
-	}
-	
-	public boolean isGettable(Coordinate coord, Type turn) {
+	public boolean isGettable(Coordinate coord) {
 		return board[coord.getRowIndex()][coord.getColumnIndex()].getType() == turn;
 	}
 	/**
@@ -94,6 +85,7 @@ public class Board {
 		System.out.println(piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this));
 		if(piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this).contains(newLoc)) {
 			board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; //if new loc was occupied, the piece that was there is now deleted as there is no reference to it
+			changeTurn();
 			return true;
 		}
 		return false;
@@ -179,7 +171,7 @@ public class Board {
 		else
 			return null;
 	}
-	public Type changeTurns(Type color) {
-		return color == Type.BLACK ? Type.WHITE : Type.BLACK;
+	public void changeTurn() {
+		turn = turn == Type.BLACK ? Type.WHITE : Type.BLACK;
 	}
 }
