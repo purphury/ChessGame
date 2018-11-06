@@ -3,12 +3,14 @@ package application.model;
 import java.util.ArrayList;
 
 public class Board {
+	private String whiteName;
+	private String blackName;
 	public static enum Type {
 		BLACK,
 		WHITE
 	}
-	public Type turn;
-	public Piece[][] board;
+	private Type turn;
+	private Piece[][] board;
 	//	private Rook bRook1, bRook2, wRook1, wRook2;
 	//	private Knight bKnight1, bKnight2, wKnight1, wKnight2;
 	//	private Bishop bBishop1, bBishop2, wBishop1, wBishop2;
@@ -16,7 +18,9 @@ public class Board {
 	//	private King bKing, wKing;
 	//	private Pawn bPawn1, bPawn2, bPawn3, bPawn4, bPawn5, bPawn6, bPawn7, bPawn8, wPawn1, wPawn2, wPawn3, wPawn4, wPawn5, wPawn6, wPawn7, wPawn8; 
 
-	public Board() {
+	public Board(String whiteName, String blackName) {
+		this.whiteName = whiteName;
+		this.blackName = blackName;
 		turn = Type.WHITE;
 		board = new Piece[8][8];
 		for(int i = 0; i < 8; i++) {
@@ -43,6 +47,38 @@ public class Board {
 
 		board[0][4] = new King(Type.BLACK);
 		board[7][4] = new King(Type.WHITE);
+	}
+
+	public String getWhiteName() {
+		return whiteName;
+	}
+
+	public void setWhiteName(String whiteName) {
+		this.whiteName = whiteName;
+	}
+
+	public String getBlackName() {
+		return blackName;
+	}
+
+	public void setBlackName(String blackName) {
+		this.blackName = blackName;
+	}
+
+	public Type getTurn() {
+		return turn;
+	}
+
+	public void setTurn(Type turn) {
+		this.turn = turn;
+	}
+
+	public Piece[][] getBoard() {
+		return board;
+	}
+
+	public void setBoard(Piece[][] board) {
+		this.board = board;
 	}
 
 	/**
