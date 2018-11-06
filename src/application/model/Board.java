@@ -7,7 +7,6 @@ public class Board {
 		BLACK,
 		WHITE
 	}
-
 	public Piece[][] board;
 	//	private Rook bRook1, bRook2, wRook1, wRook2;
 	//	private Knight bKnight1, bKnight2, wKnight1, wKnight2;
@@ -49,17 +48,25 @@ public class Board {
 	 * @param col
 	 * @return piece at that location
 	 */
-	public Piece getPiece(int row, int col) {
-		return board[row][col];
+	public Piece getPiece(int row, int col, Type turn) {
+		return isGettable(new Coordinate(row, col), turn) ? board[row][col] : null;
 	}
 	/**
 	 * @param coord
 	 * @return piece at that location
 	 */
-	public Piece getPiece(Coordinate coord) {
-		return board[coord.getRowIndex()][coord.getColumnIndex()];
+	public Piece getPiece(Coordinate coord, Type turn) {
+		return isGettable(coord, turn) ? board[coord.getRowIndex()][coord.getColumnIndex()] : null;
 	}
-
+	
+	public Piece getPiece(Coordinate coord, boolean turn) {
+		Type playerTurn = turn ? Type.WHITE : Type.BLACK;
+		return isGettable(coord, playerTurn) ? board[coord.getRowIndex()][coord.getColumnIndex()] : null;
+	}
+	
+	public boolean isGettable(Coordinate coord, Type turn) {
+		return board[coord.getRowIndex()][coord.getColumnIndex()].getType() == turn;
+	}
 	/**
 	 * @param row
 	 * @param col
@@ -73,6 +80,7 @@ public class Board {
 	 * @return boolean if there is a piece at  that location
 	 */
 	public boolean hasPiece(Coordinate coord) {
+		System.out.println(coord);
 		return board[coord.getRowIndex()][coord.getColumnIndex()] != null;
 	}
 

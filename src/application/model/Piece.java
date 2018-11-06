@@ -20,5 +20,7 @@ public abstract class Piece
 	public void setType(Type type) {
 		this.type = type;
 	}
-	
+	public Type otherType() {
+		return this.getType() == Type.BLACK ? Type.WHITE : Type.BLACK;
+	}
 }

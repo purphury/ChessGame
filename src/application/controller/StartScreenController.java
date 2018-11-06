@@ -25,7 +25,6 @@ public class StartScreenController {
 	public static ArrayList<String> names;
 
 public void initialize(URL location, ResourceBundle resources) {
-		
 	}
 
 	public void loadNames() {

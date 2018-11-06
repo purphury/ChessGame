@@ -16,8 +16,8 @@ public class Main extends Application {
 			// the commented out line is giving a null pointer exception and i have no idea why
 			scene.getStylesheets().add(getClass().getResource("view/application.css").toExternalForm());
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.show();
-			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
