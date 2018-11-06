@@ -42,6 +42,7 @@ public class Pawn extends Piece
 		}
 		//Color is white; these are coordinates to attack diagonal pieces//
 		if(this.getType() == Type.WHITE) {
+			//TODO: THIS LINE MESSED UP//
 			if(board.getPiece(r - 1, c - 1, this.otherType()) != null && r - 1 >= 0 && c - 1 >= 0)
 				availCoords.add(new Coordinate(r - 1, c - 1));
 			if(board.getPiece(r - 1, c + 1, this.otherType()) != null && r - 1 >= 0 && c + 1 <= 7)
