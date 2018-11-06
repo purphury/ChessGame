@@ -56,7 +56,9 @@ public class Board {
 	 * @return piece at that location
 	 */
 	public Piece getPiece(Coordinate coord, Type turn) {
-		return isGettable(coord, turn) ? board[coord.getRowIndex()][coord.getColumnIndex()] : null;
+		if(board[coord.getRowIndex()][coord.getColumnIndex()] != null)
+			return isGettable(coord, turn) ? board[coord.getRowIndex()][coord.getColumnIndex()] : null;
+		return null;
 	}
 	
 	public Piece getPiece(Coordinate coord, boolean turn) {
@@ -80,7 +82,6 @@ public class Board {
 	 * @return boolean if there is a piece at  that location
 	 */
 	public boolean hasPiece(Coordinate coord) {
-		System.out.println(coord);
 		return board[coord.getRowIndex()][coord.getColumnIndex()] != null;
 	}
 
@@ -88,21 +89,14 @@ public class Board {
 	 * @param oldLoc
 	 * @param newLoc
 	 */
-	public void movePieces(Coordinate oldLoc, Coordinate newLoc) {
+	public boolean movePieces(Coordinate oldLoc, Coordinate newLoc) {
 		Piece piece = board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()];
-		if(piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this).contains(newLoc))
+		System.out.println(piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this));
+		if(piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this).contains(newLoc)) {
 			board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; //if new loc was occupied, the piece that was there is now deleted as there is no reference to it
-	}
-	/** Moves piece at oldLoc to newLoc (removing piece at newLoc if there was one)
-	 * @param oldR
-	 * @param oldC
-	 * @param newR
-	 * @param newC
-	 */
-	public void movePieces(int oldR, int oldC, int newR, int newC) {
-		Piece piece = board[oldR][oldC];
-		if(piece.getAvailableMovements(oldR, oldC, this).contains(new Coordinate(newR, newC)))
-			board[newR][newC] = piece; //if new loc was occupied, the piece that was there is now deleted as there is no reference to it
+			return true;
+		}
+		return false;
 	}
 	
 	/** Checks if board is in Check for a color
@@ -184,5 +178,8 @@ public class Board {
 			return this.board[r][c].getAvailableMovements(r, c, this);
 		else
 			return null;
+	}
+	public Type changeTurns(Type color) {
+		return color == Type.BLACK ? Type.WHITE : Type.BLACK;
 	}
 }
