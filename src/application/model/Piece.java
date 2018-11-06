@@ -1,6 +1,5 @@
 package application.model;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import application.model.Board.Type;
@@ -12,7 +11,7 @@ public abstract class Piece
 	public Piece (Type type) {
 		this.type = type;
 	}
-	public abstract ArrayList<Point> getAvailableMovements(int r, int c, Board board);
+	public abstract ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board);
 	
 	// gets the color for a given piece
 	public Type getType() {
@@ -21,5 +20,7 @@ public abstract class Piece
 	public void setType(Type type) {
 		this.type = type;
 	}
-	
+	public Type otherType() {
+		return this.getType() == Type.BLACK ? Type.WHITE : Type.BLACK;
+	}
 }

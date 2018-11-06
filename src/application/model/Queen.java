@@ -1,6 +1,5 @@
 package application.model;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import application.model.Board.Type;
@@ -10,59 +9,59 @@ public class Queen extends Piece {
 		super(color);
 	}
 
-	public ArrayList<Point> getAvailableMovements(int r, int c, Board board) {
-		ArrayList<Point> availCoords = new ArrayList<>();
+	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
+		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		boolean NWBlocked = false, NEBlocked = false, SWBlocked = false, SEBlocked = false;
 		boolean NBlocked = false, EBlocked = false, SBlocked = false, WBlocked = false;
-		for (int i = 0; i < 8 ; i++) {
-			//north path
+		for (int i = 0; i < 8; i++) {
+			// north path
 			if (!NBlocked && r - i >= 0) {
-				availCoords.add(new Point(r - i, c));
-				if(board.getPiece(r - i, c) != null)
+				availCoords.add(new Coordinate(r - i, c));
+				if (board.getPiece(r - i, c, this.otherType()) != null)
 					NBlocked = true;
 			}
-			//east path
+			// east path
 			if (!EBlocked && c + i <= 7) {
-				availCoords.add(new Point(r, c + i));
-				if(board.getPiece(r, c + i) != null)
+				availCoords.add(new Coordinate(r, c + i));
+				if (board.getPiece(r, c + i, this.otherType()) != null)
 					NBlocked = true;
 			}
-			//south path
+			// south path
 			if (!SBlocked && r + i <= 7) {
-				availCoords.add(new Point(r + i, c));
-				if(board.getPiece(r + i, c) != null)
+				availCoords.add(new Coordinate(r + i, c));
+				if (board.getPiece(r + i, c, this.otherType()) != null)
 					NBlocked = true;
 			}
-			//west path
+			// west path
 			if (!WBlocked && c - i >= 0) {
-				availCoords.add(new Point(r, c - i));
-				if(board.getPiece(r, c - i) != null)
+				availCoords.add(new Coordinate(r, c - i));
+				if (board.getPiece(r, c - i, this.otherType()) != null)
 					NBlocked = true;
 			}
-			//northwest path
+			// northwest path
 			if (!NWBlocked && r - i >= 0 && c - i >= 0) {
-				availCoords.add(new Point(r - i, c - i));
-				if(board.getPiece(r - i, c - i) != null)
+				availCoords.add(new Coordinate(r - i, c - i));
+				if (board.getPiece(r - i, c - i, this.otherType()) != null)
 					NWBlocked = true;
 			}
-			//northeast path
+			// northeast path
 			if (!NEBlocked && r - i >= 0 && c + i <= 7) {
-				availCoords.add(new Point(r, c + i));
-				if(board.getPiece(r, c + i) != null)
+				availCoords.add(new Coordinate(r, c + i));
+				if (board.getPiece(r, c + i, this.otherType()) != null)
 					NEBlocked = true;
 			}
-			//southwest path
+			// southwest path
 			if (!SWBlocked && r + i <= 7 && c - i >= 0) {
-				availCoords.add(new Point(r + i, c - i));
-				if(board.getPiece(r + i, c - i) != null)
+				availCoords.add(new Coordinate(r + i, c - i));
+				if (board.getPiece(r + i, c - i, this.otherType()) != null)
 					SWBlocked = true;
 			}
-			//northwest path
+			// northwest path
 			if (!SEBlocked && r + i <= 7 && c + i <= 7) {
-				availCoords.add(new Point(r + i, c - i));
-				if(board.getPiece(r + i, c - i) != null)
+				availCoords.add(new Coordinate(r + i, c - i));
+				if (board.getPiece(r + i, c - i, this.otherType()) != null)
 					SEBlocked = true;
-			}			
+			}
 		}
 		return availCoords;
 	}

@@ -14,18 +14,17 @@ import javafx.scene.layout.AnchorPane;
 public class StartScreenController {
 
 	@FXML
-	TextField playerOne;
+	private TextField playerOne;
 	@FXML
-	TextField playerTwo;
+	private TextField playerTwo;
 	@FXML
-	Button startButton; 
+	private Button startButton; 
 	@FXML
-	AnchorPane rootPane;
+	private AnchorPane rootPane;
 	
 	public static ArrayList<String> names;
 
 public void initialize(URL location, ResourceBundle resources) {
-		
 	}
 
 	public void loadNames() {
