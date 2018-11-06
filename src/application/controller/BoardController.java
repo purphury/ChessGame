@@ -1,6 +1,5 @@
 package application.controller;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import application.model.Board;
@@ -19,7 +18,6 @@ public class BoardController {
 	private ImageView clickedPiece;
 	private Coordinate clickedPieceCoordinate;
 	private Board boardModel;
-	private ArrayList<Coordinate> availableMoves;
 	@FXML
 	private Label whiteName;
 
