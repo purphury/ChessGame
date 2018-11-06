@@ -43,16 +43,16 @@ public class Pawn extends Piece
 		//Color is white; these are coordinates to attack diagonal pieces//
 		if(this.getType() == Type.WHITE) {
 			//TODO: THIS LINE MESSED UP//
-			if(board.getPiece(new Coordinate(r - 1, c - 1), this.otherType()) != null && r - 1 >= 0 && c - 1 >= 0)
+			if(r - 1 >= 0 && c - 1 >= 0 && board.getPiece(new Coordinate(r - 1, c - 1), this.otherType()) != null)
 				availCoords.add(new Coordinate(r - 1, c - 1));
-			if(board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null && r - 1 >= 0 && c + 1 <= 7)
+			if(r - 1 >= 0 && c + 1 <= 7 && board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null)
 				availCoords.add(new Coordinate(r - 1, c + 1));
 		}
 		//Color is black; these are coordinates to attack diagonal pieces//
 		else {
-			if(board.getPiece(new Coordinate(r + 1, c - 1), this.otherType()) != null && r + 1 <= 7 && c - 1 >= 0)
+			if(r + 1 <= 7 && c - 1 >= 0 && board.getPiece(new Coordinate(r + 1, c - 1), this.otherType()) != null)
 				availCoords.add(new Coordinate(r + 1, c - 1));
-			if(board.getPiece(new Coordinate(r + 1, c + 1), this.otherType()) != null && r + 1 <= 7 && c + 1 <= 7)
+			if(r + 1 <= 7 && c + 1 <= 7 && board.getPiece(new Coordinate(r + 1, c + 1), this.otherType()) != null)
 				availCoords.add(new Coordinate(r + 1, c + 1));
 		}
 		
