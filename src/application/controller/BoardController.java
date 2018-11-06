@@ -19,10 +19,10 @@ public class BoardController {
 	private Coordinate clickedPieceCoordinate;
 	private Board boardModel;
 	@FXML
-	private Label whiteName;
+	private Label whiteNameLabel;
 
 	@FXML
-	private Label blackName;
+	private Label blackNameLabel;
 
 	@FXML
 	private GridPane boardFX;
@@ -48,7 +48,7 @@ public class BoardController {
 		//TODO: if an image (piece) has been clicked, then set aPieceHasBeenClicked to true//
 		else if(event.getSource() instanceof Pane) {
 			clickedPieceCoordinate = findCoordinate(boardFX, event);
-			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, boardModel.turn);
+			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, boardModel.getTurn());
 			Pane p = (Pane) event.getSource();
 			if(p.getChildren() != null && clickPiece != null) 
 				clickedPiece = (ImageView) p.getChildren().get(0);
@@ -125,13 +125,14 @@ public class BoardController {
 
 	@FXML
 	void initialize() {
-		assert whiteName != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
-		assert blackName != null : "fx:id=\"blackName\" was not injected: check your FXML file 'Board.fxml'.";
+		assert whiteNameLabel != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
+		assert blackNameLabel != null : "fx:id=\"blackName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert boardFX != null : "fx:id=\"boardFX\" was not injected: check your FXML file 'Board.fxml'.";
 		//	boardModel = new Board();
-		blackName.setText(StartScreenController.names.get(1));
-		whiteName.setText(StartScreenController.names.get(0));
-		boardModel = new Board();
+		String blackNameString = StartScreenController.names.get(1), whiteNameString = StartScreenController.names.get(0);
+		this.blackNameLabel.setText(blackNameString);
+		this.whiteNameLabel.setText(whiteNameString);
+		boardModel = new Board(whiteNameString, blackNameString);
 		clickedPiece = null;
 	}
 
