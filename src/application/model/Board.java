@@ -7,7 +7,7 @@ public class Board {
 		BLACK,
 		WHITE
 	}
-	public static Type turn;
+	public Type turn;
 	public Piece[][] board;
 	//	private Rook bRook1, bRook2, wRook1, wRook2;
 	//	private Knight bKnight1, bKnight2, wKnight1, wKnight2;
@@ -44,7 +44,6 @@ public class Board {
 		board[0][4] = new King(Type.BLACK);
 		board[7][4] = new King(Type.WHITE);
 	}
-
 
 	/**
 	 * @param coord

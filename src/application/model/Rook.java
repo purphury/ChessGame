@@ -18,25 +18,25 @@ public class Rook extends Piece
 			//north path
 			if (!NBlocked && r - i >= 0) {
 				availCoords.add(new Coordinate(r - i, c));
-				if(board.getPiece(r - i, c, this.otherType()) != null)
+				if(board.getPiece(new Coordinate(r - i, c), this.otherType()) != null)
 					NBlocked = true;
 			}
 			//east path
 			if (!EBlocked && c + i <= 7) {
 				availCoords.add(new Coordinate(r, c + i));
-				if(board.getPiece(r, c + i, this.otherType()) != null)
+				if(board.getPiece(new Coordinate(r, c + i), this.otherType()) != null)
 					NBlocked = true;
 			}
 			//south path
 			if (!SBlocked && r + i <= 7) {
 				availCoords.add(new Coordinate(r + i, c));
-				if(board.getPiece(r + i, c, this.otherType()) != null)
+				if(board.getPiece(new Coordinate(r + i, c), this.otherType()) != null)
 					NBlocked = true;
 			}
 			//west path
 			if (!WBlocked && c - i >= 0) {
 				availCoords.add(new Coordinate(r, c - i));
-				if(board.getPiece(r, c - i, this.otherType()) != null)
+				if(board.getPiece(new Coordinate(r, c - i), this.otherType()) != null)
 					NBlocked = true;
 			}
 		}
