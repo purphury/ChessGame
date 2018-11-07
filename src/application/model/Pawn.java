@@ -19,7 +19,7 @@ public class Pawn extends Piece
 		//If pawn is in starting position//
 		if(startR == r && startC == c) 
 		{
-			//Color is white//
+			//color is white//
 			if(this.getType() == Type.WHITE) 
 			{
 				availCoords.add(new Coordinate(r - 1, c));

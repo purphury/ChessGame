@@ -93,7 +93,10 @@ public class Board {
 
 	
 	public boolean isGettable(Coordinate coord) {
-		return board[coord.getRowIndex()][coord.getColumnIndex()].getType() == turn;
+		Piece piece = board[coord.getRowIndex()][coord.getColumnIndex()];
+		if(piece == null)
+				return false;
+		return piece.getType() == turn;
 	}
 	/**
 	 * @param row
@@ -121,8 +124,10 @@ public class Board {
 //			+ "New Location Row/Col: " + (newLoc.getRowIndex()-1) + " " + (newLoc.getColumnIndex()-1) + "\n" + piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this));
 		for(Coordinate c : piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this))
 			if(c.equals(newLoc)) {
+				if(!piece.getHasMoved()) 
+					piece.setHasMoved(true);
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; //if new loc was occupied, the piece that was there is now deleted as there is no reference to it
-				board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = null;
+				board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = null;  
 				changeTurn();
 				return true;
 			}
@@ -202,6 +207,10 @@ public class Board {
 		return false;
 	}
 	
+	/** Gets AvailableMoves from the piece at location specified
+	 * @param coord
+	 * @return
+	 */
 	public ArrayList<Coordinate> getMoves(Coordinate coord){
 		int r = coord.getRowIndex(), c = coord.getColumnIndex();
 		if(this.board[r][c] != null)

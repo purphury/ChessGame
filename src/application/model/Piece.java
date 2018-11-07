@@ -7,9 +7,11 @@ import application.model.Board.Type;
 public abstract class Piece 
 {
 	private Type type;
+	private boolean hasMoved;
 	
 	public Piece (Type type) {
 		this.type = type;
+		this.setHasMoved(false);
 	}
 	public abstract ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board);
 	
@@ -22,5 +24,11 @@ public abstract class Piece
 	}
 	public Type otherType() {
 		return this.getType() == Type.BLACK ? Type.WHITE : Type.BLACK;
+	}
+	public boolean getHasMoved() {
+		return hasMoved;
+	}
+	public void setHasMoved(boolean hasMoved) {
+		this.hasMoved = hasMoved;
 	}
 }
