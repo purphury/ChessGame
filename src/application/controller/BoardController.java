@@ -46,7 +46,7 @@ public class BoardController {
 			else if(!clickedPieceCoordinate.equals(c)) {
 				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
 					ImageView enemyPiece = (ImageView) clickedPane.getChildren().get(0);
-					boardFX.getChildren().remove(enemyPiece);
+					clickedPane.getChildren().remove(enemyPiece);
 					boardFX.getChildren().remove(clickedPiece);
 					clickedPane.getChildren().add(clickedPiece);
 					
@@ -68,7 +68,7 @@ public class BoardController {
 			Pane p = (Pane) event.getSource();
 			if(p.getChildren() != null && clickPiece != null) 
 				clickedPiece = (ImageView) p.getChildren().get(0);
-				//System.out.println("Coords: " + boardModel.getMoves(clickedPieceCoordinate));
+				System.out.println("Coords: " + boardModel.getMoves(clickedPieceCoordinate));
 			}
 		}
 	/*

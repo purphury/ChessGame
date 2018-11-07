@@ -323,12 +323,12 @@
                </children></Pane>
          </children>
       </GridPane>
-      <Label fx:id="blackName" layoutX="680.0" layoutY="21.0" text="name">
+      <Label fx:id="blackNameLabel" layoutX="680.0" layoutY="21.0" text="name">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Label fx:id="whiteName" layoutX="688.0" layoutY="385.0" text="name">
+      <Label fx:id="whiteNameLabel" layoutX="688.0" layoutY="385.0" text="name">
          <font>
             <Font size="25.0" />
          </font>
