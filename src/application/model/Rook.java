@@ -10,7 +10,7 @@ public class Rook extends Piece
 	{
 		super (color);
 	}
-	
+
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		boolean NBlocked = false, EBlocked = false, SBlocked = false, WBlocked = false;
@@ -25,6 +25,7 @@ public class Rook extends Piece
 				if(board.getPiece(new Coordinate(r - i, c), this.otherType()) != null) //blocked by enemy
 					NBlocked = true;
 			}
+		} for (int i = 1; i < 8 ; i++){
 			//east path
 			if (!EBlocked && c + i <= 7) {
 				if(board.getPiece(new Coordinate(r, c + i), this.getType()) != null) { //blocked by ally
@@ -35,6 +36,7 @@ public class Rook extends Piece
 				if(board.getPiece(new Coordinate(r, c + i), this.otherType()) != null)
 					EBlocked = true;
 			}
+		} for (int i = 1; i < 8 ; i++) {
 			//south path
 			if (!SBlocked && r + i <= 7) {
 				if(board.getPiece(new Coordinate(r + i, c), this.getType()) != null) { //blocked by ally
@@ -45,6 +47,7 @@ public class Rook extends Piece
 				if(board.getPiece(new Coordinate(r + i, c), this.otherType()) != null)
 					SBlocked = true;
 			}
+		} for (int i = 1; i < 8 ; i++) {
 			//west path
 			if (!WBlocked && c - i >= 0) {
 				if(board.getPiece(new Coordinate(r, c - i), this.getType()) != null) { //blocked by ally
