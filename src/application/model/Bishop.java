@@ -16,8 +16,8 @@ public class Bishop extends Piece {
 		for (int i = 1; i < 8 ; i++) {
 			//northwest path
 			if (!NWBlocked && r - i >= 0 && c - i >= 0) {
-				System.out.println(board.getPiece(new Coordinate(r - i, c), this.getType()));
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				//System.out.println(board.getPiece(new Coordinate(r - i, c - i), this.getType()));
+				if(board.getPiece(new Coordinate(r - i, c - i), this.getType()) != null) { //blocked by ally
 					NWBlocked = true;
 					continue;
 				}
@@ -28,7 +28,7 @@ public class Bishop extends Piece {
 		} for (int i = 1; i < 8 ; i++) {
 			//northeast path
 			if (!NEBlocked && r - i >= 0 && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r - i, c + i), this.getType()) != null) { //blocked by ally
 					NEBlocked = true;
 					continue;
 				}
@@ -39,7 +39,7 @@ public class Bishop extends Piece {
 		} for (int i = 1; i < 8 ; i++) {
 			//southwest path
 			if (!SWBlocked && r + i <= 7 && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r + i, c - i), this.getType()) != null) { //blocked by ally
 					SWBlocked = true;
 					continue;
 				}
@@ -50,7 +50,7 @@ public class Bishop extends Piece {
 		} for (int i = 1; i < 8 ; i++) {
 			//southeast path
 			if (!SEBlocked && r + i <= 7 && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r + i, c + i), this.getType()) != null) { //blocked by ally
 					SEBlocked = true;
 					continue;
 				}
