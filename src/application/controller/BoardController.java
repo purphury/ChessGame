@@ -62,7 +62,7 @@ public class BoardController {
 		}
 		//TODO: if an image (piece) has been clicked, then clickedPiece will not be null//
 		else if(event.getSource() instanceof Pane) {
-			System.out.println(boardModel.turn);
+			System.out.println(boardModel.getTurn());
 			clickedPieceCoordinate = findCoordinate(boardFX, event);
 			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, boardModel.getTurn());
 			Pane p = (Pane) event.getSource();
