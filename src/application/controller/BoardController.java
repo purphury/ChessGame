@@ -34,26 +34,43 @@ public class BoardController {
 		if(clickedPiece != null && event.getSource() instanceof Pane) {
 			Coordinate c = findCoordinate(boardFX, event);
 			Pane clickedPane = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), c.getColumnIndex(), boardFX);
-			
-			if(boardModel.movePieces(clickedPieceCoordinate, c)) {
-				boardFX.getChildren().remove(clickedPiece);
-				clickedPane.getChildren().add(clickedPiece);
-			
+			if(clickedPane.getChildren().size() == 0) {
+				//Check if the piece can be moved at all//
+				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
+					boardFX.getChildren().remove(clickedPiece);
+					clickedPane.getChildren().add(clickedPiece);
+					
+					clickedPiece = null;
+					clickedPieceCoordinate = null;
+				}
+			}
+			//if there is a piece on the pane that was clicked, kill the piece and move there//
+			else if(!clickedPieceCoordinate.equals(c)) {
+				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
+					ImageView enemyPiece = (ImageView) clickedPane.getChildren().get(0);
+					boardFX.getChildren().remove(enemyPiece);
+					boardFX.getChildren().remove(clickedPiece);
+					clickedPane.getChildren().add(clickedPiece);
+					
+					clickedPiece = null;
+					clickedPieceCoordinate = null;
+				}
+			}
+			//if the pane is clicked again, the piece is unselected//
+			else if(clickedPieceCoordinate.equals(c)) {
 				clickedPiece = null;
 				clickedPieceCoordinate = null;
 			}
 		}
-		//TODO: check if a piece has been clicked if a piece has already been clicked//
-		else if(clickedPiece != null && event.getSource() instanceof ImageView) {
-			
-		}
-		//TODO: if an image (piece) has been clicked, then set aPieceHasBeenClicked to true//
+		//TODO: if an image (piece) has been clicked, then clickedPiece will not be null//
 		else if(event.getSource() instanceof Pane) {
+			System.out.println(boardModel.turn);
 			clickedPieceCoordinate = findCoordinate(boardFX, event);
 			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, boardModel.turn);
 			Pane p = (Pane) event.getSource();
 			if(p.getChildren() != null && clickPiece != null) 
 				clickedPiece = (ImageView) p.getChildren().get(0);
+				//System.out.println("Coords: " + boardModel.getMoves(clickedPieceCoordinate));
 			}
 		}
 	/*

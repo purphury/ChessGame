@@ -81,8 +81,8 @@ public class Board {
 	 */
 	public boolean movePieces(Coordinate oldLoc, Coordinate newLoc) {
 		Piece piece = board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()];
-		System.out.println("Old Location Row/Col: "+oldLoc.getRowIndex() + " " + oldLoc.getColumnIndex() + "\n"
-			+ "New Location Row/Col: " + newLoc.getRowIndex() + " " + newLoc.getColumnIndex() + "\n" + piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this));
+//		System.out.println("Old Location Row/Col: "+ (oldLoc.getRowIndex()-1) + " " + (oldLoc.getColumnIndex()-1) + "\n"
+//			+ "New Location Row/Col: " + (newLoc.getRowIndex()-1) + " " + (newLoc.getColumnIndex()-1) + "\n" + piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this));
 		for(Coordinate c : piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this))
 			if(c.equals(newLoc)) {
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; //if new loc was occupied, the piece that was there is now deleted as there is no reference to it
