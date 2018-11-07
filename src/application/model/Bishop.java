@@ -13,7 +13,7 @@ public class Bishop extends Piece {
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		boolean NWBlocked = false, NEBlocked = false, SWBlocked = false, SEBlocked = false;
-		for (int i = 0; i < 8 ; i++) {
+		for (int i = 1; i < 8 ; i++) {
 			//northwest path
 			if (!NWBlocked && r - i >= 0 && c - i >= 0) {
 				availCoords.add(new Coordinate(r - i, c - i));
