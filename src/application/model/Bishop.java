@@ -16,6 +16,7 @@ public class Bishop extends Piece {
 		for (int i = 1; i < 8 ; i++) {
 			//northwest path
 			if (!NWBlocked && r - i >= 0 && c - i >= 0) {
+				System.out.println(board.getPiece(new Coordinate(r - i, c), this.getType()));
 				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
 					NWBlocked = true;
 					continue;

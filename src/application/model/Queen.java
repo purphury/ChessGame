@@ -93,12 +93,12 @@ public class Queen extends Piece {
 		} for (int i = 1; i < 8; i++) {
 			// southeast path
 			if (!SEBlocked && r + i <= 7 && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r + i, c - i), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r + i, c + i), this.getType()) != null) { //blocked by ally
 					SEBlocked = true;
 					continue;
 				}
-				availCoords.add(new Coordinate(r + i, c - i));
-				if (board.getPiece(new Coordinate(r + i, c - i), this.otherType()) != null)
+				availCoords.add(new Coordinate(r + i, c + i));
+				if (board.getPiece(new Coordinate(r + i, c + i), this.otherType()) != null)
 					SEBlocked = true;
 			}
 		}
