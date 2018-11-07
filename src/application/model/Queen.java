@@ -26,7 +26,7 @@ public class Queen extends Piece {
 			}
 			// east path
 			if (!EBlocked && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r, c + i), this.getType()) != null) { //blocked by ally
 					EBlocked = true;
 					continue;
 				}
@@ -36,7 +36,7 @@ public class Queen extends Piece {
 			}
 			// south path
 			if (!SBlocked && r + i <= 7) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r + i, c), this.getType()) != null) { //blocked by ally
 					SBlocked = true;
 					continue;
 				}
@@ -46,7 +46,7 @@ public class Queen extends Piece {
 			}
 			// west path
 			if (!WBlocked && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r, c - i), this.getType()) != null) { //blocked by ally
 					WBlocked = true;
 					continue;
 				}
@@ -56,7 +56,7 @@ public class Queen extends Piece {
 			}
 			// northwest path
 			if (!NWBlocked && r - i >= 0 && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r - i, c - i), this.getType()) != null) { //blocked by ally
 					NWBlocked = true;
 					continue;
 				}
@@ -66,7 +66,7 @@ public class Queen extends Piece {
 			}
 			// northeast path
 			if (!NEBlocked && r - i >= 0 && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r - i, c + i), this.getType()) != null) { //blocked by ally
 					NEBlocked = true;
 					continue;
 				}
@@ -76,7 +76,7 @@ public class Queen extends Piece {
 			}
 			// southwest path
 			if (!SWBlocked && r + i <= 7 && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r + i, c - i), this.getType()) != null) { //blocked by ally
 					SWBlocked = true;
 					continue;
 				}
@@ -86,7 +86,7 @@ public class Queen extends Piece {
 			}
 			// northwest path
 			if (!SEBlocked && r + i <= 7 && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.getPiece(new Coordinate(r + i, c - i), this.getType()) != null) { //blocked by ally
 					SEBlocked = true;
 					continue;
 				}
