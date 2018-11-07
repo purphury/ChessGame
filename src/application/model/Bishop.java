@@ -32,16 +32,13 @@ public class Bishop extends Piece {
 				if(board.getPiece(new Coordinate(r + i, c - i), this.otherType()) != null)
 					SWBlocked = true;
 			}
-			//northwest path
+			//southeast path
 			if (!SEBlocked && r + i <= 7 && c + i <= 7) {
-				availCoords.add(new Coordinate(r + i, c - i));
-				if(board.getPiece(new Coordinate(r + i, c - i), this.otherType()) != null)
+				availCoords.add(new Coordinate(r + i, c + i));
+				if(board.getPiece(new Coordinate(r + i, c + i), this.otherType()) != null)
 					SEBlocked = true;
 			}
 		}
 		return availCoords;
-
 	}
-
-
 }

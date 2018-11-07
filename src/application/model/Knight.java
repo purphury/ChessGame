@@ -17,15 +17,15 @@ public class Knight extends Piece
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		
 		// two squares away horizontally and one square vertically		
-		assert !boundsChecker(r + 1, c + 2) : availCoords.add(new Coordinate(r + 1, c + 2));
-		assert !boundsChecker(r - 1, c + 2) : availCoords.add(new Coordinate(r - 1, c + 2));
-		assert !boundsChecker(r + 1, c - 2) : availCoords.add(new Coordinate(r + 1, c - 2));
-		assert !boundsChecker(r - 1, c - 2) : availCoords.add(new Coordinate(r - 1, c - 2));
+		if(boundsChecker(r + 1, c + 2)) availCoords.add(new Coordinate(r + 1, c + 2));
+		if(boundsChecker(r - 1, c + 2)) availCoords.add(new Coordinate(r - 1, c + 2));
+		if(boundsChecker(r + 1, c - 2)) availCoords.add(new Coordinate(r + 1, c - 2));
+		if(boundsChecker(r - 1, c - 2)) availCoords.add(new Coordinate(r - 1, c - 2));
 		//two squares vertically and one square horizontally
-		assert !boundsChecker(r + 2, c + 1) : availCoords.add(new Coordinate(r + 2, c + 1));
-		assert !boundsChecker(r + 2, c - 1) : availCoords.add(new Coordinate(r + 2, c - 1));
-		assert !boundsChecker(r - 2, c - 1) : availCoords.add(new Coordinate(r - 2, c - 1));
-		assert !boundsChecker(r - 2, c + 1) : availCoords.add(new Coordinate(r - 2, c + 1));
+		if(boundsChecker(r + 2, c + 1)) availCoords.add(new Coordinate(r + 2, c + 1));
+		if(boundsChecker(r + 2, c - 1)) availCoords.add(new Coordinate(r + 2, c - 1));
+		if(boundsChecker(r - 2, c - 1)) availCoords.add(new Coordinate(r - 2, c - 1));
+		if(boundsChecker(r - 2, c + 1)) availCoords.add(new Coordinate(r - 2, c + 1));
 		
 		return availCoords;
 	}
