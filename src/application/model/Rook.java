@@ -28,32 +28,32 @@ public class Rook extends Piece
 			//east path
 			if (!EBlocked && c + i <= 7) {
 				if(board.getPiece(new Coordinate(r, c + i), this.getType()) != null) { //blocked by ally
-					NBlocked = true;
+					EBlocked = true;
 					continue;
 				}
 				availCoords.add(new Coordinate(r, c + i));
 				if(board.getPiece(new Coordinate(r, c + i), this.otherType()) != null)
-					NBlocked = true;
+					EBlocked = true;
 			}
 			//south path
 			if (!SBlocked && r + i <= 7) {
 				if(board.getPiece(new Coordinate(r + i, c), this.getType()) != null) { //blocked by ally
-					NBlocked = true;
+					SBlocked = true;
 					continue;
 				}
 				availCoords.add(new Coordinate(r + i, c));
 				if(board.getPiece(new Coordinate(r + i, c), this.otherType()) != null)
-					NBlocked = true;
+					SBlocked = true;
 			}
 			//west path
 			if (!WBlocked && c - i >= 0) {
 				if(board.getPiece(new Coordinate(r, c - i), this.getType()) != null) { //blocked by ally
-					NBlocked = true;
+					WBlocked = true;
 					continue;
 				}
 				availCoords.add(new Coordinate(r, c - i));
 				if(board.getPiece(new Coordinate(r, c - i), this.otherType()) != null)
-					NBlocked = true;
+					WBlocked = true;
 			}
 		}
 		return availCoords;
