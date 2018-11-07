@@ -31,4 +31,11 @@ public abstract class Piece
 	public void setHasMoved(boolean hasMoved) {
 		this.hasMoved = hasMoved;
 	}
+
+	protected boolean boundsChecker(int num) {
+		return num >= 0 && num <= 7;
+	}
+	protected boolean boundsChecker(int num1, int num2) {
+		return (num1 >= 0 && num1 <= 7 && num2 >= 0 && num2 <= 7);
+	}
 }

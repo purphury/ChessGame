@@ -22,8 +22,8 @@ public class Bishop extends Piece {
 			}
 			//northeast path
 			if (!NEBlocked && r - i >= 0 && c + i <= 7) {
-				availCoords.add(new Coordinate(r, c + i));
-				if(board.getPiece(new Coordinate(r, c + i), this.otherType()) != null)
+				availCoords.add(new Coordinate(r - i, c + i));
+				if(board.getPiece(new Coordinate(r - i, c + i), this.otherType()) != null)
 					NEBlocked = true;
 			}
 			//southwest path
