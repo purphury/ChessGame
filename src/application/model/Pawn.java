@@ -34,10 +34,10 @@ public class Pawn extends Piece
 		//if pawn is not in starting position//
 		else {
 			//color is white//
-			if(this.getType() == Type.WHITE && board.getPiece(new Coordinate(r - 1, c), this.otherType()) == null && r - 1 >= 0) 
+			if(r - 1 >= 0 && this.getType() == Type.WHITE && board.getPiece(new Coordinate(r - 1, c), this.otherType()) == null)
 				availCoords.add(new Coordinate(r - 1, c));
 			//color is black//
-			else if(board.getPiece(new Coordinate(r + 1, c), this.otherType()) == null && r + 1 <= 7)
+			else if(r + 1 <= 7 && board.getPiece(new Coordinate(r + 1, c), this.otherType()) == null)
 				availCoords.add(new Coordinate(r + 1, c));
 		}
 		//Color is white; these are coordinates to attack diagonal pieces//
