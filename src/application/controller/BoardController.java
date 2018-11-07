@@ -66,11 +66,12 @@ public class BoardController {
 			clickedPieceCoordinate = findCoordinate(boardFX, event);
 			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, boardModel.getTurn());
 			Pane p = (Pane) event.getSource();
-			if(p.getChildren() != null && clickPiece != null) 
+			if(p.getChildren() != null && clickPiece != null) {
 				clickedPiece = (ImageView) p.getChildren().get(0);
 				System.out.println("Coords: " + boardModel.getMoves(clickedPieceCoordinate));
 			}
 		}
+	}
 	/*
 	public void addDots(){
 		for(Coordinate c : availableMoves){
