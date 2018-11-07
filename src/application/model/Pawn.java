@@ -22,13 +22,17 @@ public class Pawn extends Piece
 			//color is white//
 			if(this.getType() == Type.WHITE) 
 			{
-				availCoords.add(new Coordinate(r - 1, c));
-				availCoords.add(new Coordinate(r - 2, c));
+				if(r - 1 >= 0 && this.getType() == Type.WHITE && board.getPiece(new Coordinate(r - 1, c), this.otherType()) == null)
+					availCoords.add(new Coordinate(r - 1, c));
+				if(r - 2 >= 0 && this.getType() == Type.WHITE && board.getPiece(new Coordinate(r - 1, c), this.otherType()) == null) 
+					availCoords.add(new Coordinate(r - 2, c));
 			}
 			//color is black//
 			else {
-				availCoords.add(new Coordinate(r + 1, c));
-				availCoords.add(new Coordinate(r + 2, c));
+				if(r + 1 <= 7 && board.getPiece(new Coordinate(r + 1, c), this.otherType()) == null)
+					availCoords.add(new Coordinate(r + 1, c));
+				if(r + 2 <= 7 && board.getPiece(new Coordinate(r + 1, c), this.otherType()) == null)
+					availCoords.add(new Coordinate(r + 2, c));
 			}
 		} 
 		//if pawn is not in starting position//
