@@ -91,6 +91,9 @@ public class Board {
 		return null;
 	}
 
+	public Piece getPiece(Coordinate coord) {
+		return board[coord.getRowIndex()][coord.getColumnIndex()];
+	}
 	
 	public boolean isGettable(Coordinate coord) {
 		Piece piece = board[coord.getRowIndex()][coord.getColumnIndex()];
