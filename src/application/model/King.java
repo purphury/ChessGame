@@ -20,21 +20,21 @@ public class King extends Piece
 //				availCoords.add(new Coordinate(possCoord[0], possCoord[1]));
 //		}	
 		
-		if (r - 1 >= 0 && board.getPiece(new Coordinate(r-1, c), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
+		if (r - 1 >= 0 && board.getPiece(new Coordinate(r - 1, c), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c), this.otherType()) != null) 
 			availCoords.add(new Coordinate(r - 1, c));
-		if (c + 1 <= 7 && board.getPiece(new Coordinate(r, c+1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
+		if (c + 1 <= 7 && board.getPiece(new Coordinate(r, c + 1), this.getType()) == null || board.getPiece(new Coordinate(r, c + 1), this.otherType()) != null) 
 			availCoords.add(new Coordinate(r, c + 1));
-		if (r + 1 <= 7 && board.getPiece(new Coordinate(r, c+1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
+		if (r + 1 <= 7 && board.getPiece(new Coordinate(r, c + 1), this.getType()) == null || board.getPiece(new Coordinate(r + 1, c), this.otherType()) != null) 
 			availCoords.add(new Coordinate(r + 1, c));
-		if (c - 1 >= 0 && board.getPiece(new Coordinate(r, c+1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
+		if (c - 1 >= 0 && board.getPiece(new Coordinate(r, c + 1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
 			availCoords.add(new Coordinate(r, c - 1));
-		if (r - 1 >= 0 && c - 1 >= 0 && board.getPiece(new Coordinate(r, c+1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
+		if (r - 1 >= 0 && c - 1 >= 0 && board.getPiece(new Coordinate(r, c + 1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
 			availCoords.add(new Coordinate(r - 1, c - 1));
-		if (r - 1 >= 0 && c + 1 <= 7 && board.getPiece(new Coordinate(r, c+1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
+		if (r - 1 >= 0 && c + 1 <= 7 && board.getPiece(new Coordinate(r, c + 1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
 			availCoords.add(new Coordinate(r, c + 1));
-		if (r + 1 <= 7 && c - 1 >= 0 && board.getPiece(new Coordinate(r, c+1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
+		if (r + 1 <= 7 && c - 1 >= 0 && board.getPiece(new Coordinate(r, c + 1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
 			availCoords.add(new Coordinate(r + 1, c - 1));
-		if (r + 1 <= 7 && c + 1 <= 7 && board.getPiece(new Coordinate(r, c+1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
+		if (r + 1 <= 7 && c + 1 <= 7 && board.getPiece(new Coordinate(r, c + 1), this.getType()) == null || board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null) 
 			availCoords.add(new Coordinate(r + 1, c - 1));
 		
 		return availCoords;
