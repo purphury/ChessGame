@@ -3,7 +3,10 @@ package application.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.omg.CORBA.TRANSACTION_UNAVAILABLE;
+
 import application.model.Board;
+import application.model.Board.Type;
 import application.model.Coordinate;
 import application.model.Piece;
 import javafx.collections.ObservableList;
@@ -26,12 +29,16 @@ public class BoardController {
 
 	@FXML
 	private Label blackNameLabel;
+	
+	@FXML
+	private Label turnLabel;
 
 	@FXML
 	private GridPane boardFX;
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
 		//TODO: check if a pane has been clicked && if a piece has been clicked, then move the piece//
+		turnLabelAppearance();
 		if(clickedPiece != null && event.getSource() instanceof Pane) {
 			Coordinate c = findCoordinate(boardFX, event);
 			Pane clickedPane = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), c.getColumnIndex(), boardFX);
@@ -186,17 +193,39 @@ public class BoardController {
 		}
 		return result;
 	}
+	
+	//this will change the turn label
+	
 
+	public void turnLabelAppearance() {
+		Type turn = boardModel.getTurn();
+		if (turn.equals(Type.WHITE)) {
+			turnLabel.setText(whiteNameLabel.getText() + "'s turn");
+		}
+		else if (turn.equals(Type.BLACK)) {
+			turnLabel.setText(blackNameLabel.getText() + "'s turn");
+		}
+		//if someone wants to fix the line bellow then be my guest
+		
+		//boardModel.getTurn().equals(Type.WHITE) ? name = whiteNameLabel.getText() : name = blackNameLabel.getText();
+		
+
+		
+		
+	}
 
 	@FXML
 	void initialize() {
 		assert whiteNameLabel != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert blackNameLabel != null : "fx:id=\"blackName\" was not injected: check your FXML file 'Board.fxml'.";
+		assert turnLabel != null : "fx:id=\"turnName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert boardFX != null : "fx:id=\"boardFX\" was not injected: check your FXML file 'Board.fxml'.";
 		//	boardModel = new Board();
 		String blackNameString = StartScreenController.names.get(1), whiteNameString = StartScreenController.names.get(0);
 		this.blackNameLabel.setText(blackNameString);
 		this.whiteNameLabel.setText(whiteNameString);
+		String whiteTurn = whiteNameString + "'s turn";
+		turnLabel.setText(whiteTurn);
 		boardModel = new Board(whiteNameString, blackNameString);
 		clickedPiece = null;
 		availableMoves = new ArrayList<Coordinate>();

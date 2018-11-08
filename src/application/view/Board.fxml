@@ -323,12 +323,12 @@
                </children></Pane>
          </children>
       </GridPane>
-      <Label fx:id="blackNameLabel" layoutX="680.0" layoutY="21.0" text="name">
+      <Label fx:id="blackNameLabel" layoutX="689.0" layoutY="22.0" text="name">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Label fx:id="whiteNameLabel" layoutX="688.0" layoutY="385.0" text="name">
+      <Label fx:id="whiteNameLabel" layoutX="689.0" layoutY="614.0" text="name">
          <font>
             <Font size="25.0" />
          </font>
@@ -365,5 +365,10 @@
       <Label layoutX="631.0" layoutY="514.0" text="H" />
       <Label layoutX="631.0" layoutY="587.0" text="I" />
       <Label layoutX="17.0" layoutY="587.0" text="I" />
+      <Label fx:id="turnLabel" layoutX="663.0" layoutY="314.0" text="turn">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

@@ -2,6 +2,8 @@ package application.model;
 
 import java.util.ArrayList;
 
+import application.controller.BoardController;
+
 public class Board {
 	private String whiteName;
 	private String blackName;
@@ -232,5 +234,6 @@ public class Board {
 	}
 	public void changeTurn() {
 		turn = turn == Type.BLACK ? Type.WHITE : Type.BLACK;
+		
 	}
 }
