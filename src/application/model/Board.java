@@ -11,12 +11,6 @@ public class Board {
 	}
 	private Type turn;
 	private Piece[][] board;
-	//	private Rook bRook1, bRook2, wRook1, wRook2;
-	//	private Knight bKnight1, bKnight2, wKnight1, wKnight2;
-	//	private Bishop bBishop1, bBishop2, wBishop1, wBishop2;
-	//	private Queen bQueen, wQueen;
-	//	private King bKing, wKing;
-	//	private Pawn bPawn1, bPawn2, bPawn3, bPawn4, bPawn5, bPawn6, bPawn7, bPawn8, wPawn1, wPawn2, wPawn3, wPawn4, wPawn5, wPawn6, wPawn7, wPawn8; 
 
 	public Board(String whiteName, String blackName) {
 		this.whiteName = whiteName;
@@ -48,35 +42,27 @@ public class Board {
 		board[0][4] = new King(Type.BLACK);
 		board[7][4] = new King(Type.WHITE);
 	}
-
 	public String getWhiteName() {
 		return whiteName;
 	}
-
 	public void setWhiteName(String whiteName) {
 		this.whiteName = whiteName;
 	}
-
 	public String getBlackName() {
 		return blackName;
 	}
-
 	public void setBlackName(String blackName) {
 		this.blackName = blackName;
 	}
-
 	public Type getTurn() {
 		return turn;
 	}
-
 	public void setTurn(Type turn) {
 		this.turn = turn;
 	}
-
 	public Piece[][] getBoard() {
 		return board;
 	}
-
 	public void setBoard(Piece[][] board) {
 		this.board = board;
 	}
@@ -225,7 +211,7 @@ public class Board {
 		if(this.board[r][c] != null)
 			return this.board[r][c].getAvailableMovements(r, c, this);
 		else
-			return null;
+			return new ArrayList<Coordinate>();
 	}
 	public void changeTurn() {
 		turn = turn == Type.BLACK ? Type.WHITE : Type.BLACK;
