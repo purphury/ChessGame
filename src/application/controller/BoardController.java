@@ -3,8 +3,6 @@ package application.controller;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.omg.CORBA.TRANSACTION_UNAVAILABLE;
-
 import application.model.Board;
 import application.model.Board.Type;
 import application.model.Coordinate;

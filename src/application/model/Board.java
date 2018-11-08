@@ -2,8 +2,6 @@ package application.model;
 
 import java.util.ArrayList;
 
-import application.controller.BoardController;
-
 public class Board {
 	private String whiteName;
 	private String blackName;
