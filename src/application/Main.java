@@ -1,5 +1,9 @@
 package application;
 	
+import java.util.ArrayList;
+
+import application.model.Board;
+import application.model.Coordinate;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;

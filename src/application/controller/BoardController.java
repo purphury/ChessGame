@@ -1,5 +1,6 @@
 package application.controller;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import application.model.Board;
@@ -13,11 +14,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 public class BoardController {
 	private ImageView clickedPiece;
 	private Coordinate clickedPieceCoordinate;
 	private Board boardModel;
+	private ArrayList<Coordinate> availableMoves;
 	@FXML
 	private Label whiteNameLabel;
 
@@ -32,9 +35,12 @@ public class BoardController {
 		if(clickedPiece != null && event.getSource() instanceof Pane) {
 			Coordinate c = findCoordinate(boardFX, event);
 			Pane clickedPane = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), c.getColumnIndex(), boardFX);
-			if(clickedPane.getChildren().size() == 0) {
+			if(clickedPane.getChildren().size() != 0 
+					&& clickedPane.getChildren().get(0) instanceof Circle ) {
 				//Check if the piece can be moved at all//
 				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
+					removeDots(c);
+					availableMoves =null;
 					boardFX.getChildren().remove(clickedPiece);
 					clickedPane.getChildren().add(clickedPiece);
 					
@@ -49,13 +55,16 @@ public class BoardController {
 					clickedPane.getChildren().remove(enemyPiece);
 					boardFX.getChildren().remove(clickedPiece);
 					clickedPane.getChildren().add(clickedPiece);
-					
+					removeDots(c);
+					availableMoves = null;
 					clickedPiece = null;
 					clickedPieceCoordinate = null;
 				}
 			}
 			//if the pane is clicked again, the piece is unselected//
 			else if(clickedPieceCoordinate.equals(c)) {
+				removeDots(c);
+				availableMoves = null;
 				clickedPiece = null;
 				clickedPieceCoordinate = null;
 			}
@@ -68,35 +77,74 @@ public class BoardController {
 			Pane p = (Pane) event.getSource();
 			if(p.getChildren() != null && clickPiece != null) {
 				clickedPiece = (ImageView) p.getChildren().get(0);
+				availableMoves = boardModel.getMoves(clickedPieceCoordinate);
+				addDots(clickedPieceCoordinate);
 				System.out.println("Coords: " + boardModel.getMoves(clickedPieceCoordinate));
 			}
 		}
 	}
-	/*
-	public void addDots(){
+	
+	public void addDots(Coordinate b){
+		Pane pane2 = (Pane)getNodeByRowColumnIndex(b.getRowIndex()
+				, b.getColumnIndex(), boardFX);
+		pane2.setStyle("-fx-background-color: #F9A602;");		
 		for(Coordinate c : availableMoves){
+			Pane pane = (Pane)getNodeByRowColumnIndex(c.getRowIndex()
+					, c.getColumnIndex(), boardFX);
 			if(!boardModel.hasPiece(c)){
 				Circle circle = new Circle(37.0,37.0,10.0);
-				Pane pane = (Pane)getNodeByRowColumnIndex(c.getRowIndex()
-												, c.getColumnIndex(), boardFX);
 				pane.getChildren().add(circle);
 			}
-		}
-	}*/
-
-	/*
-	public void removeDots(){
-
-		for(Coordinate c : availableMoves){
-			if(!hasPiece(c)){
-				Pane pane = (Pane)getNodeByRowColumnIndex(c.getRowIndex()
-												, c.getColumnIndex(), boardFX);
-				pane.getChildren().remove(0);
+			else {
+				pane.setStyle("-fx-background-color: #FF0000;");
 			}
+
 		}
 	}
-	 */
 
+	
+	public void removeDots(Coordinate d){
+		changeToOriginalColor((Pane) clickedPiece.getParent());
+		for(Coordinate c : availableMoves){
+			Pane pane = (Pane)getNodeByRowColumnIndex(c.getRowIndex()
+					, c.getColumnIndex(), boardFX);			
+			if(!boardModel.hasPiece(c) || c.equals(d)){
+
+				
+				if(pane.getChildren().get(0) instanceof Circle)
+					pane.getChildren().remove(0);				
+			}
+			else
+				changeToOriginalColor(pane);
+		}
+	}
+	
+	public void changeToOriginalColor(Pane pane) {
+		Coordinate a = findCoordinateWithPane(boardFX, pane);
+
+
+		if(((a.getColumnIndex()+a.getRowIndex()) % 2) == 1)
+			pane.setStyle("-fx-background-color:  #595756;");
+		else
+			pane.setStyle("-fx-background-color:  white;");
+	}
+	 
+	private static Coordinate findCoordinateWithPane(GridPane boardFX, Pane pane) {
+		Coordinate a = new Coordinate();
+		Node source = pane;
+		if (GridPane.getRowIndex(source) != null)
+			a.setRowIndex(GridPane.getRowIndex(source));
+		else
+			a.setRowIndex(0);
+		if (GridPane.getColumnIndex(source) != null)
+			a.setColumnIndex(GridPane.getColumnIndex(source));
+		else
+			a.setColumnIndex(0);
+
+		return a;
+	}
+
+	
 	private static Coordinate findCoordinate(GridPane boardFX, MouseEvent event) {
 		Coordinate a = new Coordinate();
 		Node source;
@@ -152,6 +200,7 @@ public class BoardController {
 		this.whiteNameLabel.setText(whiteNameString);
 		boardModel = new Board(whiteNameString, blackNameString);
 		clickedPiece = null;
+		availableMoves = new ArrayList<Coordinate>();
 	}
 
 }

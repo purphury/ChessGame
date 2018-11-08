@@ -29,5 +29,7 @@ public class Knight extends Piece
 		
 		return availCoords;
 	}
-
+	public String toString() {
+		return "k";
+	}
 }
