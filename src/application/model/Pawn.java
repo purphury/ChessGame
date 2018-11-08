@@ -1,4 +1,4 @@
- package application.model;
+package application.model;
 
 import java.util.ArrayList;
 
@@ -7,19 +7,17 @@ import application.model.Board.Type;
 public class Pawn extends Piece
 {
 	private int startR, startC;
-	public Pawn(int r, int c, Type color)
-	{
+	public Pawn(int r, int c, Type color) {
 		super(color);
 		startR = r;
 		startC = c;
 	}
-	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board)
-	{
+	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		//If pawn is in starting position//
-		if(startR == r && startC == c) 
-		{
+		if(startR == r && startC == c) {
 			//color is white//
+
 			if(this.getType() == Type.WHITE) 
 			{
 				System.out.println("row: "+r+"column: "+c);
@@ -41,6 +39,7 @@ public class Pawn extends Piece
 			//color is white//
 			if(r - 1 >= 0 && this.getType() == Type.WHITE && !board.hasPiece(new Coordinate(r - 1, c))){
 					//&& board.getPiece(new Coordinate(r - 1, c)).getType() != this.otherType())
+
 				availCoords.add(new Coordinate(r - 1, c));
 			}
 			//color is black//
@@ -60,20 +59,23 @@ public class Pawn extends Piece
 					availCoords.add(new Coordinate(r - 1, c + 1));
 			}
 		
+
 		//Color is black; these are coordinates to attack diagonal pieces//
 		else {
+
 			if(r + 1 <= 7 && c - 1 >= 0 && board.hasPiece(new Coordinate(r + 1, c - 1))
 					&& board.getPiece(new Coordinate(r + 1, c - 1)).getType() == this.otherType()) 
 				availCoords.add(new Coordinate(r + 1, c - 1));
+
 			if(r + 1 <= 7 && c + 1 <= 7 && board.hasPiece(new Coordinate(r + 1, c + 1))
 					&& board.getPiece(new Coordinate(r + 1, c + 1)).getType() ==this.otherType())
 				availCoords.add(new Coordinate(r + 1, c + 1));
 		}
-		
+
 		return availCoords;
 	}
 	public String toString() {
 		return "P";
 	}
-	
+
 }
