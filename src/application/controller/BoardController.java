@@ -51,11 +51,12 @@ public class BoardController {
 			//if there is a piece on the pane that was clicked, kill the piece and move there//
 			else if(!clickedPieceCoordinate.equals(c)) {
 				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
+					removeDots(c);
 					ImageView enemyPiece = (ImageView) clickedPane.getChildren().get(0);
 					clickedPane.getChildren().remove(enemyPiece);
 					boardFX.getChildren().remove(clickedPiece);
 					clickedPane.getChildren().add(clickedPiece);
-					removeDots(c);
+
 					availableMoves = null;
 					clickedPiece = null;
 					clickedPieceCoordinate = null;
@@ -70,7 +71,7 @@ public class BoardController {
 			}
 		}
 		//TODO: if an image (piece) has been clicked, then clickedPiece will not be null//
-		else if(event.getSource() instanceof Pane) {
+		else if(event.getSource() instanceof Pane&& clickedPiece == null) {
 			System.out.println(boardModel.getTurn());
 			clickedPieceCoordinate = findCoordinate(boardFX, event);
 			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, boardModel.getTurn());
@@ -109,8 +110,7 @@ public class BoardController {
 			Pane pane = (Pane)getNodeByRowColumnIndex(c.getRowIndex()
 					, c.getColumnIndex(), boardFX);			
 			if(!boardModel.hasPiece(c) || c.equals(d)){
-
-				
+				changeToOriginalColor(pane);			
 				if(pane.getChildren().get(0) instanceof Circle)
 					pane.getChildren().remove(0);				
 			}
@@ -121,7 +121,6 @@ public class BoardController {
 	
 	public void changeToOriginalColor(Pane pane) {
 		Coordinate a = findCoordinateWithPane(boardFX, pane);
-
 
 		if(((a.getColumnIndex()+a.getRowIndex()) % 2) == 1)
 			pane.setStyle("-fx-background-color:  #595756;");

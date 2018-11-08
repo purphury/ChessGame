@@ -39,25 +39,34 @@ public class Pawn extends Piece
 		//if pawn is not in starting position//
 		else {
 			//color is white//
-			if(r - 1 >= 0 && this.getType() == Type.WHITE && board.getPiece(new Coordinate(r - 1, c)).getType() != this.otherType())
+			if(r - 1 >= 0 && this.getType() == Type.WHITE && !board.hasPiece(new Coordinate(r - 1, c))){
+					//&& board.getPiece(new Coordinate(r - 1, c)).getType() != this.otherType())
 				availCoords.add(new Coordinate(r - 1, c));
+			}
 			//color is black//
-			else if(r + 1 <= 7 && this.getType() == Type.BLACK && board.getPiece(new Coordinate(r + 1, c)).getType() != this.otherType())
+			else if(r + 1 <= 7 && this.getType() == Type.BLACK && !board.hasPiece(new Coordinate(r + 1, c))) {
+					//&& board.getPiece(new Coordinate(r + 1, c)).getType() != this.otherType())
 				availCoords.add(new Coordinate(r + 1, c));
+			}
 		}
 		//Color is white; these are coordinates to attack diagonal pieces//
 		if(this.getType() == Type.WHITE) {
-			//TODO: THIS LINE MESSED UP//
-			if(r - 1 >= 0 && c - 1 >= 0 && board.getPiece(new Coordinate(r - 1, c - 1), this.otherType()) != null)
-				availCoords.add(new Coordinate(r - 1, c - 1));
-			if(r - 1 >= 0 && c + 1 <= 7 && board.getPiece(new Coordinate(r - 1, c + 1), this.otherType()) != null)
-				availCoords.add(new Coordinate(r - 1, c + 1));
-		}
+			if(r - 1 >= 0 && c - 1 >= 0 && board.hasPiece(new Coordinate(r - 1, c - 1))
+						&&board.getPiece(new Coordinate(r - 1, c - 1)).getType() == this.otherType())
+					availCoords.add(new Coordinate(r - 1, c - 1));
+			
+			if(r - 1 >= 0 && c + 1 <= 7 && board.hasPiece(new Coordinate(r - 1, c + 1))
+						&& board.getPiece(new Coordinate(r - 1, c + 1)).getType() == this.otherType())
+					availCoords.add(new Coordinate(r - 1, c + 1));
+			}
+		
 		//Color is black; these are coordinates to attack diagonal pieces//
 		else {
-			if(r + 1 <= 7 && c - 1 >= 0 && board.getPiece(new Coordinate(r + 1, c - 1), this.otherType()) != null)
+			if(r + 1 <= 7 && c - 1 >= 0 && board.hasPiece(new Coordinate(r + 1, c - 1))
+					&& board.getPiece(new Coordinate(r + 1, c - 1)).getType() == this.otherType()) 
 				availCoords.add(new Coordinate(r + 1, c - 1));
-			if(r + 1 <= 7 && c + 1 <= 7 && board.getPiece(new Coordinate(r + 1, c + 1), this.otherType()) != null)
+			if(r + 1 <= 7 && c + 1 <= 7 && board.hasPiece(new Coordinate(r + 1, c + 1))
+					&& board.getPiece(new Coordinate(r + 1, c + 1)).getType() ==this.otherType())
 				availCoords.add(new Coordinate(r + 1, c + 1));
 		}
 		
