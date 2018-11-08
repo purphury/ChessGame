@@ -46,6 +46,7 @@ public class BoardController {
 				//Check if the piece can be moved at all//
 				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
 					removeDots(c);
+					turnLabelAppearance();
 					availableMoves =null;
 					boardFX.getChildren().remove(clickedPiece);
 					clickedPane.getChildren().add(clickedPiece);
@@ -58,6 +59,7 @@ public class BoardController {
 			else if(!clickedPieceCoordinate.equals(c)) {
 				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
 					removeDots(c);
+					turnLabelAppearance();
 					ImageView enemyPiece = (ImageView) clickedPane.getChildren().get(0);
 					clickedPane.getChildren().remove(enemyPiece);
 					boardFX.getChildren().remove(clickedPiece);
@@ -219,7 +221,6 @@ public class BoardController {
 		assert blackNameLabel != null : "fx:id=\"blackName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert turnLabel != null : "fx:id=\"turnName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert boardFX != null : "fx:id=\"boardFX\" was not injected: check your FXML file 'Board.fxml'.";
-		//	boardModel = new Board();
 		String blackNameString = StartScreenController.names.get(1), whiteNameString = StartScreenController.names.get(0);
 		this.blackNameLabel.setText(blackNameString);
 		this.whiteNameLabel.setText(whiteNameString);

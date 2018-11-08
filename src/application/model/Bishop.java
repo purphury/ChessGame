@@ -17,46 +17,54 @@ public class Bishop extends Piece {
 			//northwest path
 			if (!NWBlocked && r - i >= 0 && c - i >= 0) {
 				//System.out.println(board.getPiece(new Coordinate(r - i, c - i), this.getType()));
-				if(board.getPiece(new Coordinate(r - i, c - i), this.getType()) != null) { //blocked by ally
+				if(board.hasPiece(new Coordinate(r - i, c - i))) {
 					NWBlocked = true;
-					continue;
+					if(board.getPiece(new Coordinate(r - i, c - i)).getType() == this.otherType()) {
+						availCoords.add(new Coordinate(r - i, c - i));
+						continue;
+					}						
 				}
-				availCoords.add(new Coordinate(r - i, c - i));
-				if(board.getPiece(new Coordinate(r - i, c - i), this.otherType()) != null)
-					NWBlocked = true;
+				else
+					availCoords.add(new Coordinate(r - i, c - i));				
 			}
 		} for (int i = 1; i < 8 ; i++) {
 			//northeast path
 			if (!NEBlocked && r - i >= 0 && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r - i, c + i), this.getType()) != null) { //blocked by ally
+				if(board.hasPiece(new Coordinate(r - i, c + i))) {
 					NEBlocked = true;
-					continue;
+					if(board.getPiece(new Coordinate(r - i, c + i)).getType() == this.otherType()) {
+						availCoords.add(new Coordinate(r - i, c + i));
+						continue;
+					}						
 				}
-				availCoords.add(new Coordinate(r - i, c + i));
-				if(board.getPiece(new Coordinate(r - i, c + i), this.otherType()) != null)
-					NEBlocked = true;
+				else
+					availCoords.add(new Coordinate(r - i, c + i));
 			}
 		} for (int i = 1; i < 8 ; i++) {
 			//southwest path
 			if (!SWBlocked && r + i <= 7 && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r + i, c - i), this.getType()) != null) { //blocked by ally
+				if(board.hasPiece(new Coordinate(r + i, c - i))) {
 					SWBlocked = true;
-					continue;
+					if(board.getPiece(new Coordinate(r + i, c - i)).getType() == this.otherType()) {
+						availCoords.add(new Coordinate(r + i, c - i));
+						continue;
+					}						
 				}
-				availCoords.add(new Coordinate(r + i, c - i));
-				if(board.getPiece(new Coordinate(r + i, c - i), this.otherType()) != null)
-					SWBlocked = true;
+				else
+					availCoords.add(new Coordinate(r + i, c - i));
 			}
 		} for (int i = 1; i < 8 ; i++) {
 			//southeast path
 			if (!SEBlocked && r + i <= 7 && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r + i, c + i), this.getType()) != null) { //blocked by ally
+				if(board.hasPiece(new Coordinate(r +i, c + i))) {
 					SEBlocked = true;
-					continue;
+					if(board.getPiece(new Coordinate(r + i, c + i)).getType() == this.otherType()) {
+						availCoords.add(new Coordinate(r + i, c + i));
+						continue;
+					}						
 				}
-				availCoords.add(new Coordinate(r + i, c + i));
-				if(board.getPiece(new Coordinate(r + i, c + i), this.otherType()) != null)
-					SEBlocked = true;
+				else
+					availCoords.add(new Coordinate(r + i, c + i));
 			}
 		}
 		return availCoords;
