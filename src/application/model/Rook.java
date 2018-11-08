@@ -61,4 +61,7 @@ public class Rook extends Piece
 		}
 		return availCoords;
 	}
+	public String toString() {
+		return "R";
+	}
 }

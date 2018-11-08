@@ -61,4 +61,7 @@ public class Bishop extends Piece {
 		}
 		return availCoords;
 	}
+	public String toString() {
+		return "B";
+	}
 }

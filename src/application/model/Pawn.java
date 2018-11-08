@@ -62,6 +62,8 @@ public class Pawn extends Piece
 		
 		return availCoords;
 	}
-	
+	public String toString() {
+		return "P";
+	}
 	
 }

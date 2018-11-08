@@ -104,4 +104,7 @@ public class Queen extends Piece {
 		}
 	return availCoords;
 }
+	public String toString() {
+		return "Q";
+	}
 }

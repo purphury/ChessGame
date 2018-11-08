@@ -38,4 +38,8 @@ public class King extends Piece
 		
 		return availCoords;
 	}
+	
+	public String toString() {
+		return "K";
+	}
 }
