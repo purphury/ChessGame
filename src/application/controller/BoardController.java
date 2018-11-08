@@ -18,7 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
 public class BoardController {
-	private ImageView clickedPiece;
+	private ImageView allyPiece;
 	private Coordinate clickedPieceCoordinate;
 	private Board boardModel;
 	private ArrayList<Coordinate> availableMoves;
@@ -35,36 +35,38 @@ public class BoardController {
 	private GridPane boardFX;
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
-		//TODO: check if a pane has been clicked && if a piece has been clicked, then move the piece//
-		if(clickedPiece != null && event.getSource() instanceof Pane) {
+		//check if a pane has been clicked && if a piece has been clicked, then move the piece//
+		if(allyPiece != null && event.getSource() instanceof Pane) {
 			Coordinate c = findCoordinate(boardFX, event);
 			Pane clickedPane = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), c.getColumnIndex(), boardFX);
+			//Make sure that the area clicked does not have a piece on it because there is a circle//
 			if(clickedPane.getChildren().size() != 0 
 					&& clickedPane.getChildren().get(0) instanceof Circle ) {
 				//Check if the piece can be moved at all//
 				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
 					removeDots(c);
 					turnLabelAppearance();
-					availableMoves =null;
-					boardFX.getChildren().remove(clickedPiece);
-					clickedPane.getChildren().add(clickedPiece);
+					availableMoves = null;
+					boardFX.getChildren().remove(allyPiece);
+					clickedPane.getChildren().add(allyPiece);
 					
-					clickedPiece = null;
+					allyPiece = null;
 					clickedPieceCoordinate = null;
 				}
 			}
 			//if there is a piece on the pane that was clicked, kill the piece and move there//
 			else if(!clickedPieceCoordinate.equals(c)) {
+				//Check if the piece can actually be moved to the location clicked//
 				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
 					removeDots(c);
 					turnLabelAppearance();
 					ImageView enemyPiece = (ImageView) clickedPane.getChildren().get(0);
 					clickedPane.getChildren().remove(enemyPiece);
-					boardFX.getChildren().remove(clickedPiece);
-					clickedPane.getChildren().add(clickedPiece);
+					boardFX.getChildren().remove(allyPiece);
+					clickedPane.getChildren().add(allyPiece);
 
 					availableMoves = null;
-					clickedPiece = null;
+					allyPiece = null;
 					clickedPieceCoordinate = null;
 				}
 			}
@@ -72,18 +74,18 @@ public class BoardController {
 			else if(clickedPieceCoordinate.equals(c)) {
 				removeDots(c);
 				availableMoves = null;
-				clickedPiece = null;
+				allyPiece = null;
 				clickedPieceCoordinate = null;
 			}
 		}
-		//TODO: if an image (piece) has been clicked, then clickedPiece will not be null//
-		else if(event.getSource() instanceof Pane&& clickedPiece == null) {
+		//if an image (piece) has been clicked, then clickedPiece will not be null//
+		else if(event.getSource() instanceof Pane&& allyPiece == null) {
 			System.out.println(boardModel.getTurn());
 			clickedPieceCoordinate = findCoordinate(boardFX, event);
 			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, boardModel.getTurn());
 			Pane p = (Pane) event.getSource();
 			if(p.getChildren() != null && clickPiece != null) {
-				clickedPiece = (ImageView) p.getChildren().get(0);
+				allyPiece = (ImageView) p.getChildren().get(0);
 				availableMoves = boardModel.getMoves(clickedPieceCoordinate);
 				addDots(clickedPieceCoordinate);
 				System.out.println("Coords: " + boardModel.getMoves(clickedPieceCoordinate));
@@ -111,7 +113,7 @@ public class BoardController {
 
 	
 	public void removeDots(Coordinate d){
-		changeToOriginalColor((Pane) clickedPiece.getParent());
+		changeToOriginalColor((Pane) allyPiece.getParent());
 		for(Coordinate c : availableMoves){
 			Pane pane = (Pane)getNodeByRowColumnIndex(c.getRowIndex()
 					, c.getColumnIndex(), boardFX);			
@@ -225,7 +227,7 @@ public class BoardController {
 		String whiteTurn = whiteNameString + "'s turn";
 		turnLabel.setText(whiteTurn);
 		boardModel = new Board(whiteNameString, blackNameString);
-		clickedPiece = null;
+		allyPiece = null;
 		availableMoves = new ArrayList<Coordinate>();
 	}
 
