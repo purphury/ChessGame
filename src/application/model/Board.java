@@ -90,6 +90,15 @@ public class Board {
 			return isGettable(coord) ? board[coord.getRowIndex()][coord.getColumnIndex()] : null;
 		return null;
 	}
+	/**
+	 * @param r row
+	 * @param c column
+	 * @param turn
+	 * @return piece at that location
+	 */
+	public Piece getPiece(int r, int c, Type turn) {
+		return getPiece(new Coordinate(r, c), turn);
+	}
 
 	
 	public boolean isGettable(Coordinate coord) {
