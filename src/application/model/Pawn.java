@@ -24,9 +24,9 @@ public class Pawn extends Piece {
 		}
 		// color is black//
 		if (this.getType() == Type.BLACK ) {
-			addMovement(availCoords,r + 1, c, board, IsAttack.NO);
-			addMovement(availCoords,r + 1, c - 1, board, IsAttack.YES);		
-			addMovement(availCoords,r + 1, c + 1, board, IsAttack.YES);
+			addMovement(availCoords, r + 1, c, board, IsAttack.NO);
+			addMovement(availCoords, r + 1, c - 1, board, IsAttack.YES);		
+			addMovement(availCoords, r + 1, c + 1, board, IsAttack.YES);
 		}			
 		// if pawn is in starting position
 		if (startR == r && startC == c) {			

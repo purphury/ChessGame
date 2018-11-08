@@ -13,14 +13,14 @@ public class Queen extends Piece {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		//first number is the vertical direction, the second is the horizontal direction
 		//negative is up or left, positive is down or right. Zero keeps it stationary
-		addMovements(availCoords, -1,0, r, c, board);//South direction
-		addMovements(availCoords, 0,-1, r, c, board);//West direction
-		addMovements(availCoords, 1,0, r, c, board);//North direction
-		addMovements(availCoords, 0,1, r, c, board);//East direction
-		addMovements(availCoords,-1,-1,r,c,board);//Northwest direction
-		addMovements(availCoords,-1,1,r,c,board);//Northeast direction
-		addMovements(availCoords,1,-1,r,c,board);//Southwest direction
-		addMovements(availCoords,1,1,r,c,board);//Southeast direction}
+		addMovements(availCoords, -1, 0, r, c, board);//South direction
+		addMovements(availCoords, 0, -1, r, c, board);//West direction
+		addMovements(availCoords, 1, 0, r, c, board);//North direction
+		addMovements(availCoords, 0, 1, r, c, board);//East direction
+		addMovements(availCoords, -1, -1, r, c, board);//Northwest direction
+		addMovements(availCoords, -1, 1, r, c, board);//Northeast direction
+		addMovements(availCoords, 1, -1, r, c, board);//Southwest direction
+		addMovements(availCoords, 1, 1, r, c, board);//Southeast direction}
 		return availCoords;
 	}
 

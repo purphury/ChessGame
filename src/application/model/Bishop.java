@@ -14,10 +14,10 @@ public class Bishop extends Piece {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		//first number is the vertical direction, the second is the horizontal direction
 		//negative is up or left, positive is down or right. Zero keeps it stationary
-		addMovements(availCoords,-1,-1,r,c,board);//Northwest direction
-		addMovements(availCoords,-1,1,r,c,board);//Northeast direction
-		addMovements(availCoords,1,-1,r,c,board);//Southwest direction
-		addMovements(availCoords,1,1,r,c,board);//Southeast direction}
+		addMovements(availCoords, -1, -1, r, c, board);//Northwest direction
+		addMovements(availCoords, -1, 1, r, c, board);//Northeast direction
+		addMovements(availCoords, 1, -1, r, c, board);//Southwest direction
+		addMovements(availCoords, 1, 1, r, c, board);//Southeast direction}
 		return availCoords;
 	}
 

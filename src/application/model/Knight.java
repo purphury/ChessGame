@@ -7,8 +7,7 @@ import application.model.Board.Type;
 public class Knight extends Piece 
 {
 
-	public Knight(Type color) 
-	{
+	public Knight(Type color) {
 		super(color);
 	}
 
@@ -17,16 +16,16 @@ public class Knight extends Piece
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 
 		// two squares away horizontally and one square vertically		
-		addMovement(availCoords,r + 1, c + 2, board);	
-		addMovement(availCoords,r - 1, c + 2, board);
-		addMovement(availCoords,r + 1, c - 2, board);
-		addMovement(availCoords,r - 1, c - 2, board);
+		addMovement(availCoords, r + 1, c + 2, board);	
+		addMovement(availCoords, r - 1, c + 2, board);
+		addMovement(availCoords, r + 1, c - 2, board);
+		addMovement(availCoords, r - 1, c - 2, board);
 
 		//two squares vertically and one square horizontally
-		addMovement(availCoords,r + 2, c + 1, board);
-		addMovement(availCoords,r + 2, c - 1, board);
-		addMovement(availCoords,r - 2, c - 1, board);
-		addMovement(availCoords,r - 2, c + 1, board);
+		addMovement(availCoords, r + 2, c + 1, board);
+		addMovement(availCoords, r + 2, c - 1, board);
+		addMovement(availCoords, r - 2, c - 1, board);
+		addMovement(availCoords, r - 2, c + 1, board);
 
 		return availCoords;
 	}
