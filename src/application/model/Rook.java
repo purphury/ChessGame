@@ -13,55 +13,33 @@ public class Rook extends Piece
 
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
-		boolean NBlocked = false, EBlocked = false, SBlocked = false, WBlocked = false;
-		for (int i = 1; i < 8 ; i++){
-			//north path
-			if (!NBlocked && r - i >= 0) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
-					NBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r - i, c));
-				if(board.getPiece(new Coordinate(r - i, c), this.otherType()) != null) //blocked by enemy
-					NBlocked = true;
-			}
-		} for (int i = 1; i < 8 ; i++){
-			//east path
-			if (!EBlocked && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r, c + i), this.getType()) != null) { //blocked by ally
-					EBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r, c + i));
-				if(board.getPiece(new Coordinate(r, c + i), this.otherType()) != null)
-					EBlocked = true;
-			}
-		} for (int i = 1; i < 8 ; i++) {
-			//south path
-			if (!SBlocked && r + i <= 7) {
-				if(board.getPiece(new Coordinate(r + i, c), this.getType()) != null) { //blocked by ally
-					SBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r + i, c));
-				if(board.getPiece(new Coordinate(r + i, c), this.otherType()) != null)
-					SBlocked = true;
-			}
-		} for (int i = 1; i < 8 ; i++) {
-			//west path
-			if (!WBlocked && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r, c - i), this.getType()) != null) { //blocked by ally
-					WBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r, c - i));
-				if(board.getPiece(new Coordinate(r, c - i), this.otherType()) != null)
-					WBlocked = true;
-			}
-		}
+							
+		//first number is the vertical direction, the second is the horizontal direction
+		//negative is up or left, positive is down or right. Zero keeps it stationary
+		addMovements(availCoords, -1,0, r, c, board);//South direction
+		addMovements(availCoords, 0,-1, r, c, board);//West direction
+		addMovements(availCoords, 1,0, r, c, board);//North direction
+		addMovements(availCoords, 0,1, r, c, board);//East direction
+		
 		return availCoords;
 	}
-	public String toString() {
-		return "R";
-	}
+	
+	public void addMovements(ArrayList<Coordinate> availCoords,int rowInc, int columnInc
+															, int r, int c, Board board){		
+		for (int i = 1; i < 8 ; i++) {
+			if (boundsChecker(r+i*rowInc, c+i*columnInc)) {//Checks if location is on the board
+			
+				if(board.hasPiece(new Coordinate(r + i*rowInc, c+i*columnInc))) { //A piece is on this
+					//location
+					if(board.getPiece(new Coordinate(r+i*rowInc,c+i*columnInc)).getType()//Its an enemy
+																	== this.otherType()) //piece
+						availCoords.add(new Coordinate(r+i*rowInc,c+i*columnInc));			
+					break;				
+				}
+			else //Location is a free space
+				availCoords.add(new Coordinate(r+i*rowInc,c+i*columnInc));			
+			}
+		}
+	}		
+
 }

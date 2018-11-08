@@ -17,19 +17,28 @@ public class Knight extends Piece
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		
 		// two squares away horizontally and one square vertically		
-		if(boundsChecker(r + 1, c + 2)) availCoords.add(new Coordinate(r + 1, c + 2));
-		if(boundsChecker(r - 1, c + 2)) availCoords.add(new Coordinate(r - 1, c + 2));
-		if(boundsChecker(r + 1, c - 2)) availCoords.add(new Coordinate(r + 1, c - 2));
-		if(boundsChecker(r - 1, c - 2)) availCoords.add(new Coordinate(r - 1, c - 2));
+		addMovement(availCoords,r + 1, c + 2, board);	
+		addMovement(availCoords,r - 1, c + 2, board);
+		addMovement(availCoords,r + 1, c - 2, board);
+		addMovement(availCoords,r - 1, c - 2, board);
+		
 		//two squares vertically and one square horizontally
-		if(boundsChecker(r + 2, c + 1)) availCoords.add(new Coordinate(r + 2, c + 1));
-		if(boundsChecker(r + 2, c - 1)) availCoords.add(new Coordinate(r + 2, c - 1));
-		if(boundsChecker(r - 2, c - 1)) availCoords.add(new Coordinate(r - 2, c - 1));
-		if(boundsChecker(r - 2, c + 1)) availCoords.add(new Coordinate(r - 2, c + 1));
+		addMovement(availCoords,r + 2, c + 1, board);
+		addMovement(availCoords,r + 2, c - 1, board);
+		addMovement(availCoords,r - 2, c - 1, board);
+		addMovement(availCoords,r - 2, c + 1, board);
 		
 		return availCoords;
 	}
-	public String toString() {
-		return "k";
+	
+	public void addMovement(ArrayList<Coordinate> availCoords,int r, int c, Board board) {
+		if (boundsChecker(r, c)) {
+			if(board.hasPiece(new Coordinate(r,c))) {//a piece is on this location
+				if(board.getPiece(new Coordinate(r,c)).getType() == this.otherType())//its an enemy piece
+					availCoords.add(new Coordinate(r, c));
+			}
+			else	//This location is a free space	
+				availCoords.add(new Coordinate(r, c));
+	}
 	}
 }

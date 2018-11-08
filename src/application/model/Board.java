@@ -2,6 +2,8 @@ package application.model;
 
 import java.util.ArrayList;
 
+import application.controller.BoardController;
+
 public class Board {
 	private String whiteName;
 	private String blackName;
@@ -86,6 +88,9 @@ public class Board {
 		return getPiece(new Coordinate(r, c), turn);
 	}
 
+	public Piece getPiece(Coordinate coord) {
+		return board[coord.getRowIndex()][coord.getColumnIndex()];
+	}
 	
 	public boolean isGettable(Coordinate coord) {
 		Piece piece = board[coord.getRowIndex()][coord.getColumnIndex()];
@@ -215,5 +220,6 @@ public class Board {
 	}
 	public void changeTurn() {
 		turn = turn == Type.BLACK ? Type.WHITE : Type.BLACK;
+		
 	}
 }
