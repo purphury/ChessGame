@@ -21,14 +21,15 @@ public class Bishop extends Piece {
 		return availCoords;
 	}
 
-	public void addMovements(ArrayList<Coordinate> availCoords, int rowInc, int columnInc, int r, int c, Board board) {
+	public void addMovements(ArrayList<Coordinate> availCoords, int rowInc, int columnInc
+																, int r, int c, Board board) {
 		for (int i = 1; i < 8; i++) {
 			if (boundsChecker(r + i * rowInc, c + i * columnInc)) {// Checks if location is on the board
 
 				if (board.hasPiece(new Coordinate(r + i * rowInc, c + i * columnInc))) { // A piece is on this
-					// location
+																						// location
 					if (board.getPiece(new Coordinate(r + i * rowInc, c + i * columnInc)).getType()// Its an enemy
-					== this.otherType()) // piece
+																			== this.otherType()) // piece
 						availCoords.add(new Coordinate(r + i * rowInc, c + i * columnInc));
 					break;
 				} else // Location is a free space

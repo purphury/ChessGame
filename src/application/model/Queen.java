@@ -11,100 +11,32 @@ public class Queen extends Piece {
 
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
-		boolean NWBlocked = false, NEBlocked = false, SWBlocked = false, SEBlocked = false;
-		boolean NBlocked = false, EBlocked = false, SBlocked = false, WBlocked = false;
+		//first number is the vertical direction, the second is the horizontal direction
+		//negative is up or left, positive is down or right. Zero keeps it stationary
+		addMovements(availCoords, -1,0, r, c, board);//South direction
+		addMovements(availCoords, 0,-1, r, c, board);//West direction
+		addMovements(availCoords, 1,0, r, c, board);//North direction
+		addMovements(availCoords, 0,1, r, c, board);//East direction
+		addMovements(availCoords,-1,-1,r,c,board);//Northwest direction
+		addMovements(availCoords,-1,1,r,c,board);//Northeast direction
+		addMovements(availCoords,1,-1,r,c,board);//Southwest direction
+		addMovements(availCoords,1,1,r,c,board);//Southeast direction}
+		return availCoords;
+	}
+
+	public void addMovements(ArrayList<Coordinate> availCoords, int rowInc, int columnInc, int r, int c, Board board) {
 		for (int i = 1; i < 8; i++) {
-			// north path
-			if (!NBlocked && r - i >= 0) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
-					NBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r - i, c));
-				if (board.getPiece(new Coordinate(r - i, c), this.otherType()) != null)
-					NBlocked = true;
-			}
-		} for (int i = 1; i < 8; i++) {
-			// east path
-			if (!EBlocked && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r, c + i), this.getType()) != null) { //blocked by ally
-					EBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r, c + i));
-				if (board.getPiece(new Coordinate(r, c + i), this.otherType()) != null)
-					EBlocked = true;
-			}
-		} for (int i = 1; i < 8; i++) {
-			// south path
-			if (!SBlocked && r + i <= 7) {
-				if(board.getPiece(new Coordinate(r + i, c), this.getType()) != null) { //blocked by ally
-					SBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r + i, c));
-				if (board.getPiece(new Coordinate(r + i, c), this.otherType()) != null)
-					SBlocked = true;
-			}
-		} for (int i = 1; i < 8; i++) {
-			// west path
-			if (!WBlocked && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r, c - i), this.getType()) != null) { //blocked by ally
-					WBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r, c - i));
-				if (board.getPiece(new Coordinate(r, c - i), this.otherType()) != null)
-					WBlocked = true;
-			}
-		} for (int i = 1; i < 8; i++) {
-			// northwest path
-			if (!NWBlocked && r - i >= 0 && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r - i, c - i), this.getType()) != null) { //blocked by ally
-					NWBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r - i, c - i));
-				if (board.getPiece(new Coordinate(r - i, c - i), this.otherType()) != null)
-					NWBlocked = true;
-			}
-		} for (int i = 1; i < 8; i++) {
-			// northeast path
-			if (!NEBlocked && r - i >= 0 && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r - i, c + i), this.getType()) != null) { //blocked by ally
-					NEBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r - i, c + i));
-				if (board.getPiece(new Coordinate(r - i, c + i), this.otherType()) != null)
-					NEBlocked = true;
-			}
-		} for (int i = 1; i < 8; i++) {
-			// southwest path
-			if (!SWBlocked && r + i <= 7 && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r + i, c - i), this.getType()) != null) { //blocked by ally
-					SWBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r + i, c - i));
-				if (board.getPiece(new Coordinate(r + i, c - i), this.otherType()) != null)
-					SWBlocked = true;
-			}
-		} for (int i = 1; i < 8; i++) {
-			// southeast path
-			if (!SEBlocked && r + i <= 7 && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r + i, c + i), this.getType()) != null) { //blocked by ally
-					SEBlocked = true;
-					continue;
-				}
-				availCoords.add(new Coordinate(r + i, c + i));
-				if (board.getPiece(new Coordinate(r + i, c + i), this.otherType()) != null)
-					SEBlocked = true;
+			if (boundsChecker(r + i * rowInc, c + i * columnInc)) {// Checks if location is on the board
+
+				if (board.hasPiece(new Coordinate(r+ i*rowInc,c+ i*columnInc))) { // A piece is on this
+																						 // location
+					if (board.getPiece(new Coordinate(r+ i*rowInc,c+ i*columnInc)).getType()// Its an enemy
+																		== this.otherType())// piece
+						availCoords.add(new Coordinate(r + i * rowInc, c + i * columnInc));
+					break;
+				} else // Location is a free space
+					availCoords.add(new Coordinate(r + i * rowInc, c + i * columnInc));
 			}
 		}
-	return availCoords;
-}
-	public String toString() {
-		return "Q";
 	}
 }
