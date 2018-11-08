@@ -17,46 +17,58 @@ public class Rook extends Piece
 		for (int i = 1; i < 8 ; i++){
 			//north path
 			if (!NBlocked && r - i >= 0) {
-				if(board.getPiece(new Coordinate(r - i, c), this.getType()) != null) { //blocked by ally
+				if(board.hasPiece(new Coordinate(r - i, c))) { 					
 					NBlocked = true;
-					continue;
+					if(board.getPiece(new Coordinate(r-i,c)).getType() == this.otherType())
+						availCoords.add(new Coordinate(r - i, c));
+					
 				}
-				availCoords.add(new Coordinate(r - i, c));
-				if(board.getPiece(new Coordinate(r - i, c), this.otherType()) != null) //blocked by enemy
-					NBlocked = true;
+				else
+					availCoords.add(new Coordinate(r - i, c));
+				
+				continue;
 			}
 		} for (int i = 1; i < 8 ; i++){
 			//east path
 			if (!EBlocked && c + i <= 7) {
-				if(board.getPiece(new Coordinate(r, c + i), this.getType()) != null) { //blocked by ally
+				if(board.hasPiece(new Coordinate(r , c+i))) { 					
 					EBlocked = true;
-					continue;
+					if(board.getPiece(new Coordinate(r,c+i)).getType() == this.otherType())
+						availCoords.add(new Coordinate(r, c+i));
+					
 				}
-				availCoords.add(new Coordinate(r, c + i));
-				if(board.getPiece(new Coordinate(r, c + i), this.otherType()) != null)
-					EBlocked = true;
+				else
+					availCoords.add(new Coordinate(r , c+i));
+				
+				continue;
 			}
 		} for (int i = 1; i < 8 ; i++) {
 			//south path
 			if (!SBlocked && r + i <= 7) {
-				if(board.getPiece(new Coordinate(r + i, c), this.getType()) != null) { //blocked by ally
+				if(board.hasPiece(new Coordinate(r + i, c))) { 					
 					SBlocked = true;
-					continue;
+					if(board.getPiece(new Coordinate(r+i,c)).getType() == this.otherType())
+						availCoords.add(new Coordinate(r + i, c));
+					
 				}
-				availCoords.add(new Coordinate(r + i, c));
-				if(board.getPiece(new Coordinate(r + i, c), this.otherType()) != null)
-					SBlocked = true;
+				else
+					availCoords.add(new Coordinate(r + i, c));
+				
+				continue;
 			}
 		} for (int i = 1; i < 8 ; i++) {
 			//west path
 			if (!WBlocked && c - i >= 0) {
-				if(board.getPiece(new Coordinate(r, c - i), this.getType()) != null) { //blocked by ally
+				if(board.hasPiece(new Coordinate(r, c-i))) { 					
 					WBlocked = true;
-					continue;
+					if(board.getPiece(new Coordinate(r,c-i)).getType() == this.otherType())
+						availCoords.add(new Coordinate(r, c-i));
+					
 				}
-				availCoords.add(new Coordinate(r, c - i));
-				if(board.getPiece(new Coordinate(r, c - i), this.otherType()) != null)
-					WBlocked = true;
+				else
+					availCoords.add(new Coordinate(r, c-i));
+				
+				continue;
 			}
 		}
 		return availCoords;

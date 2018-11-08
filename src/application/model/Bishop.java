@@ -21,11 +21,13 @@ public class Bishop extends Piece {
 					NWBlocked = true;
 					if(board.getPiece(new Coordinate(r - i, c - i)).getType() == this.otherType()) {
 						availCoords.add(new Coordinate(r - i, c - i));
-						continue;
+
 					}						
 				}
 				else
-					availCoords.add(new Coordinate(r - i, c - i));				
+					availCoords.add(new Coordinate(r - i, c - i));
+				
+				continue;
 			}
 		} for (int i = 1; i < 8 ; i++) {
 			//northeast path
@@ -34,11 +36,13 @@ public class Bishop extends Piece {
 					NEBlocked = true;
 					if(board.getPiece(new Coordinate(r - i, c + i)).getType() == this.otherType()) {
 						availCoords.add(new Coordinate(r - i, c + i));
-						continue;
+
 					}						
 				}
 				else
 					availCoords.add(new Coordinate(r - i, c + i));
+				
+				continue;
 			}
 		} for (int i = 1; i < 8 ; i++) {
 			//southwest path
@@ -47,11 +51,13 @@ public class Bishop extends Piece {
 					SWBlocked = true;
 					if(board.getPiece(new Coordinate(r + i, c - i)).getType() == this.otherType()) {
 						availCoords.add(new Coordinate(r + i, c - i));
-						continue;
+
 					}						
 				}
 				else
 					availCoords.add(new Coordinate(r + i, c - i));
+				
+				continue;
 			}
 		} for (int i = 1; i < 8 ; i++) {
 			//southeast path
@@ -60,11 +66,13 @@ public class Bishop extends Piece {
 					SEBlocked = true;
 					if(board.getPiece(new Coordinate(r + i, c + i)).getType() == this.otherType()) {
 						availCoords.add(new Coordinate(r + i, c + i));
-						continue;
+
 					}						
 				}
 				else
 					availCoords.add(new Coordinate(r + i, c + i));
+				
+				continue;
 			}
 		}
 		return availCoords;
