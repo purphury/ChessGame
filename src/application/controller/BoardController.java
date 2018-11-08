@@ -38,7 +38,6 @@ public class BoardController {
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
 		//TODO: check if a pane has been clicked && if a piece has been clicked, then move the piece//
-		turnLabelAppearance();
 		if(clickedPiece != null && event.getSource() instanceof Pane) {
 			Coordinate c = findCoordinate(boardFX, event);
 			Pane clickedPane = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), c.getColumnIndex(), boardFX);
