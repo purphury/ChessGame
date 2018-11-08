@@ -20,7 +20,6 @@ public class Pawn extends Piece
 
 			if(this.getType() == Type.WHITE) 
 			{
-				System.out.println("row: "+r+"column: "+c);
 				if(r - 1 >= 0 && board.getPiece(new Coordinate(r - 1, c), this.otherType()) == null)
 					availCoords.add(new Coordinate(r - 1, c));
 				if(r - 2 >= 0 && board.getPiece(new Coordinate(r - 1, c), this.otherType()) == null) 

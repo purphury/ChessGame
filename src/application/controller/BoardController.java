@@ -98,6 +98,8 @@ public class BoardController {
 				, b.getColumnIndex(), boardFX);
 		pane2.setStyle("-fx-background-color: #F9A602;");		
 		for(Coordinate c : availableMoves){
+			System.out.println("XXX c: "+ c);
+
 			Pane pane = (Pane)getNodeByRowColumnIndex(c.getRowIndex()
 					, c.getColumnIndex(), boardFX);
 			if(!boardModel.hasPiece(c)){

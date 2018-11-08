@@ -10,70 +10,39 @@ public class Rook extends Piece
 	{
 		super (color);
 	}
+	private int verticalInc;
+	private int horizontalInc;
 
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
-		boolean NBlocked = false, EBlocked = false, SBlocked = false, WBlocked = false;
-		for (int i = 1; i < 8 ; i++){
-			//north path
-			if (!NBlocked && r - i >= 0) {
-				if(board.hasPiece(new Coordinate(r - i, c))) { 					
-					NBlocked = true;
-					if(board.getPiece(new Coordinate(r-i,c)).getType() == this.otherType())
-						availCoords.add(new Coordinate(r - i, c));
-					
-				}
-				else
-					availCoords.add(new Coordinate(r - i, c));
-				
-				continue;
-			}
-		} for (int i = 1; i < 8 ; i++){
-			//east path
-			if (!EBlocked && c + i <= 7) {
-				if(board.hasPiece(new Coordinate(r , c+i))) { 					
-					EBlocked = true;
-					if(board.getPiece(new Coordinate(r,c+i)).getType() == this.otherType())
-						availCoords.add(new Coordinate(r, c+i));
-					
-				}
-				else
-					availCoords.add(new Coordinate(r , c+i));
-				
-				continue;
-			}
-		} for (int i = 1; i < 8 ; i++) {
-			//south path
-			if (!SBlocked && r + i <= 7) {
-				if(board.hasPiece(new Coordinate(r + i, c))) { 					
-					SBlocked = true;
-					if(board.getPiece(new Coordinate(r+i,c)).getType() == this.otherType())
-						availCoords.add(new Coordinate(r + i, c));
-					
-				}
-				else
-					availCoords.add(new Coordinate(r + i, c));
-				
-				continue;
-			}
-		} for (int i = 1; i < 8 ; i++) {
-			//west path
-			if (!WBlocked && c - i >= 0) {
-				if(board.hasPiece(new Coordinate(r, c-i))) { 					
-					WBlocked = true;
-					if(board.getPiece(new Coordinate(r,c-i)).getType() == this.otherType())
-						availCoords.add(new Coordinate(r, c-i));
-					
-				}
-				else
-					availCoords.add(new Coordinate(r, c-i));
-				
-				continue;
-			}
-		}
+		addMovements(availCoords, -1,0, r, c, board);//South direction
+		addMovements(availCoords, 0,-1, r, c, board);//West direction
+		addMovements(availCoords, 1,0, r, c, board);//North direction
+		addMovements(availCoords, 0,1, r, c, board);//East direction
+		
 		return availCoords;
 	}
-	public String toString() {
+	
+	public void addMovements(ArrayList<Coordinate> availCoords,int rowInc, int columnInc
+															, int r, int c, Board board){
+		
+	for (int i = 1; i < 8 ; i++) {
+		System.out.println("row: "+(r+i*rowInc)+ " column: "+(c+i*columnInc));
+		System.out.println("boundsChecker: "+ boundsChecker(r+i*rowInc, c+i*columnInc));
+		if (boundsChecker(r+i*rowInc, c+i*columnInc)) {
+			if(board.hasPiece(new Coordinate(r + i*rowInc, c+i*columnInc))) { 					
+				if(board.getPiece(new Coordinate(r+i*rowInc,c+i*columnInc)).getType() == this.otherType())
+					availCoords.add(new Coordinate(r+i*rowInc,c+i*columnInc));				
+				break;				
+			}
+			else
+				availCoords.add(new Coordinate(r+i*rowInc,c+i*columnInc));			
+		}
+	}
+	}		
+	
+		public String toString() {
+	
 		return "R";
 	}
 }
