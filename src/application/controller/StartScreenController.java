@@ -2,6 +2,8 @@ package application.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import application.model.Timer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,8 @@ public class StartScreenController{
 	@FXML
 	private AnchorPane rootPane;
 	
+	public static Timer timer;
+	public static Thread timeThread;
 	public static ArrayList<String> names;
 
 	public void loadNames() {
@@ -31,6 +35,9 @@ public class StartScreenController{
 		try {
 			AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/Board.fxml"));
 			rootPane.getChildren().setAll(pane);
+			timer = new Timer();
+			timeThread = new Thread(timer);
+			timeThread.start();
 		}
 		catch (IOException e) {
 			e.printStackTrace();

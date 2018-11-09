@@ -20,7 +20,7 @@ import javafx.scene.shape.Circle;
 public class BoardController {
 	private ImageView allyPiece;
 	private Coordinate clickedPieceCoordinate;
-	private Board boardModel;
+	public static Board boardModel;
 	private ArrayList<Coordinate> availableMoves;
 	@FXML
 	private Label whiteNameLabel;
