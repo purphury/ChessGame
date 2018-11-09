@@ -63,6 +63,11 @@ public class BoardController {
 					else
 						checkLabel.setVisible(false);
 					
+					if(boardModel.isCheckmate(boardModel.getPiece(c).otherType())) {
+						checkLabel.setVisible(false);
+						checkmateLabel.setVisible(true);
+					}
+					
 				}
 			}
 			//if there is a piece on the pane that was clicked, kill the piece and move there//

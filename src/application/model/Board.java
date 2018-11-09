@@ -203,18 +203,16 @@ public class Board {
 	 * @return
 	 */
 	public boolean isCheckmate(Type type) {
-		Coordinate kingLoc = null;
-		//store kingLoc
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(board[i][j] instanceof King && board[i][j].getType() == type) {
-					kingLoc = new Coordinate(i, j);
-					break; //found, so don't check rest of board
+				if(board[i][j] instanceof Piece && board[i][j].getType() == type) {
+					if(this.getMoves(new Coordinate(i, j)).size() > 0)
+						return false;
 				}
 			}
 		}
+		return true;
 		//check if king can be attacked
-		return isCheckmate(type, kingLoc);
 	}
 	/** Checks if board is in Checkmate for a color given King's location
 	 * @param type Color of person that might be in Checkmate

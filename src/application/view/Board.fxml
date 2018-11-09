@@ -375,7 +375,7 @@
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="checkmateLabel" layoutX="665.0" layoutY="182.0" prefHeight="17.0" prefWidth="172.0" text="Checkmate!">
+      <Label fx:id="checkmateLabel" layoutX="641.0" layoutY="180.0" prefHeight="17.0" prefWidth="172.0" text="Checkmate!">
          <font>
             <Font size="25.0" />
          </font>
