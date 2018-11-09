@@ -9,12 +9,14 @@ public class Board {
 		BLACK,
 		WHITE
 	}
+	public boolean isCurrentlyCheck;
 	private Type turn;
 	private Piece[][] board;
 
 	public Board(String whiteName, String blackName) {
 		this.whiteName = whiteName;
 		this.blackName = blackName;
+		isCurrentlyCheck = false;
 		turn = Type.WHITE;
 		board = new Piece[8][8];
 		for(int i = 0; i < 8; i++) {
@@ -118,14 +120,16 @@ public class Board {
 	 */
 	public boolean movePieces(Coordinate oldLoc, Coordinate newLoc) {
 		Piece piece = board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()];
-//		System.out.println("Old Location Row/Col: "+ (oldLoc.getRowIndex()-1) + " " + (oldLoc.getColumnIndex()-1) + "\n"
-//			+ "New Location Row/Col: " + (newLoc.getRowIndex()-1) + " " + (newLoc.getColumnIndex()-1) + "\n" + piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this));
-		for(Coordinate c : piece.getAvailableMovements(oldLoc.getRowIndex(), oldLoc.getColumnIndex(), this))
+		ArrayList<Coordinate> availMoves = this.getMoves(oldLoc);
+		for(Coordinate c : availMoves)
 			if(c.equals(newLoc)) {
 				if(!piece.getHasMoved()) 
 					piece.setHasMoved(true);
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; //if new loc was occupied, the piece that was there is now deleted as there is no reference to it
 				board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = null;  
+				if(isCheck(piece.otherType())) {
+					this.isCurrentlyCheck = true;
+				}
 				changeTurn();
 				return true;
 			}
@@ -137,18 +141,45 @@ public class Board {
 	 * @return
 	 */
 	public boolean isCheck(Type type) {
-		Coordinate kingLoc = null;
-		//store kingLoc
-		for(int i = 0; i < 8; i++) {
+		Coordinate kingLoc = getKingCoordinate(type);
+		
+		//checks each spot on the board
+		for(int i = 0; i< 8; i++) {
 			for(int j = 0; j < 8; j++) {
-				if(board[i][j] instanceof King && board[i][j].getType() == type) {
-					kingLoc = new Coordinate(i, j);
-					break; //found, so don't check rest of board
+				Coordinate k = new Coordinate(i,j);
+				
+				//checks if the spot has a piece
+				if(this.hasPiece(k)) {
+					Piece p = this.getPiece(k);
+					
+					//checks if its a piece from the other team
+					if(p.getType() != type) {
+						
+						//Checks all of its moves
+						for(Coordinate c : p.getAvailableMovements(i, j, this)) {
+							
+							//if the king is in there return true
+							if(c.equals(kingLoc)) {
+								return true;
+							}
+						}
+					}
+					
 				}
 			}
 		}
-		//check if king can be attacked
-		return isCheck(type, kingLoc);
+		return false;
+	}
+	
+	public Coordinate getKingCoordinate(Type type) {
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				if(board[i][j] instanceof King && board[i][j].getType() == type) {
+					return new Coordinate(i, j);
+				}
+			}
+		}
+		return null;
 	}
 
 	/** Checks if board is in Check for a color given King's location
@@ -156,7 +187,7 @@ public class Board {
 	 * @param kingLoc
 	 * @return
 	 */
-	public boolean isCheck(Type type, Coordinate kingLoc) {
+	public boolean getKing(Type type, Coordinate kingLoc) {
 		for(int i = 0; i < 8; i++) {
 			for(int j = 0; j < 8; j++) {
 				if(board[i][j] instanceof Piece) {
@@ -211,11 +242,72 @@ public class Board {
 	 */
 	public ArrayList<Coordinate> getMoves(Coordinate coord){
 		int r = coord.getRowIndex(), c = coord.getColumnIndex();
-		if(this.board[r][c] != null)
-			return this.board[r][c].getAvailableMovements(r, c, this);
+		Piece p = this.getPiece(coord);
+		ArrayList<Coordinate> availMoves = new ArrayList<Coordinate>();
+		
+		//checks that the piece is really there
+		if(this.board[r][c] != null) {			
+			availMoves = this.board[r][c].getAvailableMovements(r, c, this);
+			ArrayList<Coordinate> toBeRemoved = new ArrayList<Coordinate>();
+			//checks each move to be sure not to put pieces team in check
+		//	System.out.println(availMoves);
+			for(Coordinate c2 : availMoves) {
+		//		System.out.println("YYY Checking coord: "+c2);
+				if(movePutsTeamInCheck(coord, c2)) {
+			//		System.out.println("XXX coord removed: "+c2+" from piece: "+coord);
+					toBeRemoved.add(c2);
+			//		System.out.println("TTTTTFinished: "+availMoves);
+
+				}
+			}
+			availMoves.removeAll(toBeRemoved);
+			return availMoves;
+		}
 		else
-			return new ArrayList<Coordinate>();
+			return availMoves;
 	}
+	
+	public boolean movePutsTeamInCheck(Coordinate oldLoc, Coordinate newLoc) {
+	//	System.out.println("OldLoc: "+oldLoc+" newLoc: "+newLoc);
+		Piece killedPiece = null;
+		Piece movingPiece = board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()];
+		
+		//if a piece is being killed save it
+		if(this.hasPiece(newLoc)) {
+			killedPiece = board[newLoc.getRowIndex()][newLoc.getColumnIndex()];
+		}
+		
+		//simulate the new board after piece moves
+		board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = null;
+		board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = movingPiece;
+		
+		//find if this creates check for that pieces team
+		if(isCheck(movingPiece.getType())) {
+			board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = movingPiece;
+			if(killedPiece != null)
+				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = killedPiece;
+			else
+				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = null;
+			
+	//		System.out.println("UUUOldLoc: "+ board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()]);
+
+	//		System.out.println("UUUNewLoc: "+ board[newLoc.getRowIndex()][newLoc.getColumnIndex()]);
+			
+			return true;
+		}
+		else {
+			board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = movingPiece;
+			if(killedPiece != null)
+				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = killedPiece;
+			else
+				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = null;
+			
+			return false;	
+		}
+
+	}
+	
+	
 	public void changeTurn() {
 		turn = turn == Type.BLACK ? Type.WHITE : Type.BLACK;
 		
