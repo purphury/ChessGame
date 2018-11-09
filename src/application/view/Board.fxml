@@ -195,7 +195,7 @@
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="7" GridPane.rowIndex="5" />
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.rowIndex="6">
                <children>
-                  <ImageView fx:id="whitePawnOne" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseClicked="#handlePieceClick" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnOne" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -203,7 +203,7 @@
                </children></Pane>
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
-                  <ImageView fx:id="whitePawnTwo" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseClicked="#handlePieceClick" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnTwo" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -211,7 +211,7 @@
                </children></Pane>
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <children>
-                  <ImageView fx:id="whitePawnThree" fitHeight="57.0" fitWidth="91.0" layoutX="8.0" layoutY="9.0" onMouseClicked="#handlePieceClick" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnThree" fitHeight="57.0" fitWidth="91.0" layoutX="8.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -219,7 +219,7 @@
                </children></Pane>
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <children>
-                  <ImageView fx:id="whitePawnFour" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseClicked="#handlePieceClick" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnFour" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -227,7 +227,7 @@
                </children></Pane>
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="4" GridPane.rowIndex="6">
                <children>
-                  <ImageView fx:id="whitePawnFive" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseClicked="#handlePieceClick" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnFive" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -235,7 +235,7 @@
                </children></Pane>
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="5" GridPane.rowIndex="6">
                <children>
-                  <ImageView fx:id="whitePawnSix" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseClicked="#handlePieceClick" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnSix" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -243,7 +243,7 @@
                </children></Pane>
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="6" GridPane.rowIndex="6">
                <children>
-                  <ImageView fx:id="whitePawnSeven" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseClicked="#handlePieceClick" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnSeven" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -251,7 +251,7 @@
                </children></Pane>
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #595756;" GridPane.columnIndex="7" GridPane.rowIndex="6">
                <children>
-                  <ImageView fx:id="whitePawnEight" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseClicked="#handlePieceClick" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnEight" fitHeight="57.0" fitWidth="91.0" layoutX="9.0" layoutY="9.0" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
@@ -368,6 +368,16 @@
       <Label fx:id="turnLabel" layoutX="663.0" layoutY="314.0" text="turn">
          <font>
             <Font size="19.0" />
+         </font>
+      </Label>
+      <Label fx:id="checkLabel" layoutX="665.0" layoutY="121.0" prefHeight="17.0" prefWidth="150.0" text="Check!">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="checkmateLabel" layoutX="641.0" layoutY="180.0" prefHeight="17.0" prefWidth="172.0" text="Checkmate!">
+         <font>
+            <Font size="25.0" />
          </font>
       </Label>
    </children>

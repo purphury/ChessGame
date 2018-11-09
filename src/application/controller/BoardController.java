@@ -29,6 +29,12 @@ public class BoardController {
 	private Label blackNameLabel;
 	
 	@FXML
+	private Label checkLabel;
+	
+	@FXML
+	private Label checkmateLabel;
+	
+	@FXML
 	private Label turnLabel;
 
 	@FXML
@@ -43,21 +49,54 @@ public class BoardController {
 			if(clickedPane.getChildren().size() != 0 
 					&& clickedPane.getChildren().get(0) instanceof Circle ) {
 				//Check if the piece can be moved at all//
-				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
+				int x = boardModel.movePieces(clickedPieceCoordinate, c);
+				if(x>0) {
 					removeDots(c);
 					turnLabelAppearance();
 					availableMoves = null;
 					boardFX.getChildren().remove(allyPiece);
 					clickedPane.getChildren().add(allyPiece);
 					
+					if(x==2) {
+						if(boardModel.getPiece(c).getType() == Type.WHITE) {
+							Pane p = (Pane) getNodeByRowColumnIndex(c.getRowIndex()+1, c.getColumnIndex(), boardFX);
+							
+							if(p.getChildren().get(0) != null) {
+								ImageView thing = (ImageView) p.getChildren().get(0);
+								p.getChildren().remove(thing);
+							}
+							
+						}
+						if(boardModel.getPiece(c).getType() == Type.BLACK) {
+							Pane p = (Pane) getNodeByRowColumnIndex(c.getRowIndex()-1, c.getColumnIndex(), boardFX);
+							
+							if(p.getChildren().get(0) != null) {
+								ImageView thing = (ImageView) p.getChildren().get(0);
+								p.getChildren().remove(thing);
+							}
+							
+						}
+							
+					}
+					
 					allyPiece = null;
 					clickedPieceCoordinate = null;
+					if(boardModel.isCheck(boardModel.getPiece(c).otherType()))
+						checkLabel.setVisible(true);
+					else
+						checkLabel.setVisible(false);
+					
+					if(boardModel.isCheckmate(boardModel.getPiece(c).otherType())) {
+						checkLabel.setVisible(false);
+						checkmateLabel.setVisible(true);
+					}
+					
 				}
 			}
 			//if there is a piece on the pane that was clicked, kill the piece and move there//
 			else if(!clickedPieceCoordinate.equals(c)) {
 				//Check if the piece can actually be moved to the location clicked//
-				if(boardModel.movePieces(clickedPieceCoordinate, c)) {
+				if(boardModel.movePieces(clickedPieceCoordinate, c) > 0) {
 					removeDots(c);
 					turnLabelAppearance();
 					ImageView enemyPiece = (ImageView) clickedPane.getChildren().get(0);
@@ -68,6 +107,15 @@ public class BoardController {
 					availableMoves = null;
 					allyPiece = null;
 					clickedPieceCoordinate = null;
+					if(boardModel.isCheck(boardModel.getPiece(c).otherType()))
+						checkLabel.setVisible(true);
+					else
+						checkLabel.setVisible(false);
+					
+					if(boardModel.isCheckmate(boardModel.getPiece(c).otherType())) {
+						checkLabel.setVisible(false);
+						checkmateLabel.setVisible(true);
+					}
 				}
 			}
 			//if the pane is clicked again, the piece is unselected//
@@ -205,14 +253,7 @@ public class BoardController {
 		}
 		else if (turn.equals(Type.BLACK)) {
 			turnLabel.setText(blackNameLabel.getText() + "'s turn");
-		}
-		//if someone wants to fix the line bellow then be my guest
-		
-		//boardModel.getTurn().equals(Type.WHITE) ? name = whiteNameLabel.getText() : name = blackNameLabel.getText();
-		
-
-		
-		
+		}	
 	}
 
 	@FXML
@@ -226,6 +267,8 @@ public class BoardController {
 		this.whiteNameLabel.setText(whiteNameString);
 		String whiteTurn = whiteNameString + "'s turn";
 		turnLabel.setText(whiteTurn);
+		checkLabel.setVisible(false);
+		checkmateLabel.setVisible(false);
 		boardModel = new Board(whiteNameString, blackNameString);
 		allyPiece = null;
 		availableMoves = new ArrayList<Coordinate>();

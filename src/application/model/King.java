@@ -12,7 +12,6 @@ public class King extends Piece {
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		//first number is the vertical direction, the second is the horizontal direction
-		//negative is up or left, positive is down or right. Zero keeps it stationary
 		addMovement(availCoords, r - 1, c, board);// South direction
 		addMovement(availCoords, r, c - 1, board);// West direction
 		addMovement(availCoords, r + 1, c, board);// North direction

@@ -6,7 +6,8 @@ import application.model.Board.Type;
 
 public class Pawn extends Piece {
 	private int startR, startC;
-	private enum IsAttack{NO, YES}; 
+	private enum IsAttack{NO, YES};
+	public boolean justDidDoubleMove;
 
 	public Pawn(int r, int c, Type color) {
 		super(color);
@@ -20,23 +21,30 @@ public class Pawn extends Piece {
 		if (this.getType() == Type.WHITE ) {
 			addMovement(availCoords, r - 1, c, board, IsAttack.NO);
 			addMovement(availCoords, r - 1, c - 1, board, IsAttack.YES);		
-			addMovement(availCoords, r - 1, c + 1, board, IsAttack.YES);		
+			addMovement(availCoords, r - 1, c + 1, board, IsAttack.YES);
+			addEnPassant(availCoords, r, c+1, board, Type.WHITE);		
+			addEnPassant(availCoords, r, c-1, board, Type.WHITE);		
+
 		}
 		// color is black//
 		if (this.getType() == Type.BLACK ) {
 			addMovement(availCoords, r + 1, c, board, IsAttack.NO);
 			addMovement(availCoords, r + 1, c - 1, board, IsAttack.YES);		
 			addMovement(availCoords, r + 1, c + 1, board, IsAttack.YES);
+			addEnPassant(availCoords, r, c+1, board, Type.BLACK);		
+			addEnPassant(availCoords, r, c-1, board, Type.BLACK);
 		}			
 		// if pawn is in starting position
 		if (startR == r && startC == c) {			
 			// color is white//
-			if(this.getType() == Type.WHITE) 
+			if(this.getType() == Type.WHITE && !board.hasPiece(new Coordinate(r-1,c))) 
 				addMovement(availCoords, r - 2, c, board, IsAttack.NO);
-
+				
 			// color is black//
-			if(this.getType() == Type.BLACK) 
-				addMovement(availCoords, r + 2, c, board, IsAttack.NO);			
+			if(this.getType() == Type.BLACK && !board.hasPiece(new Coordinate(r+1,c))) 
+				addMovement(availCoords, r + 2, c, board, IsAttack.NO);	
+			
+
 		}		
 		return availCoords;
 	}
@@ -53,4 +61,22 @@ public class Pawn extends Piece {
 				availCoords.add(new Coordinate(r, c));
 		}
 	}
+	
+	public void addEnPassant(ArrayList<Coordinate> availCoords,int r, int c, Board board, Type type) {
+		if(boundsChecker(r,c)) {
+			if(board.hasPiece(r, c)) {
+				Piece pieceRight = board.getPiece(r, c);
+				if(pieceRight instanceof Pawn && pieceRight.getType() != type
+												&&((Pawn)pieceRight).justDidDoubleMove) {
+					if(type == Type.WHITE)
+						availCoords.add(new Coordinate(r-1,c));
+					if(type == Type.BLACK)
+						availCoords.add(new Coordinate(r+1,c));
+				}
+			}
+		}
+	}
+	
+	
+	
 }
