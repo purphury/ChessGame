@@ -248,19 +248,24 @@ public class Board {
 		//checks that the piece is really there
 		if(this.board[r][c] != null) {			
 			availMoves = this.board[r][c].getAvailableMovements(r, c, this);
+			
+			//You cant remove elements inside a for-each loop from an ArrayList you're iterating through.
+			//So toBeRemoved keeps track of those elements
+			//It took me two hours to learn this
 			ArrayList<Coordinate> toBeRemoved = new ArrayList<Coordinate>();
-			//checks each move to be sure not to put pieces team in check
-		//	System.out.println(availMoves);
+			
+			//goes through each available move for the piece
 			for(Coordinate c2 : availMoves) {
-		//		System.out.println("YYY Checking coord: "+c2);
+				
+				//checks if moving to c2 would put the piece's team in check
 				if(movePutsTeamInCheck(coord, c2)) {
-			//		System.out.println("XXX coord removed: "+c2+" from piece: "+coord);
 					toBeRemoved.add(c2);
-			//		System.out.println("TTTTTFinished: "+availMoves);
-
 				}
 			}
+			
+			//removes bad movements from available moves
 			availMoves.removeAll(toBeRemoved);
+			
 			return availMoves;
 		}
 		else
@@ -268,11 +273,10 @@ public class Board {
 	}
 	
 	public boolean movePutsTeamInCheck(Coordinate oldLoc, Coordinate newLoc) {
-	//	System.out.println("OldLoc: "+oldLoc+" newLoc: "+newLoc);
 		Piece killedPiece = null;
 		Piece movingPiece = board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()];
 		
-		//if a piece is being killed save it
+		//if a piece is being killed, save it
 		if(this.hasPiece(newLoc)) {
 			killedPiece = board[newLoc.getRowIndex()][newLoc.getColumnIndex()];
 		}
@@ -283,19 +287,21 @@ public class Board {
 		
 		//find if this creates check for that pieces team
 		if(isCheck(movingPiece.getType())) {
+			
+			//replace pieces that were moved to see if it created a check for the piece's team
 			board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = movingPiece;
 			if(killedPiece != null)
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = killedPiece;
 			else
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = null;
-			
-	//		System.out.println("UUUOldLoc: "+ board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()]);
-
-	//		System.out.println("UUUNewLoc: "+ board[newLoc.getRowIndex()][newLoc.getColumnIndex()]);
-			
+						
 			return true;
 		}
+		
+		//move did not create a check for the piece's team
 		else {
+			
+			//replace pieces that were moved to see if it created a check for the piece's team
 			board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = movingPiece;
 			if(killedPiece != null)
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = killedPiece;
