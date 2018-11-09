@@ -255,7 +255,12 @@ public class BoardController {
 			turnLabel.setText(blackNameLabel.getText() + "'s turn");
 		}	
 	}
-
+	
+	public static void setTime(long playerOne, long playerTwo) {
+		//TODO: needs implementation!
+		System.out.println("PlayerOne: " + playerOne + "\nPlayerTwo: " + playerTwo);
+	}
+	
 	@FXML
 	void initialize() {
 		assert whiteNameLabel != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
