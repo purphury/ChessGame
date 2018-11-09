@@ -370,5 +370,15 @@
             <Font size="19.0" />
          </font>
       </Label>
+      <Label fx:id="checkLabel" layoutX="665.0" layoutY="121.0" prefHeight="17.0" prefWidth="150.0" text="Check!">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="checkmateLabel" layoutX="665.0" layoutY="182.0" prefHeight="17.0" prefWidth="172.0" text="Checkmate!">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

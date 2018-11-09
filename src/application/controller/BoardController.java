@@ -29,6 +29,12 @@ public class BoardController {
 	private Label blackNameLabel;
 	
 	@FXML
+	private Label checkLabel;
+	
+	@FXML
+	private Label checkmateLabel;
+	
+	@FXML
 	private Label turnLabel;
 
 	@FXML
@@ -52,6 +58,11 @@ public class BoardController {
 					
 					allyPiece = null;
 					clickedPieceCoordinate = null;
+					if(boardModel.isCheck(boardModel.getPiece(c).otherType()))
+						checkLabel.setVisible(true);
+					else
+						checkLabel.setVisible(false);
+					
 				}
 			}
 			//if there is a piece on the pane that was clicked, kill the piece and move there//
@@ -205,14 +216,7 @@ public class BoardController {
 		}
 		else if (turn.equals(Type.BLACK)) {
 			turnLabel.setText(blackNameLabel.getText() + "'s turn");
-		}
-		//if someone wants to fix the line bellow then be my guest
-		
-		//boardModel.getTurn().equals(Type.WHITE) ? name = whiteNameLabel.getText() : name = blackNameLabel.getText();
-		
-
-		
-		
+		}	
 	}
 
 	@FXML
@@ -226,6 +230,8 @@ public class BoardController {
 		this.whiteNameLabel.setText(whiteNameString);
 		String whiteTurn = whiteNameString + "'s turn";
 		turnLabel.setText(whiteTurn);
+		checkLabel.setVisible(false);
+		checkmateLabel.setVisible(false);
 		boardModel = new Board(whiteNameString, blackNameString);
 		allyPiece = null;
 		availableMoves = new ArrayList<Coordinate>();

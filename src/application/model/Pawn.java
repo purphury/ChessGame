@@ -34,7 +34,6 @@ public class Pawn extends Piece {
 			if(this.getType() == Type.WHITE && !board.hasPiece(new Coordinate(r-1,c))) 
 				addMovement(availCoords, r - 2, c, board, IsAttack.NO);
 
-
 			// color is black//
 			if(this.getType() == Type.BLACK && !board.hasPiece(new Coordinate(r+1,c))) 
 				addMovement(availCoords, r + 2, c, board, IsAttack.NO);			

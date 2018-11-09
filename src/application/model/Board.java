@@ -242,7 +242,6 @@ public class Board {
 	 */
 	public ArrayList<Coordinate> getMoves(Coordinate coord){
 		int r = coord.getRowIndex(), c = coord.getColumnIndex();
-		Piece p = this.getPiece(coord);
 		ArrayList<Coordinate> availMoves = new ArrayList<Coordinate>();
 		
 		//checks that the piece is really there
@@ -285,10 +284,10 @@ public class Board {
 		board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = null;
 		board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = movingPiece;
 		
-		//find if this creates check for that pieces team
+		//find if this creates check for that piece's team
 		if(isCheck(movingPiece.getType())) {
 			
-			//replace pieces that were moved to see if it created a check for the piece's team
+			//replace pieces that were moved 
 			board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = movingPiece;
 			if(killedPiece != null)
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = killedPiece;
@@ -301,7 +300,7 @@ public class Board {
 		//move did not create a check for the piece's team
 		else {
 			
-			//replace pieces that were moved to see if it created a check for the piece's team
+			//replace pieces that were moved 
 			board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = movingPiece;
 			if(killedPiece != null)
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = killedPiece;
