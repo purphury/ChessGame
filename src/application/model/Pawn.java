@@ -31,11 +31,12 @@ public class Pawn extends Piece {
 		// if pawn is in starting position
 		if (startR == r && startC == c) {			
 			// color is white//
-			if(this.getType() == Type.WHITE) 
+			if(this.getType() == Type.WHITE && !board.hasPiece(new Coordinate(r-1,c))) 
 				addMovement(availCoords, r - 2, c, board, IsAttack.NO);
 
+
 			// color is black//
-			if(this.getType() == Type.BLACK) 
+			if(this.getType() == Type.BLACK && !board.hasPiece(new Coordinate(r+1,c))) 
 				addMovement(availCoords, r + 2, c, board, IsAttack.NO);			
 		}		
 		return availCoords;
