@@ -159,6 +159,7 @@ public class Board {
 						}
 					}
 				}
+				
 
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; // if new loc was occupied, the piece that
 																				// was there is now deleted as there is

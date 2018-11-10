@@ -24,9 +24,9 @@ public class King extends Piece {
 		addMovement(availCoords, r + 1, c + 1, board);// Southeast direction}
 
 		//checks for casteling is allowed and adds it to avail movements
-		if (getType() == Type.WHITE && board.whiteEverChecked == false && (board.getPiece(7,0).toString().equals("Rook") || board.getPiece(7,7).toString().equals("Rook"))) {
+		if (getType() == Type.WHITE && board.whiteEverChecked == false && getHasMoved() == false && (board.getPiece(7,0).toString().equals("Rook") || board.getPiece(7,7).toString().equals("Rook"))) {
 			
-			for(int i = 3; i <= 0; i--) {
+			for(int i = 3; i < 0; i--) {
 				if (board.hasPiece(7,i) == false) {
 					castelingAvelaible = true;
 				}
@@ -39,13 +39,14 @@ public class King extends Piece {
 				addMovement(availCoords, r, c - 4, board);// West direction
 			}
 			
-			for(int i = 5; i <= 7; i++) {
+			for(int i = 5; i < 7; i++) {
 				if (board.hasPiece(7,i) == false) {
 					castelingAvelaible = true;
 				}
 				else
 					castelingAvelaible = false;
 			}
+
 			if (castelingAvelaible == true) {
 				addMovement(availCoords, r, c + 2, board);// east direction
 				addMovement(availCoords, r, c + 3, board);// east direction
@@ -53,9 +54,9 @@ public class King extends Piece {
 			}
 			
 		}
-if (getType() == Type.BLACK && board.whiteEverChecked == false && (board.getPiece(0,0).toString().equals("Rook") || board.getPiece(0,7).toString().equals("Rook"))) {
+		else if (getType() == Type.BLACK && board.blackEverChecked == false && getHasMoved() == false && (board.getPiece(0,0).toString().equals("Rook") || board.getPiece(0,7).toString().equals("Rook"))) {
 			
-			for(int i = 3; i <= 0; i--) {
+			for(int i = 3; i < 0; i--) {
 				if (board.hasPiece(0,i) == false) {
 					castelingAvelaible = true;
 				}
@@ -68,7 +69,7 @@ if (getType() == Type.BLACK && board.whiteEverChecked == false && (board.getPiec
 				addMovement(availCoords, r, c - 4, board);// West direction
 			}
 			
-			for(int i = 5; i <= 7; i++) {
+			for(int i = 5; i < 7; i++) {
 				if (board.hasPiece(0,i) == false) {
 					castelingAvelaible = true;
 				}
@@ -82,8 +83,16 @@ if (getType() == Type.BLACK && board.whiteEverChecked == false && (board.getPiec
 			}
 			
 		}
-		
+	
 		return availCoords;
+	}
+
+	public boolean isCastelingAvelaible() {
+		return castelingAvelaible;
+	}
+
+	public void setCastelingAvelaible(boolean castelingAvelaible) {
+		this.castelingAvelaible = castelingAvelaible;
 	}
 
 	public void addMovement(ArrayList<Coordinate> availCoords, int r, int c, Board board) {
