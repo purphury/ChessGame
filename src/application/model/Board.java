@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Board {
 	private String whiteName;
 	private String blackName;
+	public boolean blackEverChecked;
+	public boolean whiteEverChecked;
 
 	public static enum Type {
 		BLACK, WHITE
@@ -17,6 +19,8 @@ public class Board {
 	public Board(String whiteName, String blackName) {
 		this.whiteName = whiteName;
 		this.blackName = blackName;
+		this.blackEverChecked = false;
+		this.whiteEverChecked = false;
 		isCurrentlyCheck = false;
 		turn = Type.WHITE;
 		board = new Piece[8][8];
@@ -241,6 +245,12 @@ public class Board {
 
 							// if the king is in there return true
 							if (c.equals(kingLoc)) {
+								if(type == Type.WHITE) {
+									whiteEverChecked = true;
+								}
+								else if(type == Type.BLACK) {
+									blackEverChecked = true;
+								}
 								return true;
 							}
 						}

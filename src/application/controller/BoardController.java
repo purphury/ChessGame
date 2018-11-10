@@ -107,15 +107,6 @@ public class BoardController {
 					availableMoves = null;
 					allyPiece = null;
 					clickedPieceCoordinate = null;
-					if(boardModel.isCheck(boardModel.getPiece(c).otherType()))
-						checkLabel.setVisible(true);
-					else
-						checkLabel.setVisible(false);
-					
-					if(boardModel.isCheckmate(boardModel.getPiece(c).otherType())) {
-						checkLabel.setVisible(false);
-						checkmateLabel.setVisible(true);
-					}
 				}
 			}
 			//if the pane is clicked again, the piece is unselected//
