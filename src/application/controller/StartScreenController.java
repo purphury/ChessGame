@@ -2,6 +2,8 @@ package application.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import application.model.Timer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +21,6 @@ public class StartScreenController{
 	private Button startButton; 
 	@FXML
 	private AnchorPane rootPane;
-	
 	public static ArrayList<String> names;
 
 	public void loadNames() {
