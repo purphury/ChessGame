@@ -8,9 +8,9 @@ public class Timer implements Runnable {
 	private long playerTwo; //Type.BLACK//
 	
 	public Timer() {
-		//60000 milliseconds in 5 minutes//
-		playerOne = 60000;
-		playerTwo = 60000;
+		//300000 milliseconds in 5 minutes//
+		playerOne = 300000;
+		playerTwo = 300000;
 	}
 	
 	@Override
@@ -29,11 +29,14 @@ public class Timer implements Runnable {
 			}
 			//Check if currentTime has changed and subtract 1 from current player//
 			if(now > startTime) {
-				if(turn == Type.WHITE)
+				if(turn == Type.WHITE) {
 					playerOne -= now - startTime;
-				else
+					BoardController.setTime(playerOne, turn);
+				}
+				else {
 					playerTwo -= now - startTime;
-				BoardController.setTime(playerOne, playerTwo);
+					BoardController.setTime(playerTwo, turn);
+				}
 				startTime = System.currentTimeMillis();
 			}
 		}

@@ -21,9 +21,6 @@ public class StartScreenController{
 	private Button startButton; 
 	@FXML
 	private AnchorPane rootPane;
-	
-	public static Timer timer;
-	public static Thread timeThread;
 	public static ArrayList<String> names;
 
 	public void loadNames() {
@@ -35,9 +32,6 @@ public class StartScreenController{
 		try {
 			AnchorPane pane = FXMLLoader.load(getClass().getResource("../view/Board.fxml"));
 			rootPane.getChildren().setAll(pane);
-			timer = new Timer();
-			timeThread = new Thread(timer);
-			timeThread.start();
 		}
 		catch (IOException e) {
 			e.printStackTrace();

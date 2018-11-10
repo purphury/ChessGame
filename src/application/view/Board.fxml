@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="666.0" prefWidth="845.0" style="-fx-background-color: #e2ffec;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.BoardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" style="-fx-background-color: #e2ffec;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.BoardController">
    <children>
       <GridPane fx:id="boardFX" layoutX="29.0" layoutY="29.0" prefHeight="600.0" prefWidth="600.0" style="-fx-border-color: #030303;">
         <columnConstraints>
@@ -378,6 +378,36 @@
       <Label fx:id="checkmateLabel" layoutX="641.0" layoutY="180.0" prefHeight="17.0" prefWidth="172.0" text="Checkmate!">
          <font>
             <Font size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="p1Min" layoutX="68.0" layoutY="703.0" text="05">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="107.0" layoutY="703.0" text=":">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="p1Sec" layoutX="115.0" layoutY="703.0" text="00">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="p2Min" layoutX="366.0" layoutY="703.0" text="05">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="405.0" layoutY="703.0" text=":">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="p2Sec" layoutX="413.0" layoutY="703.0" text="00">
+         <font>
+            <Font size="36.0" />
          </font>
       </Label>
    </children>

@@ -7,7 +7,10 @@ import application.model.Board;
 import application.model.Board.Type;
 import application.model.Coordinate;
 import application.model.Piece;
+import application.model.Timer;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -22,6 +25,10 @@ public class BoardController {
 	private Coordinate clickedPieceCoordinate;
 	public static Board boardModel;
 	private ArrayList<Coordinate> availableMoves;
+	@FXML public static Label p1Min, p1Sec, p2Min, p2Sec;
+	public static Timer timer;
+	public static Thread timeThread;
+	
 	@FXML
 	private Label whiteNameLabel;
 
@@ -256,9 +263,34 @@ public class BoardController {
 		}	
 	}
 	
-	public static void setTime(long playerOne, long playerTwo) {
+	public static void setTime(long player, Type turn) {
 		//TODO: needs implementation!
-		System.out.println("PlayerOne: " + playerOne + "\nPlayerTwo: " + playerTwo);
+		//Set time for playerOne//
+		Thread th = new Thread(new Task() {
+			@Override
+			protected String call() throws Exception {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						int seconds = (int) ((player/1000) % 60);
+						int minutes = (int) player/60000;
+						if(turn == Type.WHITE) {
+							//System.out.println("PlayerOne: " + minutes + ":" + seconds);
+							System.out.println(p1Min.getText());
+							//p1Min.setText("0" + String.valueOf(minutes));
+							//p1Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));
+						}
+						if(turn == Type.BLACK) {
+							System.out.println("PlayerTwo: " + minutes + ":" + seconds);
+							//p2Min.setText("0" + String.valueOf(minutes));
+							//p2Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));
+						}
+					}
+				});
+				return null;
+			}
+		});
+		th.start();
 	}
 	
 	@FXML
@@ -277,6 +309,11 @@ public class BoardController {
 		boardModel = new Board(whiteNameString, blackNameString);
 		allyPiece = null;
 		availableMoves = new ArrayList<Coordinate>();
+		/*
+		timer = new Timer();
+		timeThread = new Thread(timer);
+		timeThread.start();
+		*/
 	}
 
 }
