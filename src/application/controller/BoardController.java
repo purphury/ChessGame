@@ -61,14 +61,19 @@ public class BoardController {
 			Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 			int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
 
+			// **Move was not possible**
+			if(typeOfMove == 0)
+				unselectPiece(c);
+			
 			// **Move was possible**
-			if (typeOfMove > 0) {
+			if (typeOfMove >= 1  ) {
 
 				// Moved to an empty space
-				if (clickedPane.getChildren().size() != 0 && clickedPane.getChildren().get(0) instanceof Circle) {
+				if (clickedPane.getChildren().size() != 0 && clickedPane.getChildren().get(0) 
+																					instanceof Circle) {
 					movePiece(clickedPane);
 					
-					// Check if move was an En Passant
+					//**Move was an En Passant**
 					if (typeOfMove == 2)
 						processEnPassant(clickedPieceCoordinate, c);
 				}
@@ -80,9 +85,7 @@ public class BoardController {
 				endOfMoveProcessing(c);
 			}
 
-			// **Unselect piece**
-			else
-				unselectPiece(c);
+			
 		}
 	}
 
