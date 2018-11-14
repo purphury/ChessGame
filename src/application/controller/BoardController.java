@@ -1,29 +1,33 @@
 package application.controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import application.model.Board;
 import application.model.Board.Type;
 import application.model.Coordinate;
-import application.model.Piece;
 import application.model.Timer;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
+import javafx.scene.image.Image;
 
 public class BoardController {
-	private ImageView allyPiece;
+	private ImageView selectedPiece;
 	private Coordinate clickedPieceCoordinate;
 	public static Board boardModel;
+	private Coordinate pawnToPromote;
 	private ArrayList<Coordinate> availableMoves;
 	@FXML
 	public static Label p1Min, p1Sec, p2Min, p2Sec;
@@ -31,6 +35,7 @@ public class BoardController {
 	public static Thread timeThread;
 
 	@FXML
+	
 	private Label whiteNameLabel;
 
 	@FXML
@@ -47,17 +52,42 @@ public class BoardController {
 
 	@FXML
 	private GridPane boardFX;
+	
+	@FXML
+	private Pane promotionPane;
+	
+	@FXML
+	public void handleChoice(ActionEvent event) {
+		String pieceChosenStr =((Button) event.getSource()).getText().toLowerCase();
+		boardModel.exchangePiece(pieceChosenStr, pawnToPromote, boardModel.getPreviousTurn());
+		ImageView view = ((ImageView)getPaneByRowColumnIndex(pawnToPromote.getRowIndex()
+				, pawnToPromote.getColumnIndex()).getChildren().get(0));
+		String imagePath = "images/";
+		if(boardModel.getPreviousTurn() == Type.WHITE) 
+			imagePath +="white_";			
+		
+		if(boardModel.getPreviousTurn()  == Type.BLACK) 
+			imagePath +="black_";			
+		
+		imagePath += pieceChosenStr+".png";
+		
+		putImage(view, imagePath );
+		promotionPane.setVisible(false);
+		
+		
+	}
 
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
 		// ***A piece has not been selected yet***
-		if (allyPiece == null) {
+		if (selectedPiece == null) {
 			selectPiece(event);
 		}
+		
 
 		// ***A piece has already been selected***
 		else {
-			Coordinate c = findCoordinate(boardFX, event);
+			Coordinate c = findCoordinate(event);
 			Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 			int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
 
@@ -76,10 +106,21 @@ public class BoardController {
 					//**Move was an En Passant**
 					if (typeOfMove == 2)
 						processEnPassant(clickedPieceCoordinate, c);
+					
+					//Pawn reached opposite side
+					if(typeOfMove == 3) {					
+						promotePawn(boardModel.getPreviousTurn(), c);
+					}
 				}
 				// Moved to enemy space
-				else
+				else {
 					killPiece(clickedPane);
+					//Pawn reached opposite side
+					if(typeOfMove == 3) {	
+						promotePawn(boardModel.getPreviousTurn(), c);
+					}
+				}
+			
 
 				// Reset variables and see if its check or checkmate
 				endOfMoveProcessing(c);
@@ -88,13 +129,39 @@ public class BoardController {
 			
 		}
 	}
+	
+	public void promotePawn(Type type, Coordinate c) {
+		pawnToPromote = c;
+		promotionPane.setVisible(true);
+		ObservableList<Node> children = promotionPane.getChildren();
+		if(children.size() == 8 && type == Type.WHITE) {
+			putImage(((ImageView)children.get(4)),"images/white_rook.png" );
+			putImage(((ImageView)children.get(5)),"images/white_knight.png" );
+			putImage(((ImageView)children.get(6)),"images/white_bishop.png" );
+			putImage(((ImageView)children.get(7)),"images/white_queen.png" );
+		}
+		if(children.size() == 8 && type == Type.BLACK) {
+			putImage(((ImageView)children.get(4)),"images/black_rook.png" );
+			putImage(((ImageView)children.get(5)),"images/black_knight.png" );
+			putImage(((ImageView)children.get(6)),"images/black_bishop.png" );
+			putImage(((ImageView)children.get(7)),"images/black_queen.png" );
+		}
+	}
+	
+	public void putImage(ImageView view, String imagePath) {
+		File file = new File(imagePath);
+		Image image = new Image(file.toURI().toString());
+		view.setVisible(true);
+		view.setImage(image);
+
+	}
 
 	public void selectPiece(MouseEvent event) {
-		clickedPieceCoordinate = findCoordinate(boardFX, event);
+		clickedPieceCoordinate = findCoordinate(event);
 		Pane p = (Pane) event.getSource();
 		if (p.getChildren().size() != 0 && boardModel.hasPiece(clickedPieceCoordinate)) {
 			if (boardModel.getPiece(clickedPieceCoordinate).getType() == boardModel.getTurn()) {
-				allyPiece = (ImageView) p.getChildren().get(0);
+				selectedPiece = (ImageView) p.getChildren().get(0);
 				availableMoves = boardModel.getMoves(clickedPieceCoordinate);
 				addDots(clickedPieceCoordinate);
 			}
@@ -102,30 +169,27 @@ public class BoardController {
 	}
 
 	public void movePiece(Pane clickedPane) {
-		boardFX.getChildren().remove(allyPiece);
-		clickedPane.getChildren().add(allyPiece);
+		boardFX.getChildren().remove(selectedPiece);
+		clickedPane.getChildren().add(selectedPiece);
 	}
 
 	public void killPiece(Pane clickedPane) {
 		ImageView enemyPiece = (ImageView) clickedPane.getChildren().get(0);
 		clickedPane.getChildren().remove(enemyPiece);
-		boardFX.getChildren().remove(allyPiece);
-		clickedPane.getChildren().add(allyPiece);
+		boardFX.getChildren().remove(selectedPiece);
+		clickedPane.getChildren().add(selectedPiece);
 	}
 
 	public void endOfMoveProcessing(Coordinate c) {
-		removeDots(c);
 		turnLabelAppearance();
 		testForCheckAndCheckmate(boardModel.getPiece(c).otherType());
-		availableMoves = null;
-		allyPiece = null;
-		clickedPieceCoordinate = null;
+		unselectPiece(c);
 	}
 
 	public void unselectPiece(Coordinate c) {
 		removeDots(c);
 		availableMoves = null;
-		allyPiece = null;
+		selectedPiece = null;
 		clickedPieceCoordinate = null;
 	}
 
@@ -186,18 +250,7 @@ public class BoardController {
 			pane.setStyle("-fx-background-color:  white;");
 	}
 
-	/*
-	 * private static Coordinate findCoordinateWithPane(GridPane boardFX, Pane pane)
-	 * { Coordinate a = new Coordinate(); Node source = pane; if
-	 * (GridPane.getRowIndex(source) != null)
-	 * a.setRowIndex(GridPane.getRowIndex(source)); else a.setRowIndex(0); if
-	 * (GridPane.getColumnIndex(source) != null)
-	 * a.setColumnIndex(GridPane.getColumnIndex(source)); else a.setColumnIndex(0);
-	 * 
-	 * return a; }
-	 */
-
-	private static Coordinate findCoordinate(GridPane boardFX, MouseEvent event) {
+	private static Coordinate findCoordinate(MouseEvent event) {
 		Coordinate a = new Coordinate();
 		Node source;
 		if (((Node) event.getSource()).getParent() instanceof GridPane)
@@ -295,8 +348,9 @@ public class BoardController {
 		turnLabel.setText(whiteTurn);
 		checkLabel.setVisible(false);
 		checkmateLabel.setVisible(false);
+		promotionPane.setVisible(false);
 		boardModel = new Board(whiteNameString, blackNameString);
-		allyPiece = null;
+		selectedPiece = null;
 		availableMoves = new ArrayList<Coordinate>();
 		/*
 		 * timer = new Timer(); timeThread = new Thread(timer); timeThread.start();
