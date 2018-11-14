@@ -350,7 +350,7 @@ public class Board {
 		ArrayList<Coordinate> availMoves = new ArrayList<Coordinate>();
 
 		// checks that the piece is really there
-		if (this.board[r][c] != null) {
+		if (this.board[r][c] != null && this.board[r][c].getType() == turn) {
 			availMoves = this.board[r][c].getAvailableMovements(r, c, this);
 
 			// You cant remove elements inside a for-each loop from an ArrayList you're
