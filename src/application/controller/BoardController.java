@@ -48,61 +48,55 @@ public class BoardController {
 	private GridPane boardFX;
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
-		//check if a pane has been clicked && if a piece has been clicked, then move the piece//
-		if(allyPiece != null && event.getSource() instanceof Pane) {
+		
+		//***A piece has not been selected yet***
+		if(allyPiece == null) {
+			clickedPieceCoordinate = findCoordinate(boardFX, event);
+			Pane p = (Pane) event.getSource();
+			
+			//There is a piece on the clicked Pane p
+			if(p.getChildren() != null ) {
+				allyPiece = (ImageView) p.getChildren().get(0);
+				availableMoves = boardModel.getMoves(clickedPieceCoordinate);
+				addDots(clickedPieceCoordinate);
+			}
+		}
+		
+		//***A piece has been selected***
+		else if(allyPiece != null) {
 			Coordinate c = findCoordinate(boardFX, event);
 			Pane clickedPane = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), c.getColumnIndex(), boardFX);
-			//Make sure that the area clicked does not have a piece on it because there is a circle//
+			
+			//**Space was an available move and had NO ENEMY***
 			if(clickedPane.getChildren().size() != 0 
 					&& clickedPane.getChildren().get(0) instanceof Circle ) {
-				//Check if the piece can be moved at all//
-				int x = boardModel.movePieces(clickedPieceCoordinate, c);
-				if(x>0) {
+				
+				int typeOfMove;
+				
+				//**Move was possible**
+				if((typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c)) >0) {
 					removeDots(c);
 					turnLabelAppearance();
-					availableMoves = null;
 					boardFX.getChildren().remove(allyPiece);
 					clickedPane.getChildren().add(allyPiece);
 					
-					if(x==2) {
-						if(boardModel.getPiece(c).getType() == Type.WHITE) {
-							Pane p = (Pane) getNodeByRowColumnIndex(c.getRowIndex()+1, c.getColumnIndex(), boardFX);
-							
-							if(p.getChildren().get(0) != null) {
-								ImageView thing = (ImageView) p.getChildren().get(0);
-								p.getChildren().remove(thing);
-							}
-							
-						}
-						if(boardModel.getPiece(c).getType() == Type.BLACK) {
-							Pane p = (Pane) getNodeByRowColumnIndex(c.getRowIndex()-1, c.getColumnIndex(), boardFX);
-							
-							if(p.getChildren().get(0) != null) {
-								ImageView thing = (ImageView) p.getChildren().get(0);
-								p.getChildren().remove(thing);
-							}
-							
-						}
-							
-					}
-					
+					//If move was an En Passant
+					if(typeOfMove==2) 
+						processEnPassant(clickedPieceCoordinate, c);
+
+					//Reset variables and see if its check or checkmate
+					availableMoves = null;
 					allyPiece = null;
 					clickedPieceCoordinate = null;
-					if(boardModel.isCheck(boardModel.getPiece(c).otherType()))
-						checkLabel.setVisible(true);
-					else
-						checkLabel.setVisible(false);
-					
-					if(boardModel.isCheckmate(boardModel.getPiece(c).otherType())) {
-						checkLabel.setVisible(false);
-						checkmateLabel.setVisible(true);
-					}
+					testForCheckAndCheckmate(boardModel.getPiece(c).otherType());
 					
 				}
 			}
-			//if there is a piece on the pane that was clicked, kill the piece and move there//
+			
+			//**Space was an Available move and had an ENEMY**
 			else if(!clickedPieceCoordinate.equals(c)) {
-				//Check if the piece can actually be moved to the location clicked//
+				
+				//**Move was possible**
 				if(boardModel.movePieces(clickedPieceCoordinate, c) > 0) {
 					removeDots(c);
 					turnLabelAppearance();
@@ -110,13 +104,16 @@ public class BoardController {
 					clickedPane.getChildren().remove(enemyPiece);
 					boardFX.getChildren().remove(allyPiece);
 					clickedPane.getChildren().add(allyPiece);
-
+					
+					//Reset variables and see if its check or checkmate
+					testForCheckAndCheckmate(boardModel.getPiece(c).otherType());
 					availableMoves = null;
 					allyPiece = null;
 					clickedPieceCoordinate = null;
 				}
 			}
-			//if the pane is clicked again, the piece is unselected//
+			
+			//**Unselect piece**
 			else if(clickedPieceCoordinate.equals(c)) {
 				removeDots(c);
 				availableMoves = null;
@@ -124,19 +121,27 @@ public class BoardController {
 				clickedPieceCoordinate = null;
 			}
 		}
-		//if an image (piece) has been clicked, then clickedPiece will not be null//
-		else if(event.getSource() instanceof Pane&& allyPiece == null) {
-			System.out.println(boardModel.getTurn());
-			clickedPieceCoordinate = findCoordinate(boardFX, event);
-			Piece clickPiece = boardModel.getPiece(clickedPieceCoordinate, boardModel.getTurn());
-			Pane p = (Pane) event.getSource();
-			if(p.getChildren() != null && clickPiece != null) {
-				allyPiece = (ImageView) p.getChildren().get(0);
-				availableMoves = boardModel.getMoves(clickedPieceCoordinate);
-				addDots(clickedPieceCoordinate);
-				System.out.println("Coords: " + boardModel.getMoves(clickedPieceCoordinate));
-			}
+
+	}
+	
+	public void testForCheckAndCheckmate(Type type) {
+		if(boardModel.isCheck(type))
+			checkLabel.setVisible(true);
+		else
+			checkLabel.setVisible(false);
+		
+		if(boardModel.isCheckmate(type)) {
+			checkLabel.setVisible(false);
+			checkmateLabel.setVisible(true);
 		}
+	}
+	
+	public void processEnPassant(Coordinate fromPosition, Coordinate toPosition) {
+			Pane p = (Pane) getNodeByRowColumnIndex(fromPosition.getRowIndex(), toPosition.getColumnIndex(), boardFX);		
+			if(p.getChildren().get(0) != null) {
+				ImageView killedPawn = (ImageView) p.getChildren().get(0);
+				p.getChildren().remove(killedPawn);
+			}
 	}
 	
 	public void addDots(Coordinate b){
