@@ -18,7 +18,7 @@ public class Timer implements Runnable {
 		long startTime = System.currentTimeMillis();
 		long now;
 		Type turn = BoardController.boardModel.getTurn();
-		while(playerOne > 0 || playerTwo > 0) {
+		while(playerOne > 0 && playerTwo > 0) {
 			now = System.currentTimeMillis();
 			//Check if it's the other player's turn//
 			if(BoardController.boardModel.getTurn() != turn) {
@@ -29,14 +29,10 @@ public class Timer implements Runnable {
 			}
 			//Check if currentTime has changed and subtract 1 from current player//
 			if(now > startTime) {
-				if(turn == Type.WHITE) {
+				if(turn == Type.WHITE)
 					playerOne -= now - startTime;
-					BoardController.setTime(playerOne, turn);
-				}
-				else {
+				else
 					playerTwo -= now - startTime;
-					BoardController.setTime(playerTwo, turn);
-				}
 				startTime = System.currentTimeMillis();
 			}
 		}
@@ -45,6 +41,14 @@ public class Timer implements Runnable {
 	public long getCurrentPlayerTimeInSeconds() {
 		return BoardController.boardModel.getTurn() == Type.WHITE 
 				? playerOne : playerTwo;
+	}
+
+	public long getPlayerOne() {
+		return playerOne;
+	}
+
+	public long getPlayerTwo() {
+		return playerTwo;
 	}
 	
 

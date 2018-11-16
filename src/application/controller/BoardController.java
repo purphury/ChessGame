@@ -7,7 +7,6 @@ import application.model.Board;
 import application.model.Board.Type;
 import application.model.Coordinate;
 import application.model.Piece;
-import application.model.Timer;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -25,8 +24,8 @@ public class BoardController {
 	private Coordinate clickedPieceCoordinate;
 	public static Board boardModel;
 	private ArrayList<Coordinate> availableMoves;
-	@FXML public static Label p1Min, p1Sec, p2Min, p2Sec;
-	public static Timer timer;
+	@FXML public Label p1Min, p1Sec, p2Min, p2Sec;
+	//public static Timer timer;
 	public static Thread timeThread;
 	
 	@FXML
@@ -256,29 +255,78 @@ public class BoardController {
 	public void turnLabelAppearance() {
 		Type turn = boardModel.getTurn();
 		if (turn.equals(Type.WHITE)) {
-			turnLabel.setText(whiteNameLabel.getText() + "'s turn");
+			turnLabel.setText(whiteNameLabel.getText() + (whiteNameLabel.getText().charAt(whiteNameLabel.getText().length()-1) == 's' ? "'" : "'s") + " turn");
 		}
 		else if (turn.equals(Type.BLACK)) {
-			turnLabel.setText(blackNameLabel.getText() + "'s turn");
+			turnLabel.setText(blackNameLabel.getText() + (blackNameLabel.getText().charAt(blackNameLabel.getText().length()-1) == 's' ? "'" : "'s") + " turn");
 		}	
 	}
-	
+	public void setTime() {
+//		Task task = new Task<Void>() {
+//
+//			@Override
+//			protected Void call() throws Exception {
+//				long currentPlayer;
+//				int seconds;
+//				int minutes;
+//				do {
+//					currentPlayer = timer.getCurrentPlayerTimeInSeconds();
+//					seconds = (int) ((currentPlayer/1000) % 60);
+//					minutes = (int) currentPlayer/60000;
+//					
+//				} while(currentPlayer > 0);
+//				return null;
+//			}
+//			
+//		};
+//		Thread th = new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				long currentPlayer;
+//				do {
+//					currentPlayer = timer.getCurrentPlayerTimeInSeconds();
+//					int seconds = (int) ((currentPlayer/1000) % 60);
+//					int minutes = (int) currentPlayer/60000;
+//					if(boardModel.getTurn() == Type.WHITE) {
+//						Platform.runLater(new Runnable() {
+//							@Override
+//							public void run() {
+//								p1Min.setText("0" + String.valueOf(minutes));
+//								p1Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
+//							}
+//							
+//						});
+//					} else {
+//						Platform.runLater(new Runnable() {
+//							@Override
+//							public void run() {
+//								p2Min.setText("0" + String.valueOf(minutes));
+//								p2Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
+//							}
+//							
+//						});
+//					}
+//				} while(currentPlayer > 0);
+//			}
+//			
+//		});
+//		
+//		th.setDaemon(true);
+//		th.start();
+	}
+	/*
 	public static void setTime(long player, Type turn) {
 		//TODO: needs implementation!
 		//Set time for playerOne//
-		Thread th = new Thread(new Task() {
+		Thread th = new Thread(new Task<String>() {
 			@Override
 			protected String call() throws Exception {
 				Platform.runLater(new Runnable() {
 					@Override
 					public void run() {
-						int seconds = (int) ((player/1000) % 60);
-						int minutes = (int) player/60000;
 						if(turn == Type.WHITE) {
 							//System.out.println("PlayerOne: " + minutes + ":" + seconds);
-							System.out.println(p1Min.getText());
-							//p1Min.setText("0" + String.valueOf(minutes));
-							//p1Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));
+							System.out.println("playerOne: " + minutes + ":" + seconds);
 						}
 						if(turn == Type.BLACK) {
 							System.out.println("PlayerTwo: " + minutes + ":" + seconds);
@@ -286,12 +334,16 @@ public class BoardController {
 							//p2Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));
 						}
 					}
+					
 				});
 				return null;
 			}
 		});
+		//Terminate background thread when program is exited//
+		th.setDaemon(true);
 		th.start();
 	}
+	*/
 	
 	@FXML
 	void initialize() {
@@ -302,18 +354,16 @@ public class BoardController {
 		String blackNameString = StartScreenController.names.get(1), whiteNameString = StartScreenController.names.get(0);
 		this.blackNameLabel.setText(blackNameString);
 		this.whiteNameLabel.setText(whiteNameString);
-		String whiteTurn = whiteNameString + "'s turn";
+		String whiteTurn = whiteNameString + "'" + (whiteNameString.charAt(whiteNameString.length()-1) == 's' ? "" : "s") + " turn";
 		turnLabel.setText(whiteTurn);
 		checkLabel.setVisible(false);
 		checkmateLabel.setVisible(false);
 		boardModel = new Board(whiteNameString, blackNameString);
 		allyPiece = null;
 		availableMoves = new ArrayList<Coordinate>();
-		/*
-		timer = new Timer();
-		timeThread = new Thread(timer);
-		timeThread.start();
-		*/
+//		timer = new Timer();
+//		new Thread(timer).start();
+//		setTime();
 	}
 
 }
