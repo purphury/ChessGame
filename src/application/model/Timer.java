@@ -24,7 +24,6 @@ public class Timer implements Runnable {
 			//Check if it's the other player's turn//		
 			//System.out.println(BoardController.boardModel.getTurn() == turn);
 			if(BoardController.boardModel.getTurn() != turn) {
-				System.out.println("here");
 				turn = BoardController.boardModel.getTurn();
 				//Restart the timer//
 				startTime = System.currentTimeMillis();
@@ -33,21 +32,21 @@ public class Timer implements Runnable {
 			//Check if currentTime has changed and subtract milliseconds elapsed from current player//
 			if(now > startTime) {
 				//System.out.println("here: " + (turn == Type.BLACK ? "true" : "false"));
-				if(turn == Type.WHITE) {
-					System.out.println("");
-					playerOne -= (now - startTime);
+				synchronized(this.getClass()) {
+					if(turn == Type.WHITE) {
+						playerOne -= (now - startTime);
+					}
+					else if(turn == Type.BLACK){
+						playerTwo -= (now - startTime);
+					}
+					count += now;
+					startTime = System.currentTimeMillis();
 				}
-				else if(turn == Type.BLACK){
-					System.out.println("");
-					playerTwo -= (now - startTime);
-				}
-				count += now;
-				startTime = System.currentTimeMillis();
 			}
 		}
 	}
 	
-	public long getCurrentPlayerTimeInSeconds() {
+	public synchronized long getCurrentPlayerTimeInSeconds() {
 		//System.out.println(playerOne + " " + playerTwo); 
 		return BoardController.boardModel.getTurn() == Type.WHITE 
 				? playerOne : playerTwo;
