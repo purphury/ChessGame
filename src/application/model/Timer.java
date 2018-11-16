@@ -34,11 +34,11 @@ public class Timer implements Runnable {
 			if(now > startTime) {
 				//System.out.println("here: " + (turn == Type.BLACK ? "true" : "false"));
 				if(turn == Type.WHITE) {
-					System.out.println("here");
+					System.out.println("");
 					playerOne -= (now - startTime);
 				}
 				else if(turn == Type.BLACK){
-					System.out.println("there");
+					System.out.println("");
 					playerTwo -= (now - startTime);
 				}
 				count += now;
