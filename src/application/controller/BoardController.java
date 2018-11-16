@@ -304,104 +304,45 @@ public class BoardController {
 		}
 	}
 	public void setTime() {
-		Task task = new Task<Void>() {
-
-			@Override
-			protected Void call() throws Exception {
-				long currentPlayer;
-				int seconds;
-				int minutes;
-				do {
-					currentPlayer = timer.getCurrentPlayerTimeInSeconds();
-					seconds = (int) ((currentPlayer/1000) % 60);
-					minutes = (int) currentPlayer/60000;
-					
-				} while(currentPlayer > 0);
-				return null;
-			}
-			
-		};
 		Thread th = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				long currentPlayer;
 				do {
 					currentPlayer = timer.getCurrentPlayerTimeInSeconds();
-					int seconds = (int) ((currentPlayer/1000) % 60);
-					int minutes = (int) currentPlayer/60000;
-					if(boardModel.getTurn() == Type.WHITE) {
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								p1Min.setText("0" + String.valueOf(minutes));
-								p1Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
-							}
-							
-						});
-					} else {
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								p2Min.setText("0" + String.valueOf(minutes));
-								p2Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
-							}
-							
-						});
+					if (timer.getCount() >= 1000) {
+						timer.setCount(0);
+						int seconds = (int) ((currentPlayer/1000) % 60);
+						int minutes = (int) currentPlayer/60000;
+						if(boardModel.getTurn() == Type.WHITE) {
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									p1Min.setText("0" + String.valueOf(minutes));
+									p1Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
+								}
+
+							});
+						} else {
+							Platform.runLater(new Runnable() {
+								@Override
+								public void run() {
+									p2Min.setText("0" + String.valueOf(minutes));
+									p2Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
+								}
+
+							});
+						}
 					}
 				} while(currentPlayer > 0);
 			}
-			
 		});
+		
 		
 		th.setDaemon(true);
 		th.start();
+		
 	}
-/*
-	public static void setTime(long player, Type turn) {
-<<<<<<< HEAD
-		//TODO: needs implementation!
-		//Set time for playerOne//
-		Thread th = new Thread(new Task<String>() {
-=======
-		// TODO: needs implementation!
-		// Set time for playerOne//
-		Thread th = new Thread(new Task() {
->>>>>>> refs/remotes/origin/master
-			@Override
-			protected String call() throws Exception {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-<<<<<<< HEAD
-						if(turn == Type.WHITE) {
-							//System.out.println("PlayerOne: " + minutes + ":" + seconds);
-							System.out.println("playerOne: " + minutes + ":" + seconds);
-=======
-						int seconds = (int) ((player / 1000) % 60);
-						int minutes = (int) player / 60000;
-						if (turn == Type.WHITE) {
-							// System.out.println("PlayerOne: " + minutes + ":" + seconds);
-							System.out.println(p1Min.getText());
-							// p1Min.setText("0" + String.valueOf(minutes));
-							// p1Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));
->>>>>>> refs/remotes/origin/master
-						}
-						if (turn == Type.BLACK) {
-							System.out.println("PlayerTwo: " + minutes + ":" + seconds);
-							// p2Min.setText("0" + String.valueOf(minutes));
-							// p2Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));
-						}
-					}
-					
-				});
-				return null;
-			}
-		});
-		//Terminate background thread when program is exited//
-		th.setDaemon(true);
-		th.start();
-	}
-	*/
 	@FXML
 	void initialize() {
 		assert whiteNameLabel != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
@@ -420,9 +361,9 @@ public class BoardController {
 		boardModel = new Board(whiteNameString, blackNameString);
 		selectedPiece = null;
 		availableMoves = new ArrayList<Coordinate>();
-		/*
-		 * timer = new Timer(); timeThread = new Thread(timer); timeThread.start();
-		 */
+		 timer = new Timer(); timeThread = new Thread(timer); 
+		 timeThread.setDaemon(true); timeThread.start();
+		 setTime();
 	}
 
 }

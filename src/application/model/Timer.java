@@ -6,11 +6,12 @@ import application.model.Board.Type;
 public class Timer implements Runnable {
 	private long playerOne; //Type.WHITE//
 	private long playerTwo; //Type.BLACK//
-	
+	private int count;
 	public Timer() {
 		//300000 milliseconds in 5 minutes//
 		playerOne = 300000;
 		playerTwo = 300000;
+		count = 0;
 	}
 	
 	@Override
@@ -20,25 +21,34 @@ public class Timer implements Runnable {
 		Type turn = BoardController.boardModel.getTurn();
 		while(playerOne > 0 && playerTwo > 0) {
 			now = System.currentTimeMillis();
-			//Check if it's the other player's turn//
+			//Check if it's the other player's turn//		
+			//System.out.println(BoardController.boardModel.getTurn() == turn);
 			if(BoardController.boardModel.getTurn() != turn) {
+				System.out.println("here");
 				turn = BoardController.boardModel.getTurn();
 				//Restart the timer//
 				startTime = System.currentTimeMillis();
 				continue;
 			}
-			//Check if currentTime has changed and subtract 1 from current player//
+			//Check if currentTime has changed and subtract milliseconds elapsed from current player//
 			if(now > startTime) {
-				if(turn == Type.WHITE)
-					playerOne -= now - startTime;
-				else
-					playerTwo -= now - startTime;
+				//System.out.println("here: " + (turn == Type.BLACK ? "true" : "false"));
+				if(turn == Type.WHITE) {
+					System.out.println("here");
+					playerOne -= (now - startTime);
+				}
+				else if(turn == Type.BLACK){
+					System.out.println("there");
+					playerTwo -= (now - startTime);
+				}
+				count += now;
 				startTime = System.currentTimeMillis();
 			}
 		}
 	}
 	
 	public long getCurrentPlayerTimeInSeconds() {
+		//System.out.println(playerOne + " " + playerTwo); 
 		return BoardController.boardModel.getTurn() == Type.WHITE 
 				? playerOne : playerTwo;
 	}
@@ -46,10 +56,19 @@ public class Timer implements Runnable {
 	public long getPlayerOne() {
 		return playerOne;
 	}
-
+	public void setPlayerOne(long x) {
+		playerOne = x;
+	}
 	public long getPlayerTwo() {
 		return playerTwo;
 	}
-	
-
+	public void setPlayerTwo(long x) {
+		playerTwo = x;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int x) {
+		count = x;
+	}
 }
