@@ -85,6 +85,28 @@ public class BoardController {
 						}
 							
 					}
+					//moving rook
+					if (x == 3) {
+						Pane p = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), 7, boardFX);
+						if(p.getChildren().get(0) != null) {
+							ImageView thing = (ImageView) p.getChildren().get(0);
+							p.getChildren().remove(thing);
+							Pane destination = (Pane) getNodeByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() - 1, boardFX);
+							destination.getChildren().add(thing);
+						}
+						
+					}
+					if (x == 4) {
+						Pane p = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), 0, boardFX);
+						if(p.getChildren().get(0) != null) {
+							ImageView thing = (ImageView) p.getChildren().get(0);
+							p.getChildren().remove(thing);
+							Pane destination = (Pane) getNodeByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() + 1, boardFX);
+							destination.getChildren().add(thing);
+						}
+						
+					}
+					
 					
 					allyPiece = null;
 					clickedPieceCoordinate = null;
@@ -282,6 +304,10 @@ public class BoardController {
 			}
 		});
 		th.start();
+	}
+	//TODO: i need to finish this
+	public void casteling() {
+		
 	}
 	
 	@FXML

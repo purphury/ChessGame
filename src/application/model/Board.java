@@ -89,7 +89,7 @@ public class Board {
 	public Piece getPiece(Coordinate coord, Type turn) {
 		if (board[coord.getRowIndex()][coord.getColumnIndex()] != null)
 			return isGettable(coord) ? board[coord.getRowIndex()][coord.getColumnIndex()] : null;
-		return null;
+			return null;
 	}
 
 	/**
@@ -144,6 +144,7 @@ public class Board {
 		Piece piece = board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()];
 		ArrayList<Coordinate> availMoves = this.getMoves(oldLoc);
 		boolean wasEnPassant = false;
+
 		for (Coordinate c : availMoves)
 			if (c.equals(newLoc)) {
 				if (!piece.getHasMoved())
@@ -159,21 +160,39 @@ public class Board {
 						}
 					}
 				}
-				
+
 
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; // if new loc was occupied, the piece that
-																				// was there is now deleted as there is
-																				// no reference to it
+				// was there is now deleted as there is
+				// no reference to it
 				board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = null;
 
 				// sets and unsets the double moves for pawns
 				doubleMoveCheckAndSet(piece, oldLoc, newLoc);
 
 				changeTurn();
+				
+				
+				if(piece instanceof King && (!((King) piece).getCastlingMove().contains(newLoc))) {
+					if (newLoc.getColumnIndex() < 4) {
+						this.movePieces(new Coordinate(newLoc.getRowIndex(), 0), new Coordinate(newLoc.getRowIndex(), newLoc.getColumnIndex() + 1));
+						return 4;
+					} else {
+						this.movePieces(new Coordinate(newLoc.getRowIndex(), 7), new Coordinate(newLoc.getRowIndex(), newLoc.getColumnIndex() - 1));
+						System.out.println("rook loc" + new Coordinate(newLoc.getRowIndex(), 7));
+						System.out.println("rook new low "+ new Coordinate(newLoc.getRowIndex(), newLoc.getColumnIndex() - 1));
+						System.out.println(hasPiece(newLoc.getRowIndex(), newLoc.getColumnIndex() - 1));
+						return 3;
+					}
+					
+
+				}
 				if(wasEnPassant)
 					return 2;
 				else
 					return 1;
+
+
 			}
 		return 0;
 	}
