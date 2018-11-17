@@ -69,6 +69,9 @@ public class Board {
 	public Type getTurn() {
 		return turn;
 	}
+	public Type getPreviousTurn() {
+		return turn == Type.BLACK ? Type.WHITE : Type.BLACK;
+	}
 
 	public void setTurn(Type turn) {
 		this.turn = turn;
@@ -133,6 +136,21 @@ public class Board {
 	public boolean hasPiece(Coordinate coord) {
 		return board[coord.getRowIndex()][coord.getColumnIndex()] != null;
 	}
+	
+	public void exchangePiece(String name, Coordinate c, Type type) {
+		if(board[c.getRowIndex()][c.getColumnIndex()] instanceof Pawn) {
+			if(name.equals("rook")) 
+				board[c.getRowIndex()][c.getColumnIndex()] = new Rook(type);
+			if(name.equals("knight")) 
+				board[c.getRowIndex()][c.getColumnIndex()] = new Knight(type);
+			if(name.equals("bishop")) 
+				board[c.getRowIndex()][c.getColumnIndex()] = new Bishop(type);
+			if(name.equals("queen")) 
+				board[c.getRowIndex()][c.getColumnIndex()] = new Queen(type);
+							
+		}
+
+	}
 
 	/**
 	 * Moves piece at oldLoc to newLoc (removing piece at newLoc if there was one)
@@ -145,20 +163,16 @@ public class Board {
 		ArrayList<Coordinate> availMoves = this.getMoves(oldLoc);
 		boolean wasEnPassant = false;
 
+		boolean pawnCrossed = false;
+
 		for (Coordinate c : availMoves)
 			if (c.equals(newLoc)) {
 				if (!piece.getHasMoved())
 					piece.setHasMoved(true);
 
-				if (piece instanceof Pawn && (c.getColumnIndex() - oldLoc.getColumnIndex()) != 0) {
-					if (this.hasPiece(oldLoc.getRowIndex(), c.getColumnIndex())) {
-						Piece pawn = this.getPiece(oldLoc);
-						Piece pawnBehind = this.getPiece(oldLoc.getRowIndex(), c.getColumnIndex());
-						if(pawn.getType() != pawnBehind.getType()) {
-							board[oldLoc.getRowIndex()][c.getColumnIndex()] = null;
-							wasEnPassant = true;
-						}
-					}
+				if (piece instanceof Pawn ) {
+						wasEnPassant = enPassantTest(oldLoc, newLoc);
+						pawnCrossed = pawnCrossedTest(newLoc, piece.getType());
 				}
 
 
@@ -182,19 +196,46 @@ public class Board {
 						System.out.println("rook loc" + new Coordinate(newLoc.getRowIndex(), 7));
 						System.out.println("rook new low "+ new Coordinate(newLoc.getRowIndex(), newLoc.getColumnIndex() - 1));
 						System.out.println(hasPiece(newLoc.getRowIndex(), newLoc.getColumnIndex() - 1));
-						return 3;
+						return 5;
 					}
 					
 
 				}
+
+				if(pawnCrossed)
+					return 3;
+				
 				if(wasEnPassant)
 					return 2;
-				else
-					return 1;
-
+				
+				return 1;
 
 			}
 		return 0;
+	}
+	
+	public boolean pawnCrossedTest(Coordinate newLoc, Type turn) {
+		if(turn == Type.WHITE && newLoc.getRowIndex() == 0)
+			return true;
+		if(turn == Type.BLACK && newLoc.getRowIndex() == 7)
+			return true;
+		return false;
+	}
+	
+	public boolean enPassantTest(Coordinate oldLoc, Coordinate newLoc) {
+		if( (newLoc.getColumnIndex() - oldLoc.getColumnIndex()) != 0){
+			if (this.hasPiece(oldLoc.getRowIndex(), newLoc.getColumnIndex())) {
+				if(!this.hasPiece(newLoc.getRowIndex(), newLoc.getColumnIndex())) {
+					Piece pawn = this.getPiece(oldLoc);
+					Piece pawnBehind = this.getPiece(oldLoc.getRowIndex(), newLoc.getColumnIndex());
+					if(pawn.getType() != pawnBehind.getType()) {
+						board[oldLoc.getRowIndex()][newLoc.getColumnIndex()] = null;
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	// sets all double move flags to false for the team "type"
@@ -369,7 +410,7 @@ public class Board {
 		ArrayList<Coordinate> availMoves = new ArrayList<Coordinate>();
 
 		// checks that the piece is really there
-		if (this.board[r][c] != null) {
+		if (this.board[r][c] != null && this.board[r][c].getType() == turn) {
 			availMoves = this.board[r][c].getAvailableMovements(r, c, this);
 
 			// You cant remove elements inside a for-each loop from an ArrayList you're

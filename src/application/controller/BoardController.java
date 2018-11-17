@@ -86,7 +86,7 @@ public class BoardController {
 							
 					}
 					//moving rook
-					if (x == 3) {
+					if (x == 5) {
 						Pane p = (Pane) getNodeByRowColumnIndex(c.getRowIndex(), 7, boardFX);
 						if(p.getChildren().get(0) != null) {
 							ImageView thing = (ImageView) p.getChildren().get(0);
