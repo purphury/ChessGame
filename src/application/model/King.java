@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 
 import application.model.Board.Type;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 
 public class King extends Piece {
 	public boolean castlingAvailableRight;
@@ -110,6 +112,5 @@ public class King extends Piece {
 	public String toString() {
 		return "K";
 	}
-	
 
 }
