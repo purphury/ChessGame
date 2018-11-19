@@ -309,7 +309,7 @@ public class BoardController {
 			public void run() {
 				long currentPlayer;
 				do {
-					currentPlayer = timer.getCurrentPlayerTimeInSeconds();
+					currentPlayer = timer.getCurrentPlayerTimeInMilliseconds();
 					if (timer.getCount() >= 1000) {
 						timer.setCount(0);
 						int seconds = (int) ((currentPlayer/1000) % 60);

@@ -44,7 +44,7 @@ public class Timer implements Runnable {
 		}
 	}
 	
-	public synchronized long getCurrentPlayerTimeInSeconds() {
+	public synchronized long getCurrentPlayerTimeInMilliseconds() {
 		return BoardController.boardModel.getTurn() == Type.WHITE 
 				? playerOne : playerTwo;
 	}
