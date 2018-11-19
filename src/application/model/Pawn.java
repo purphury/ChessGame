@@ -8,11 +8,21 @@ public class Pawn extends Piece {
 	private int startR, startC;
 	private enum IsAttack{NO, YES};
 	public boolean justDidDoubleMove;
+	private boolean promotion;
 
 	public Pawn(int r, int c, Type color) {
 		super(color);
+		promotion = false;
 		startR = r;
 		startC = c;
+	}
+
+	public boolean isPromotion() {
+		return promotion;
+	}
+
+	public void setPromotion(boolean promotion) {
+		this.promotion = promotion;
 	}
 
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
@@ -23,7 +33,8 @@ public class Pawn extends Piece {
 			addMovement(availCoords, r - 1, c - 1, board, IsAttack.YES);		
 			addMovement(availCoords, r - 1, c + 1, board, IsAttack.YES);
 			addEnPassant(availCoords, r, c+1, board, Type.WHITE);		
-			addEnPassant(availCoords, r, c-1, board, Type.WHITE);		
+			addEnPassant(availCoords, r, c-1, board, Type.WHITE);
+			//if(board.get)
 
 		}
 		// color is black//

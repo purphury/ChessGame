@@ -112,6 +112,30 @@ public class BoardController {
 						promotePawn(boardModel.getPreviousTurn(), c);
 					}
 				}
+				//moving rook
+				if (typeOfMove == 5) {
+					Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 7);
+					if(p.getChildren().get(0) != null) {
+						ImageView thing = (ImageView) p.getChildren().get(0);
+						p.getChildren().remove(thing);
+						Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() - 1);
+						destination.getChildren().add(thing);
+					}
+					
+				}
+				if (typeOfMove == 4) {
+					Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 0);
+					if(p.getChildren().get(0) != null) {
+						ImageView thing = (ImageView) p.getChildren().get(0);
+						p.getChildren().remove(thing);
+						Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() + 1);
+						destination.getChildren().add(thing);
+					}
+					
+				}
+				
+				
+				
 				// Moved to enemy space
 				else {
 					killPiece(clickedPane);
