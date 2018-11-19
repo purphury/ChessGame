@@ -321,10 +321,12 @@ public class BoardController {
 
 	public void turnLabelAppearance() {
 		Type turn = boardModel.getTurn();
+		int whiteName = whiteNameLabel.getText().length();
+		int blackName = blackNameLabel.getText().length();
 		if (turn.equals(Type.WHITE)) {
-			turnLabel.setText(whiteNameLabel.getText() + "'s turn");
+			turnLabel.setText(whiteNameLabel.getText() + (whiteNameLabel.getText().charAt(whiteName-1) == 's' ? "' turn":  "'s turn"));
 		} else if (turn.equals(Type.BLACK)) {
-			turnLabel.setText(blackNameLabel.getText() + "'s turn");
+			turnLabel.setText(blackNameLabel.getText() + (blackNameLabel.getText().charAt(blackName-1) == 's' ? "' turn":  "'s turn"));
 		}
 	}
 	public void setTime() {
