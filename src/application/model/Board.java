@@ -167,10 +167,10 @@ public class Board {
 
 		boolean pawnCrossed = false;
 
-		if (this.isCastling) {
-			piece.setHasMoved(true);
-			board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece;
-		}
+	//	if (this.isCastling) {
+	//		piece.setHasMoved(true);
+	//		board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece;
+	//	}
 		
 		for (Coordinate c : availMoves)
 			if (c.equals(newLoc)) {
