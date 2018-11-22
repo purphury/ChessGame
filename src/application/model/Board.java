@@ -7,6 +7,7 @@ public class Board {
 	private String blackName;
 	public boolean blackEverChecked;
 	public boolean whiteEverChecked;
+	private boolean isCastling;
 
 	public static enum Type {
 		BLACK, WHITE
@@ -19,6 +20,7 @@ public class Board {
 	public Board(String whiteName, String blackName) {
 		this.whiteName = whiteName;
 		this.blackName = blackName;
+		this.isCastling = false;
 		this.blackEverChecked = false;
 		this.whiteEverChecked = false;
 		isCurrentlyCheck = false;
@@ -165,6 +167,11 @@ public class Board {
 
 		boolean pawnCrossed = false;
 
+		if (this.isCastling) {
+			piece.setHasMoved(true);
+			board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece;
+		}
+		
 		for (Coordinate c : availMoves)
 			if (c.equals(newLoc)) {
 				if (!piece.getHasMoved())
@@ -175,6 +182,9 @@ public class Board {
 						pawnCrossed = pawnCrossedTest(newLoc, piece.getType());
 				}
 
+				if (this.isCastling) {
+					piece.setHasMoved(true);
+				}
 
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; // if new loc was occupied, the piece that
 				// was there is now deleted as there is
@@ -189,13 +199,16 @@ public class Board {
 				
 				if(piece instanceof King && (!((King) piece).getCastlingMove().contains(newLoc))) {
 					if (newLoc.getColumnIndex() < 4) {
+						this.isCastling = true;
 						this.movePieces(new Coordinate(newLoc.getRowIndex(), 0), new Coordinate(newLoc.getRowIndex(), newLoc.getColumnIndex() + 1));
 						return 4;
 					} else {
+						this.isCastling = true;
 						this.movePieces(new Coordinate(newLoc.getRowIndex(), 7), new Coordinate(newLoc.getRowIndex(), newLoc.getColumnIndex() - 1));
 						System.out.println("rook loc" + new Coordinate(newLoc.getRowIndex(), 7));
 						System.out.println("rook new low "+ new Coordinate(newLoc.getRowIndex(), newLoc.getColumnIndex() - 1));
 						System.out.println(hasPiece(newLoc.getRowIndex(), newLoc.getColumnIndex() - 1));
+						System.out.println(hasPiece(new Coordinate(7,7)));
 						return 5;
 					}
 					
