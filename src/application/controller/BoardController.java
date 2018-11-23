@@ -120,6 +120,9 @@ public class BoardController {
 							p.getChildren().remove(thing);
 							Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() - 1);
 							destination.getChildren().add(thing);
+							destination.getChildren().remove(0);
+							System.out.println(destination.getChildren());
+							
 						}
 						
 					}
@@ -130,6 +133,7 @@ public class BoardController {
 							p.getChildren().remove(thing);
 							Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() + 1);
 							destination.getChildren().add(thing);
+							destination.getChildren().remove(0);
 							}
 					}
 				
