@@ -360,7 +360,7 @@ public class BoardController {
 								@Override
 								public void run() {
 									p2Min.setText("0" + String.valueOf(minutes));
-									p2Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
+									p2Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
 								}
 
 							});
