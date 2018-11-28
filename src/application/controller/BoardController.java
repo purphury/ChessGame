@@ -351,7 +351,7 @@ public class BoardController {
 								@Override
 								public void run() {
 									p1Min.setText("0" + String.valueOf(minutes));
-									p1Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
+									p1Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
 								}
 
 							});
