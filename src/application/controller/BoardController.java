@@ -26,7 +26,7 @@ import javafx.scene.image.Image;
 public class BoardController {
 	private ImageView selectedPiece;
 	private Coordinate clickedPieceCoordinate;
-	volatile public static Board boardModel;
+	public static Board boardModel;
 	private Coordinate pawnToPromote;
 	private ArrayList<Coordinate> availableMoves;
 	@FXML
@@ -75,6 +75,10 @@ public class BoardController {
 		promotionPane.setVisible(false);
 		
 		
+	}
+	
+	synchronized Board getBoard() {
+		return this.boardModel;
 	}
 
 	@FXML
@@ -386,7 +390,7 @@ public class BoardController {
 				int player2Time = 299;
 				long startTime = System.currentTimeMillis();
 				while(player1Time > 0 && player2Time > 0) {
-					if(boardModel.getTurn() == Type.WHITE) {
+					if(getBoard().getTurn() == Type.WHITE) {
 						final int p1FTime = player1Time;
 						
 						Platform.runLater(new Runnable() {		
