@@ -383,7 +383,7 @@ public class BoardController {
 			@Override
 			protected Object call() throws Exception {
 				int player1Time = 300;
-				int player2Time = 300;
+				int player2Time = 299;
 				long startTime = System.currentTimeMillis();
 				while(player1Time > 0 && player2Time > 0) {
 					if(boardModel.getTurn() == Type.WHITE) {
