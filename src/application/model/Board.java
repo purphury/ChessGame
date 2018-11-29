@@ -7,6 +7,8 @@ public class Board {
 	private String blackName;
 	public boolean blackEverChecked;
 	public boolean whiteEverChecked;
+	private Piece rook1;
+	private Piece rook2;
 
 	public static enum Type {
 		BLACK, WHITE
@@ -19,6 +21,8 @@ public class Board {
 	public Board(String whiteName, String blackName) {
 		this.whiteName = whiteName;
 		this.blackName = blackName;
+		this.rook1 = null;
+		this.rook2 = null;
 		this.blackEverChecked = false;
 		this.whiteEverChecked = false;
 		isCurrentlyCheck = false;
@@ -188,18 +192,21 @@ public class Board {
 
 				changeTurn();
 				
-				
-				if(piece instanceof King && (!((King) piece).getCastlingMove().contains(newLoc))) {
-					if (newLoc.getColumnIndex() < 4) {
-						Piece rook = board[newLoc.getRowIndex()][0];
-						board[newLoc.getRowIndex()][newLoc.getColumnIndex() + 1] = rook; // if new loc was occupied, the piece that
+
+				rook1 = board[newLoc.getRowIndex()][0];
+				rook2 = board[newLoc.getRowIndex()][7];
+				if(piece instanceof King && (!((King) piece).getCastlingMove().contains(newLoc)) ) {
+					if (newLoc.getColumnIndex() < 4 && !rook1.getHasMoved()) {
+						board[newLoc.getRowIndex()][newLoc.getColumnIndex() + 1] = rook1; // if new loc was occupied, the piece that
+						rook1.setHasMoved(true);
 						// was there is now deleted as there is
 						// no reference to it
 						board[newLoc.getRowIndex()][0] = null;
 						return 4;
-					} else {
-						Piece rook = board[newLoc.getRowIndex()][7];
-						board[newLoc.getRowIndex()][newLoc.getColumnIndex() - 1] = rook; // if new loc was occupied, the piece that
+					} else if (newLoc.getColumnIndex() > 5 && !rook2.getHasMoved()) {
+						
+						board[newLoc.getRowIndex()][newLoc.getColumnIndex() - 1] = rook2; // if new loc was occupied, the piece that
+						rook2.setHasMoved(true);
 						// was there is now deleted as there is
 						// no reference to it
 						board[newLoc.getRowIndex()][7] = null;

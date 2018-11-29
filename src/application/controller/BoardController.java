@@ -115,13 +115,13 @@ public class BoardController {
 					//moving rook
 					if (typeOfMove == 5) {
 						Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 7);
-						if(p.getChildren().get(0) != null) {
+						
+						if(p.getChildren().get(0) != null) {							
 							ImageView thing = (ImageView) p.getChildren().get(0);
-							p.getChildren().remove(thing);
+							p.getChildren().clear();
 							Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() - 1);
 							destination.getChildren().add(thing);
 							destination.getChildren().remove(0);
-							System.out.println(destination.getChildren());
 							
 						}
 						
@@ -351,7 +351,7 @@ public class BoardController {
 								@Override
 								public void run() {
 									p1Min.setText("0" + String.valueOf(minutes));
-									p1Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
+									p1Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
 								}
 
 							});
@@ -360,7 +360,7 @@ public class BoardController {
 								@Override
 								public void run() {
 									p2Min.setText("0" + String.valueOf(minutes));
-									p2Sec.setText(seconds < 10 ? "0" : "" + String.valueOf(seconds));								
+									p2Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
 								}
 
 							});
