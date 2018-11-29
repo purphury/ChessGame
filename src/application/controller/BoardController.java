@@ -26,7 +26,7 @@ import javafx.scene.image.Image;
 public class BoardController {
 	private ImageView selectedPiece;
 	private Coordinate clickedPieceCoordinate;
-	public static Board boardModel;
+	volatile public static Board boardModel;
 	private Coordinate pawnToPromote;
 	private ArrayList<Coordinate> availableMoves;
 	@FXML
@@ -335,6 +335,7 @@ public class BoardController {
 			turnLabel.setText(blackNameLabel.getText() + (blackNameLabel.getText().charAt(blackName-1) == 's' ? "' turn":  "'s turn"));
 		}
 	}
+	
 	public void setTime() {
 		Thread th = new Thread(new Runnable() {
 			@Override
@@ -375,8 +376,59 @@ public class BoardController {
 		th.start();
 		
 	}
+	
+	public void diffTimer() {
+		Thread th = new Thread(new Task() {
+
+			@Override
+			protected Object call() throws Exception {
+				int player1Time = 300;
+				int player2Time = 300;
+				long startTime = System.currentTimeMillis();
+				while(player1Time > 0 && player2Time > 0) {
+					if(boardModel.getTurn() == Type.WHITE) {
+						final int p1FTime = player1Time;
+						
+						Platform.runLater(new Runnable() {		
+							@Override
+							public void run() {
+								p1Sec.setText(String.format("%02d", p1FTime%60));
+								p1Min.setText(String.format("0%d", p1FTime/60));
+							}
+						});
+						
+						player1Time--;
+						long elapsedTime = System.currentTimeMillis()- startTime;
+						Thread.sleep(1000-(elapsedTime%1000)+5);
+						
+					}else {
+						final long p2FTime = player2Time;
+						
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								p2Sec.setText(String.format("%02d", p2FTime%60));
+								p2Min.setText(String.format("0%d",p2FTime/60));
+							}							
+						});		
+						
+						player2Time--;
+						long elapsedTime = System.currentTimeMillis()- startTime;
+						Thread.sleep(1000-(elapsedTime%1000)+5);
+						
+					}
+				}				
+				return null;
+			}
+			
+		});
+		th.setDaemon(true);
+		th.start();
+	}
+	
 	@FXML
 	void initialize() {
+		boolean timerCheck = true;
 		assert whiteNameLabel != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert blackNameLabel != null : "fx:id=\"blackName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert turnLabel != null : "fx:id=\"turnName\" was not injected: check your FXML file 'Board.fxml'.";
@@ -393,9 +445,14 @@ public class BoardController {
 		boardModel = new Board(whiteNameString, blackNameString);
 		selectedPiece = null;
 		availableMoves = new ArrayList<Coordinate>();
+		if(!timerCheck) {
 		 timer = new Timer(); timeThread = new Thread(timer); 
 		 timeThread.setDaemon(true); timeThread.start();
 		 setTime();
+		}
+		else {
+			diffTimer();
+		}
 	}
 
 }
