@@ -36,10 +36,10 @@ public class BoardController {
 
 	@FXML
 	
-	private Label whiteNameLabel;
+	private Label whiteNameLabel, whiteNameLabel2;
 
 	@FXML
-	private Label blackNameLabel;
+	private Label blackNameLabel, blackNameLabel2;
 
 	@FXML
 	private Label checkLabel;
@@ -441,6 +441,8 @@ public class BoardController {
 				whiteNameString = StartScreenController.names.get(0);
 		this.blackNameLabel.setText(blackNameString);
 		this.whiteNameLabel.setText(whiteNameString);
+		this.blackNameLabel2.setText(blackNameString);
+		this.whiteNameLabel2.setText(whiteNameString);
 		String whiteTurn = whiteNameString + "'" + (whiteNameString.charAt(whiteNameString.length()-1) == 's' ? "" : "s") + " turn";
 		turnLabel.setText(whiteTurn);
 		checkLabel.setVisible(false);

@@ -370,44 +370,14 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="checkLabel" layoutX="665.0" layoutY="121.0" prefHeight="17.0" prefWidth="150.0" text="Check!">
+      <Label fx:id="checkLabel" layoutX="647.0" layoutY="357.0" prefHeight="17.0" prefWidth="150.0" text="Check!">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Label fx:id="checkmateLabel" layoutX="641.0" layoutY="180.0" prefHeight="17.0" prefWidth="172.0" text="Checkmate!">
+      <Label fx:id="checkmateLabel" layoutX="636.0" layoutY="361.0" prefHeight="17.0" prefWidth="172.0" text="Checkmate!">
          <font>
             <Font size="25.0" />
-         </font>
-      </Label>
-      <Label fx:id="p1Min" layoutX="68.0" layoutY="703.0" text="05">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Label layoutX="107.0" layoutY="703.0" text=":">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Label fx:id="p1Sec" layoutX="115.0" layoutY="703.0" text="00">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Label fx:id="p2Min" layoutX="366.0" layoutY="703.0" text="05">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Label layoutX="405.0" layoutY="703.0" text=":">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Label fx:id="p2Sec" layoutX="413.0" layoutY="703.0" text="00">
-         <font>
-            <Font size="36.0" />
          </font>
       </Label>
       <Pane fx:id="promotionPane" layoutX="4.0" layoutY="250.0" prefHeight="200.0" prefWidth="659.0" style="-fx-background-color: white;">
@@ -420,6 +390,60 @@
             <ImageView fitHeight="109.0" fitWidth="110.0" layoutX="188.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fitHeight="109.0" fitWidth="110.0" layoutX="343.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fitHeight="109.0" fitWidth="110.0" layoutX="492.0" layoutY="34.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Pane layoutX="83.0" layoutY="652.0" prefHeight="134.0" prefWidth="137.0" style="-fx-background-color: C0C0C0; -fx-border-radius: 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label fx:id="p1Min" layoutX="12.0" layoutY="59.0" prefHeight="50.0" prefWidth="49.0" text="05">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="58.0" layoutY="59.0" prefHeight="37.0" prefWidth="11.0" text=":">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="p1Sec" layoutX="69.0" layoutY="59.0" prefHeight="50.0" prefWidth="49.0" text="00">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="whiteNameLabel2" layoutX="26.0" layoutY="19.0" text="name">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="415.0" layoutY="652.0" prefHeight="134.0" prefWidth="137.0" style="-fx-background-color: C0C0C0; -fx-border-radius: 10;">
+         <effect>
+            <DropShadow />
+         </effect>
+         <children>
+            <Label fx:id="p2Min" layoutX="14.0" layoutY="61.0" prefHeight="50.0" prefWidth="49.0" text="05">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="59.0" layoutY="61.0" text=":">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="p2Sec" layoutX="71.0" layoutY="64.0" prefHeight="44.0" prefWidth="49.0" text="00">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="blackNameLabel2" layoutX="28.0" layoutY="21.0" text="name">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>

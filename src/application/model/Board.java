@@ -70,7 +70,7 @@ public class Board {
 		this.blackName = blackName;
 	}
 
-	public Type getTurn() {
+	synchronized public Type getTurn() {
 		return turn;
 	}
 	public Type getPreviousTurn() {
