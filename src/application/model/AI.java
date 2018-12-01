@@ -30,8 +30,12 @@ public class AI {
 
 					for(Coordinate c : availableMoves) {
 						board.movePieces(coord, c);
+						System.out.println("before undo "+coord+" to "+c);
+						board.display();
+
 						value = minimax(board, depth - 1, !turn.equals(Type.WHITE));
 						board.undo();
+						//System.out.println("after undo");
 						//board.display();
 
 						if(turn.equals(Type.WHITE) ? value > max : value < max) {
@@ -59,9 +63,13 @@ public class AI {
 					ArrayList<Coordinate> availableMoves = board.getMoves(coord);
 
 					for(Coordinate c : availableMoves) {
-						board.movePieces(coord, c);
+						//System.out.println("before undo "+coord+" to "+c);
+					//	board.display();
+
 						value = minimax(board, depth - 1, !turn.equals(Type.WHITE));
 						board.undo();
+						//System.out.println("after undo");
+						board.display();
 
 						if(turn.equals(Type.WHITE) ? value > max : value < max) 
 							max = value;

@@ -2,6 +2,8 @@ package application.model;
 
 import java.util.ArrayList;
 
+import application.model.Board.Type;
+
 public class Board {
 	private String whiteName;
 	private String blackName;
@@ -64,12 +66,17 @@ public class Board {
 		this.rook2 = oldBoard.getRook2();
 		this.blackEverChecked = oldBoard.isBlackEverChecked();
 		this.whiteEverChecked = oldBoard.isWhiteEverChecked();
-		isCurrentlyCheck = oldBoard.isCurrentlyCheck();
-		turn = oldBoard.getTurn();
-		board = oldBoard.getBoard();
+		this.isCurrentlyCheck = oldBoard.isCurrentlyCheck();
+		this.turn = oldBoard.getTurn();
+		this.board = oldBoard.getBoard();
 	}
 	
 	public void undo() {
+		System.out.println("before undo ");
+		display();
+
+		//System.out.println("after undo");
+		//board.display();
 		if(this.previousBoard == null)
 			return;
 		this.whiteName = this.previousBoard.getWhiteName();
@@ -82,6 +89,8 @@ public class Board {
 		turn = this.previousBoard.getTurn();
 		board = this.previousBoard.getBoard();
 		this.previousBoard = null;
+		System.out.println("after undo");
+		display();
 	}
 	
 	public void display() {
@@ -96,6 +105,7 @@ public class Board {
 			}
 			System.out.println("|");
 		}
+		System.out.println();
 	}
 	
 	public String getWhiteName() {
@@ -218,6 +228,10 @@ public class Board {
 		
 		for (Coordinate c : availMoves)
 			if (c.equals(newLoc)) {
+				previousBoard = new Board(this);
+				System.out.println("UUUUU previous boardUUUU");
+				previousBoard.display();
+
 				
 				if(board[newLoc.getRowIndex()][0] != null 
 								&& board[newLoc.getRowIndex()][0] instanceof Rook) {
@@ -275,7 +289,6 @@ public class Board {
 				changeTurn();
 				
 
-				previousBoard = new Board(this);
 				if(castledRight)
 					return 5;
 				
