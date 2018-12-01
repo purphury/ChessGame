@@ -45,7 +45,7 @@ public class AI {
 	}
 
 	private double minimax(Board board, int depth, boolean maximize){
-		if(depth == 0)
+		if(depth <= 0)
 			return this.evaluateBoard(board);
 
 		Type turn = board.getTurn();
