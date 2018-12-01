@@ -29,7 +29,7 @@ public class King extends Piece {
 	}
 
 	public double getStrength(int r, int c) {
-		return (this.getType() == Type.WHITE ? 900 + KingStrengthBoard.KingStrengthBoard[r][c] : -900 - KingStrengthBoard.KingStrengthBoard[8-r-1][c]);
+		return (this.getType() == Type.WHITE ? 900 + StrengthBoard.KingStrengthBoard[r][c] : -900 - StrengthBoard.KingStrengthBoard[8-r-1][c]);
 	}
 	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {

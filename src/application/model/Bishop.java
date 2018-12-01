@@ -10,7 +10,7 @@ public class Bishop extends Piece {
 	}
 
 	public double getStrength(int r, int c) {
-		return (this.getType() == Type.WHITE ? 30 + BishopStrengthBoard.BishopStrengthBoard[r][c] : -30 - BishopStrengthBoard.BishopStrengthBoard[8-r-1][c]);
+		return (this.getType() == Type.WHITE ? 30 + StrengthBoard.BishopStrengthBoard[r][c] : -30 - StrengthBoard.BishopStrengthBoard[8-r-1][c]);
 	}
 	
 	@Override
