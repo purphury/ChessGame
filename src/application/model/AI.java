@@ -1,9 +1,6 @@
 package application.model;
 
 public class AI {
-	public AI() {
-		
-	}
 	public int evaluateBoard(Board board) {
 		int strength = 0;
 		Piece[][] boardM = board.getBoard();
