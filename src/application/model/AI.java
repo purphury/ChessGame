@@ -32,6 +32,7 @@ public class AI {
 						board.movePieces(coord, c);
 						value = minimax(board, depth - 1, !turn.equals(Type.WHITE));
 						board.undo();
+						//board.display();
 
 						if(turn.equals(Type.WHITE) ? value > max : value < max) {
 							move[0] = coord; move[1] = c;
