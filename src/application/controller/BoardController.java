@@ -34,7 +34,6 @@ public class BoardController {
 	public Label p1Min, p1Sec, p2Min, p2Sec;
 	public static Timer timer;
 	public static Thread timeThread;
-	private int difficulty = 3;
 
 	@FXML
 	
@@ -171,7 +170,8 @@ public class BoardController {
 		}
 	}
 	public void moveAI() {
-
+		if(boardModel.isCheckmate(Type.BLACK))
+			return;
 		Coordinate[] h = myAI.getBestMove(boardModel, StartScreenController.value);
 		System.out.println(h[0].toString() + " " + h[1].toString());
 		Coordinate c = h[1];
