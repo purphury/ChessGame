@@ -11,7 +11,7 @@ public class Pawn extends Piece {
 	private boolean promotion;
 
 	public Pawn(int r, int c, Type color) {
-		super(color);
+		super(color, 10);
 		promotion = false;
 		startR = r;
 		startC = c;

@@ -6,7 +6,7 @@ import application.model.Board.Type;
 
 public class Bishop extends Piece {
 	public Bishop(Type color) {
-		super(color);
+		super(color, 30);
 	}
 
 	@Override

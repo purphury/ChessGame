@@ -6,7 +6,7 @@ import application.model.Board.Type;
 
 public class Queen extends Piece {
 	public Queen(Type color) {
-		super(color);
+		super(color, 90);
 	}
 
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {

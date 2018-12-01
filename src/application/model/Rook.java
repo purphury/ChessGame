@@ -8,7 +8,7 @@ public class Rook extends Piece
 {
 	public Rook(Type color)
 	{
-		super (color);
+		super (color, 50);
 	}
 
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {

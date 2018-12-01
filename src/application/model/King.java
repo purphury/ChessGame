@@ -22,7 +22,7 @@ public class King extends Piece {
 	}
 
 	public King(Type color) {
-		super(color);
+		super(color, 900);
 		castlingAvailableRight = false;
 		castlingAvailableLeft = false;
 		castlingMove = new ArrayList<Coordinate>();
