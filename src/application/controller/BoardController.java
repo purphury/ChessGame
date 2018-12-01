@@ -475,7 +475,6 @@ public class BoardController {
 		else {
 			diffTimer();
 		}
-		System.out.println(myAI.evaluateBoard(boardModel));
 	}
 
 }

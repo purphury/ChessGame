@@ -1,7 +1,5 @@
 package application.model;
 
-import application.model.Board.Type;
-
 public class AI {
 
 	public double evaluateBoard(Board board) {
