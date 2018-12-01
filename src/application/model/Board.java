@@ -165,10 +165,7 @@ public class Board {
 	public int movePieces(Coordinate oldLoc, Coordinate newLoc) {
 		Piece piece = board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()];
 		ArrayList<Coordinate> availMoves = this.getMoves(oldLoc);
-		for(Coordinate c: availMoves)
-			System.out.println("MovePiece "+oldLoc+" availMoves: "+c);
 		boolean wasEnPassant = false;
-
 		boolean pawnCrossed = false;
 		boolean castledRight = false;
 		boolean castledLeft = false;
@@ -446,8 +443,7 @@ public class Board {
 		// checks that the piece is really there
 		if (this.board[r][c] != null && this.board[r][c].getType() == turn) {
 			availMoves = this.board[r][c].getAvailableMovements(r, c, this);
-			for(Coordinate c3: availMoves)
-				System.out.println("GetMove" +coord+" availMoves: "+c3);
+
 			// You cant remove elements inside a for-each loop from an ArrayList you're
 			// iterating through.
 			// So toBeRemoved keeps track of those elements
@@ -465,13 +461,8 @@ public class Board {
 
 			// removes bad movements from available moves
 			availMoves.removeAll(toBeRemoved);
-
-			System.out.println("yyy");
 			return availMoves;
 		} else {
-			for(Coordinate c3: availMoves)
-				System.out.println("GetMove2" +coord+" availMoves: "+c3);
-			System.out.println("xxx");
 			return availMoves;
 		}
 	}

@@ -211,7 +211,7 @@
                </children></Pane>
             <Pane onMouseClicked="#handlePieceClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" GridPane.columnIndex="2" GridPane.rowIndex="6">
                <children>
-                  <ImageView fx:id="whitePawnThree" fitHeight="57.0" fitWidth="91.0" layoutX="8.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="whitePawnThree" fitHeight="57.0" fitWidth="91.0" layoutX="8.0" layoutY="9.0" onMouseExited="#turnLabelAppearance" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/white_pawn.png" />
                      </image>
