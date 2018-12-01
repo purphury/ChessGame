@@ -10,7 +10,7 @@ public class Queen extends Piece {
 	}
 	
 	public double getStrength(int r, int c) {
-		return (this.getType() == Type.WHITE ? 90 + QueenStrengthBoard.QueenStrengthBoard[r][c] : -90 - QueenStrengthBoard.QueenStrengthBoard[8-r-1][c]);
+		return (this.getType() == Type.WHITE ? 90 + StrengthBoard.QueenStrengthBoard[r][c] : -90 - StrengthBoard.QueenStrengthBoard[8-r-1][c]);
 	}
 	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {

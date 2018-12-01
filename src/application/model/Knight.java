@@ -12,7 +12,7 @@ public class Knight extends Piece
 	}
 
 	public double getStrength(int r, int c) {
-		return (this.getType() == Type.WHITE ? 30 + KnightStrengthBoard.KnightStrengthBoard[r][c] : -30 - KnightStrengthBoard.KnightStrengthBoard[8-r-1][c]);
+		return (this.getType() == Type.WHITE ? 30 + StrengthBoard.KnightStrengthBoard[r][c] : -30 - StrengthBoard.KnightStrengthBoard[8-r-1][c]);
 	}
 	
 	@Override
