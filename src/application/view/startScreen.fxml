@@ -28,6 +28,7 @@
             </Label>
             <TextField fx:id="playerTwo" layoutX="347.0" layoutY="388.0" onAction="#onEnter" prefHeight="25.0" prefWidth="301.0" text="Black" />
             <Button fx:id="startButton" layoutX="354.0" layoutY="551.0" mnemonicParsing="false" onAction="#loadNames" text="Start Game" />
+            <CheckBox fx:id="isAI" layoutX="654.0" layoutY="394.0" mnemonicParsing="false" onAction="#setAI" text="Play Against AI" />
          </children>
       </Pane>
    </children>

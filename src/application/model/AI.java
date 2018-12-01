@@ -43,7 +43,6 @@ public class AI {
 		}
 		return move;
 	}
-}
 
 private double minimax(Board board, int depth, boolean maximize){
 	if(depth == 0)
