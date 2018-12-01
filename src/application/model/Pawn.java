@@ -25,12 +25,8 @@ public class Pawn extends Piece {
 	}
 	
 	public double getStrength(int r, int c) {
-<<<<<<< HEAD
-		return (this.getType() == Type.WHITE ? 10 + PawnStrengthBoard.PawnStrengthBoard[r][c] : -10 - PawnStrengthBoard.PawnStrengthBoard[8-r-1][c]);
-=======
 		System.out.println(this.getType());
 		return (this.getType() == Type.WHITE ? 10 + StrengthBoard.PawnStrengthBoard[r][c] : -10 - StrengthBoard.PawnStrengthBoard[8-r-1][c]);
->>>>>>> branch 'AIBranch' of https://github.com/UTSA-CS-3443/ChessGame.git
 	}
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
