@@ -70,7 +70,8 @@ public class Board {
 	}
 	
 	public void undo() {
-		this.previousBoard = null;
+		if(this.previousBoard == null)
+			return;
 		this.whiteName = this.previousBoard.getWhiteName();
 		this.blackName = this.previousBoard.getBlackName();
 		this.rook1 = this.previousBoard.getRook1();
@@ -80,6 +81,7 @@ public class Board {
 		isCurrentlyCheck = this.previousBoard.isCurrentlyCheck();
 		turn = this.previousBoard.getTurn();
 		board = this.previousBoard.getBoard();
+		this.previousBoard = null;
 	}
 	
 	public String getWhiteName() {

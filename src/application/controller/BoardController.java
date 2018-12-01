@@ -87,6 +87,12 @@ public class BoardController {
 
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
+		if(boardModel.getTurn() == Type.BLACK) {
+			Coordinate[] h = myAI.getBestMove(boardModel, 1);
+			System.out.println(h[0].toString() + " " + h[1].toString());
+			boardModel.movePieces(h[0], h[1]);
+			
+		}
 		// ***A piece has not been selected yet***
 		if (selectedPiece == null) {
 			selectPiece(event);
@@ -98,7 +104,6 @@ public class BoardController {
 			Coordinate c = findCoordinate(event);
 			Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 			int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
-			System.out.println(myAI.evaluateBoard(boardModel));
 			
 			// **Move was not possible**
 			if(typeOfMove == 0)
