@@ -9,6 +9,7 @@ public class Board {
 	public boolean whiteEverChecked;
 	private Piece rook1;
 	private Piece rook2;
+	private Board previousBoard;
 
 	public static enum Type {
 		BLACK, WHITE
@@ -19,6 +20,7 @@ public class Board {
 	private Piece[][] board;
 
 	public Board(String whiteName, String blackName) {
+		this.previousBoard = null;
 		this.whiteName = whiteName;
 		this.blackName = blackName;
 		this.rook1 = null;
@@ -53,7 +55,33 @@ public class Board {
 		board[0][4] = new King(Type.BLACK);
 		board[7][4] = new King(Type.WHITE);
 	}
-
+	
+	public Board(Board oldBoard) {
+		this.previousBoard = null;
+		this.whiteName = oldBoard.getWhiteName();
+		this.blackName = oldBoard.getBlackName();
+		this.rook1 = oldBoard.getRook1();
+		this.rook2 = oldBoard.getRook2();
+		this.blackEverChecked = oldBoard.isBlackEverChecked();
+		this.whiteEverChecked = oldBoard.isWhiteEverChecked();
+		isCurrentlyCheck = oldBoard.isCurrentlyCheck();
+		turn = oldBoard.getTurn();
+		board = oldBoard.getBoard();
+	}
+	
+	public void undo() {
+		this.previousBoard = null;
+		this.whiteName = this.previousBoard.getWhiteName();
+		this.blackName = this.previousBoard.getBlackName();
+		this.rook1 = this.previousBoard.getRook1();
+		this.rook2 = this.previousBoard.getRook2();
+		this.blackEverChecked = this.previousBoard.isBlackEverChecked();
+		this.whiteEverChecked = this.previousBoard.isWhiteEverChecked();
+		isCurrentlyCheck = this.previousBoard.isCurrentlyCheck();
+		turn = this.previousBoard.getTurn();
+		board = this.previousBoard.getBoard();
+	}
+	
 	public String getWhiteName() {
 		return whiteName;
 	}
@@ -231,7 +259,7 @@ public class Board {
 				changeTurn();
 				
 
-
+				previousBoard = new Board(this);
 				if(castledRight)
 					return 5;
 				
@@ -506,6 +534,54 @@ public class Board {
 			return false;
 		}
 
+	}
+	
+	public boolean isBlackEverChecked() {
+		return blackEverChecked;
+	}
+
+	public void setBlackEverChecked(boolean blackEverChecked) {
+		this.blackEverChecked = blackEverChecked;
+	}
+
+	public boolean isWhiteEverChecked() {
+		return whiteEverChecked;
+	}
+
+	public void setWhiteEverChecked(boolean whiteEverChecked) {
+		this.whiteEverChecked = whiteEverChecked;
+	}
+
+	public Piece getRook1() {
+		return rook1;
+	}
+
+	public void setRook1(Piece rook1) {
+		this.rook1 = rook1;
+	}
+
+	public Piece getRook2() {
+		return rook2;
+	}
+
+	public void setRook2(Piece rook2) {
+		this.rook2 = rook2;
+	}
+
+	public Board getPreviousBoard() {
+		return previousBoard;
+	}
+
+	public void setPreviousBoard(Board previousBoard) {
+		this.previousBoard = previousBoard;
+	}
+
+	public boolean isCurrentlyCheck() {
+		return isCurrentlyCheck;
+	}
+
+	public void setCurrentlyCheck(boolean isCurrentlyCheck) {
+		this.isCurrentlyCheck = isCurrentlyCheck;
 	}
 
 	public void changeTurn() {
