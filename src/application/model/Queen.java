@@ -40,4 +40,8 @@ public class Queen extends Piece {
 			}
 		}
 	}
+	
+	public String toString() {
+		return "Q";
+	}
 }

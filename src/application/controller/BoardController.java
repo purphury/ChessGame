@@ -90,7 +90,7 @@ public class BoardController {
 		if(boardModel.getTurn() == Type.BLACK) {
 			Coordinate[] h = myAI.getBestMove(boardModel, 1);
 			System.out.println(h[0].toString() + " " + h[1].toString());
-			boardModel.movePieces(h[0], h[1]);
+			boardModel.display();
 			
 		}
 		// ***A piece has not been selected yet***
