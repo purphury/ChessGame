@@ -94,7 +94,7 @@ public class BoardController {
 			Coordinate c = findCoordinate(event);
 			Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 			int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
-
+			System.out.println("Type of move: "+typeOfMove);
 			// **Move was not possible**
 			if(typeOfMove == 0)
 				unselectPiece(c);
@@ -227,8 +227,16 @@ public class BoardController {
 	}
 
 	public void testForCheckAndCheckmate(Type type) {
-		if (boardModel.isCheck(type))
+
+		if (boardModel.isCheck(type)) {
+			if(type == Type.WHITE) {
+				boardModel.whiteEverChecked = true;
+			}
+			else if(type == Type.BLACK) {
+				boardModel.blackEverChecked = true;
+			}
 			checkLabel.setVisible(true);
+		}
 		else
 			checkLabel.setVisible(false);
 

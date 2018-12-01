@@ -41,6 +41,7 @@ public class King extends Piece {
 		addMovement(availCoords, r + 1, c + 1, board);// Southeast direction}
 
 		//checks for castling is allowed and adds it to avail movements
+		System.out.println("type: "+ getType()+" beenChecked: "+board.whiteEverChecked+" hasMoved: "+ getHasMoved());
 		if (getType() == Type.WHITE && board.whiteEverChecked == false && getHasMoved() == false && (board.getPiece(7,0).toString().equals("Rook") || board.getPiece(7,7).toString().equals("Rook"))) {
 			
 			if(!board.hasPiece(7,5) && !board.hasPiece(7,6)){
