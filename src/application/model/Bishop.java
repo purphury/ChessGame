@@ -9,6 +9,10 @@ public class Bishop extends Piece {
 		super(color, 30);
 	}
 
+	public double getStrength(int r, int c) {
+		return (this.getType() == Type.WHITE ? 30 + BishopStrengthBoard.BishopStrengthBoard[r][c] : -30 - BishopStrengthBoard.BishopStrengthBoard[8-r-1][c]);
+	}
+	
 	@Override
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();

@@ -8,7 +8,11 @@ public class Queen extends Piece {
 	public Queen(Type color) {
 		super(color, 90);
 	}
-
+	
+	public double getStrength(int r, int c) {
+		return (this.getType() == Type.WHITE ? 90 + QueenStrengthBoard.QueenStrengthBoard[r][c] : -90 - QueenStrengthBoard.QueenStrengthBoard[8-r-1][c]);
+	}
+	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		//first number is the vertical direction, the second is the horizontal direction

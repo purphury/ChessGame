@@ -11,6 +11,10 @@ public class Knight extends Piece
 		super(color, 30);
 	}
 
+	public double getStrength(int r, int c) {
+		return (this.getType() == Type.WHITE ? 30 + KnightStrengthBoard.KnightStrengthBoard[r][c] : -30 - KnightStrengthBoard.KnightStrengthBoard[8-r-1][c]);
+	}
+	
 	@Override
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();

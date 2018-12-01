@@ -28,6 +28,10 @@ public class King extends Piece {
 		castlingMove = new ArrayList<Coordinate>();
 	}
 
+	public double getStrength(int r, int c) {
+		return (this.getType() == Type.WHITE ? 900 + KingStrengthBoard.KingStrengthBoard[r][c] : -900 - KingStrengthBoard.KingStrengthBoard[8-r-1][c]);
+	}
+	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		//first number is the vertical direction, the second is the horizontal direction

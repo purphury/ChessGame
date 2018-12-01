@@ -2,6 +2,8 @@ package application.model;
 
 import java.util.ArrayList;
 
+import com.sun.prism.paint.Color;
+
 import application.model.Board.Type;
 
 public class Pawn extends Piece {
@@ -24,7 +26,11 @@ public class Pawn extends Piece {
 	public void setPromotion(boolean promotion) {
 		this.promotion = promotion;
 	}
-
+	
+	public double getStrength(int r, int c) {
+		System.out.println(this.getType());
+		return (this.getType() == Type.WHITE ? 10 + PawnStrengthBoard.PawnStrengthBoard[r][c] : -10 - PawnStrengthBoard.PawnStrengthBoard[8-r-1][c]);
+	}
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		// color is white//

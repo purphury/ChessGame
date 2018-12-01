@@ -1,21 +1,19 @@
 package application.model;
 
 public class AI {
-	private double[][] KingStrength;
-	private double[][] QueenStrength;
-	private double[][] RookStrength;
-	private double[][] BishopStrength;
-	private double[][] KnightStrength;
-	private double[][] PawnStrength;
 	public AI() {
-		KingStrength = KingStrengthBoard.KingStrengthBoard;
-		QueenStrength = QueenStrengthBoard.QueenStrengthBoard;
-		RookStrength = RookStrengthBoard.RookStrengthBoard;
-		BishopStrength = BishopStrengthBoard.BishopStrengthBoard;
-		KnightStrength = KnightStrengthBoard.KnightStrengthBoard;
-		PawnStrength = PawnStrengthBoard.PawnStrengthBoard;
+		
 	}
 	public int evaluateBoard(Board board) {
-		return 0;
+		int strength = 0;
+		Piece[][] boardM = board.getBoard();
+		for(int i = 0; i < 8; i++)
+			for(int j = 0; j < 8; j++) {
+				if(boardM[i][j] != null) {
+					System.out.println(boardM[i][j].getStrength(i, j));
+					strength += boardM[i][j].getStrength(i, j);
+				}
+			}
+		return strength;
 	}
 }

@@ -11,6 +11,10 @@ public class Rook extends Piece
 		super (color, 50);
 	}
 
+	public double getStrength(int r, int c) {
+		return (this.getType() == Type.WHITE ? 50 + RookStrengthBoard.RookStrengthBoard[r][c] : -50 - RookStrengthBoard.RookStrengthBoard[8-r-1][c]);
+	}
+	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 							

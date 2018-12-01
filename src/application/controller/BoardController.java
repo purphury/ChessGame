@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import application.model.AI;
 import application.model.Board;
 import application.model.Board.Type;
 import application.model.Coordinate;
@@ -16,12 +17,12 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
-import javafx.scene.image.Image;
 
 public class BoardController {
 	private ImageView selectedPiece;
@@ -55,6 +56,9 @@ public class BoardController {
 	
 	@FXML
 	private Pane promotionPane;
+	
+	private AI myAI = new AI();
+	
 	
 	@FXML
 	public void handleChoice(ActionEvent event) {
@@ -91,6 +95,7 @@ public class BoardController {
 
 		// ***A piece has already been selected***
 		else {
+			System.out.println(myAI.evaluateBoard(boardModel));
 			Coordinate c = findCoordinate(event);
 			Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 			int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
