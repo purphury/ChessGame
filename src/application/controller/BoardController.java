@@ -98,6 +98,7 @@ public class BoardController {
 			Coordinate c = findCoordinate(event);
 			Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 			int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
+			System.out.println(myAI.evaluateBoard(boardModel));
 			
 			// **Move was not possible**
 			if(typeOfMove == 0)
