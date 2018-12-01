@@ -84,6 +84,20 @@ public class Board {
 		this.previousBoard = null;
 	}
 	
+	public void display() {
+		for(int i = 0; i< 8 ; i++) {
+			for(int j = 0; i < 8 ; j++) {
+				System.out.print("| ");
+				if(this.hasPiece(i,j)) {
+					System.out.print(this.getPiece(i,j)+" ");
+				}
+				else
+					System.out.println(" ");
+			}
+			System.out.println();
+		}
+	}
+	
 	public String getWhiteName() {
 		return whiteName;
 	}
