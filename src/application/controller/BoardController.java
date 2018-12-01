@@ -171,7 +171,8 @@ public class BoardController {
 		}
 	}
 	public void moveAI() {
-		Coordinate[] h = myAI.getBestMove(boardModel, difficulty);
+
+		Coordinate[] h = myAI.getBestMove(boardModel, StartScreenController.value);
 		System.out.println(h[0].toString() + " " + h[1].toString());
 		Coordinate c = h[1];
 
