@@ -87,94 +87,165 @@ public class BoardController {
 
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
-		if(boardModel.getTurn() == Type.BLACK) {
-			Coordinate[] h = myAI.getBestMove(boardModel, 1);
-			System.out.println(h[0].toString() + " " + h[1].toString());
-			//boardModel.display();
-			
-		}
-		// ***A piece has not been selected yet***
-		if (selectedPiece == null) {
-			selectPiece(event);
-			boardModel.display();
+			// ***A piece has not been selected yet***
+			if (selectedPiece == null) {
+				selectPiece(event);
+				//boardModel.display();
 
-		}
-		
-
-		// ***A piece has already been selected***
-		else {
-			Coordinate c = findCoordinate(event);
-			Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
-			int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
-			
-			// **Move was not possible**
-			if(typeOfMove == 0)
-				unselectPiece(c);
-			
-			// **Move was possible**
-			if (typeOfMove >= 1  ) {
-
-				// Moved to an empty space
-				if (clickedPane.getChildren().size() != 0 && clickedPane.getChildren().get(0) 
-																					instanceof Circle) {
-					movePiece(clickedPane);
-					
-					//**Move was an En Passant**
-					if (typeOfMove == 2)
-						processEnPassant(clickedPieceCoordinate, c);
-					
-					//Pawn reached opposite side
-					if(typeOfMove == 3) {					
-						promotePawn(boardModel.getPreviousTurn(), c);
-					}
-					
-					//moving rook
-					if (typeOfMove == 5) {
-						Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 7);
-						
-						if(p.getChildren().get(0) != null) {
-							
-							ImageView thing = (ImageView) p.getChildren().get(0);
-							p.getChildren().remove(0);
-							Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() - 1);
-							destination.getChildren().add(thing);
-							
-						}
-						
-					}
-					if (typeOfMove == 4) {
-						Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 0);
-						if(p.getChildren().get(0) != null) {
-							ImageView thing = (ImageView) p.getChildren().get(0);
-							p.getChildren().remove(thing);
-							Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() + 1);
-							destination.getChildren().add(thing);
-							}
-					}
-				
-					
-				}
-				
-				
-				
-				// Moved to enemy space
-				else {
-					killPiece(clickedPane);
-					//Pawn reached opposite side
-					if(typeOfMove == 3) {	
-						promotePawn(boardModel.getPreviousTurn(), c);
-					}
-				}
-			
-
-				// Reset variables and see if its check or checkmate
-				endOfMoveProcessing(c);
 			}
 
-			
+
+			// ***A piece has already been selected***
+			else {
+				Coordinate c = findCoordinate(event);
+				Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
+				int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
+
+				// **Move was not possible**
+				if(typeOfMove == 0)
+					unselectPiece(c);
+
+				// **Move was possible**
+				if (typeOfMove >= 1  ) {
+
+					// Moved to an empty space
+					if (clickedPane.getChildren().size() != 0 && clickedPane.getChildren().get(0) 
+							instanceof Circle) {
+						movePiece(clickedPane);
+
+						//**Move was an En Passant**
+						if (typeOfMove == 2)
+							processEnPassant(clickedPieceCoordinate, c);
+
+						//Pawn reached opposite side
+						if(typeOfMove == 3) {					
+							promotePawn(boardModel.getPreviousTurn(), c);
+						}
+
+						//moving rook
+						if (typeOfMove == 5) {
+							Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 7);
+
+							if(p.getChildren().get(0) != null) {
+
+								ImageView thing = (ImageView) p.getChildren().get(0);
+								p.getChildren().remove(0);
+								Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() - 1);
+								destination.getChildren().add(thing);
+
+							}
+
+						}
+						if (typeOfMove == 4) {
+							Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 0);
+							if(p.getChildren().get(0) != null) {
+								ImageView thing = (ImageView) p.getChildren().get(0);
+								p.getChildren().remove(thing);
+								Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() + 1);
+								destination.getChildren().add(thing);
+							}
+						}
+
+
+					}
+
+
+
+					// Moved to enemy space
+					else {
+						killPiece(clickedPane);
+						//Pawn reached opposite side
+						if(typeOfMove == 3) {	
+							promotePawn(boardModel.getPreviousTurn(), c);
+						}
+					}
+
+
+					// Reset variables and see if its check or checkmate
+					endOfMoveProcessing(c);
+					if(StartScreenController.isAI)
+						moveAI();
+				}
+
 		}
 	}
+	public void moveAI() {
+		Coordinate[] h = myAI.getBestMove(boardModel, 3);
+		System.out.println(h[0].toString() + " " + h[1].toString());
+		Coordinate c = h[1];
+
+		clickedPieceCoordinate = h[0];
+		selectPiece(clickedPieceCoordinate);
 	
+		System.out.println("xxx");
+		Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
+		int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
+		System.out.println("Type of Move: " + typeOfMove);
+		// **Move was not possible**
+		if(typeOfMove == 0)
+			unselectPiece(c);
+
+		
+		// **Move was possible**
+		if (typeOfMove >= 1  ) {
+
+			// Moved to an empty space
+			if (clickedPane.getChildren().size() != 0 && clickedPane.getChildren().get(0) 
+					instanceof Circle) {
+				movePiece(clickedPane);
+
+				//**Move was an En Passant**
+				if (typeOfMove == 2)
+					processEnPassant(clickedPieceCoordinate, c);
+
+				//Pawn reached opposite side
+				if(typeOfMove == 3) {					
+					promotePawn(boardModel.getPreviousTurn(), c);
+				}
+
+				//moving rook
+				if (typeOfMove == 5) {
+					Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 7);
+
+					if(p.getChildren().get(0) != null) {
+
+						ImageView thing = (ImageView) p.getChildren().get(0);
+						p.getChildren().remove(0);
+						Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() - 1);
+						destination.getChildren().add(thing);
+
+					}
+
+				}
+				if (typeOfMove == 4) {
+					Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 0);
+					if(p.getChildren().get(0) != null) {
+						ImageView thing = (ImageView) p.getChildren().get(0);
+						p.getChildren().remove(thing);
+						Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() + 1);
+						destination.getChildren().add(thing);
+					}
+				}
+
+
+			}
+
+
+
+			// Moved to enemy space
+			else {
+				killPiece(clickedPane);
+				//Pawn reached opposite side
+				if(typeOfMove == 3) {	
+					promotePawn(boardModel.getPreviousTurn(), c);
+				}
+			}
+
+
+			// Reset variables and see if its check or checkmate
+			endOfMoveProcessing(c);
+		}
+	}
 	public void promotePawn(Type type, Coordinate c) {
 		pawnToPromote = c;
 		promotionPane.setVisible(true);
@@ -204,6 +275,18 @@ public class BoardController {
 	public void selectPiece(MouseEvent event) {
 		clickedPieceCoordinate = findCoordinate(event);
 		Pane p = (Pane) event.getSource();
+		if (p.getChildren().size() != 0 && boardModel.hasPiece(clickedPieceCoordinate)) {
+			if (boardModel.getPiece(clickedPieceCoordinate).getType() == boardModel.getTurn()) {
+				selectedPiece = (ImageView) p.getChildren().get(0);
+				availableMoves = boardModel.getMoves(clickedPieceCoordinate);
+				addDots(clickedPieceCoordinate);
+			}
+		}
+	}
+	
+	public void selectPiece(Coordinate c) {
+		clickedPieceCoordinate = c;
+		Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 		if (p.getChildren().size() != 0 && boardModel.hasPiece(clickedPieceCoordinate)) {
 			if (boardModel.getPiece(clickedPieceCoordinate).getType() == boardModel.getTurn()) {
 				selectedPiece = (ImageView) p.getChildren().get(0);

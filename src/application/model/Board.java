@@ -2,9 +2,7 @@ package application.model;
 
 import java.util.ArrayList;
 
-import application.model.Board.Type;
-
-public class Board {
+public class Board implements Cloneable{
 	private String whiteName;
 	private String blackName;
 	public boolean blackEverChecked;
@@ -68,12 +66,20 @@ public class Board {
 		this.whiteEverChecked = oldBoard.isWhiteEverChecked();
 		this.isCurrentlyCheck = oldBoard.isCurrentlyCheck();
 		this.turn = oldBoard.getTurn();
-		this.board = oldBoard.getBoard();
+		this.board = new Piece[8][8];
+		for(int i = 0; i < 8; i++)
+			for(int j = 0; j < 8; j++)
+				this.board[i][j] = oldBoard.getBoard()[i][j];
+		
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
 	}
 	
 	public void undo() {
-		System.out.println("before undo ");
-		display();
+		//System.out.println("before undo ");
+		//display();
 
 		//System.out.println("after undo");
 		//board.display();
@@ -89,8 +95,8 @@ public class Board {
 		turn = this.previousBoard.getTurn();
 		board = this.previousBoard.getBoard();
 		this.previousBoard = null;
-		System.out.println("after undo");
-		display();
+		//System.out.println("after undo");
+		//display();
 	}
 	
 	public void display() {
@@ -288,7 +294,6 @@ public class Board {
 
 				changeTurn();
 				
-
 				if(castledRight)
 					return 5;
 				
@@ -304,7 +309,6 @@ public class Board {
 				return 1;
 
 			}
-
 		return 0;
 	}
 	

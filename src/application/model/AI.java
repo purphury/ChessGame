@@ -30,8 +30,8 @@ public class AI {
 
 					for(Coordinate c : availableMoves) {
 						board.movePieces(coord, c);
-						System.out.println("before undo "+coord+" to "+c);
-						board.display();
+						//System.out.println("before undo "+coord+" to "+c);
+						//board.display();
 
 						value = minimax(board, depth - 1, !turn.equals(Type.WHITE));
 						board.undo();
@@ -53,6 +53,7 @@ public class AI {
 		if(depth <= 0)
 			return this.evaluateBoard(board);
 
+		System.out.println("xxx depth: "+depth);
 		Type turn = board.getTurn();
 		double value, max = turn.equals(Type.WHITE) ? -Double.MAX_VALUE : Double.MAX_VALUE; 
 
