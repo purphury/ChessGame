@@ -95,7 +95,6 @@ public class BoardController {
 
 		// ***A piece has already been selected***
 		else {
-			System.out.println(myAI.evaluateBoard(boardModel));
 			Coordinate c = findCoordinate(event);
 			Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 			int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
@@ -476,6 +475,7 @@ public class BoardController {
 		else {
 			diffTimer();
 		}
+		System.out.println(myAI.evaluateBoard(boardModel));
 	}
 
 }
