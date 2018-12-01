@@ -1,9 +1,6 @@
 package application.model;
 
 import java.util.ArrayList;
-
-import com.sun.prism.paint.Color;
-
 import application.model.Board.Type;
 
 public class Pawn extends Piece {
