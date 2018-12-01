@@ -168,11 +168,50 @@ public class Board {
 		boolean wasEnPassant = false;
 
 		boolean pawnCrossed = false;
+		boolean castledRight = false;
+		boolean castledLeft = false;
 
 
 		
 		for (Coordinate c : availMoves)
 			if (c.equals(newLoc)) {
+				
+				if(board[newLoc.getRowIndex()][0] != null 
+								&& board[newLoc.getRowIndex()][0] instanceof Rook) {
+					rook1 = board[newLoc.getRowIndex()][0];
+				}
+				else {
+					rook1 = null;
+				}
+				
+				if(board[newLoc.getRowIndex()][7] != null 
+						&& board[newLoc.getRowIndex()][7] instanceof Rook) {
+					rook2 = board[newLoc.getRowIndex()][7];
+				}
+				else {
+					rook2 = null;
+				}
+				
+				if(piece instanceof King  && piece.getHasMoved()==false) {
+					if (newLoc.getColumnIndex() < 4 && rook1 != null && !rook1.getHasMoved()) {
+						board[newLoc.getRowIndex()][newLoc.getColumnIndex() + 1] = rook1; // if new loc was occupied, the piece that
+						rook1.setHasMoved(true);
+						// was there is now deleted as there is
+						// no reference to it
+						board[newLoc.getRowIndex()][0] = null;
+						castledLeft = true;
+					} else if (newLoc.getColumnIndex() > 5 && rook2 != null && !rook2.getHasMoved()) {
+						board[newLoc.getRowIndex()][newLoc.getColumnIndex() - 1] = rook2; // if new loc was occupied, the piece that
+						rook2.setHasMoved(true);
+						// was there is now deleted as there is
+						// no reference to it
+						board[newLoc.getRowIndex()][7] = null;
+						castledRight = true;
+					}
+					
+
+				}
+				
 				if (!piece.getHasMoved())
 					piece.setHasMoved(true);
 
@@ -193,29 +232,13 @@ public class Board {
 				changeTurn();
 				
 
-				rook1 = board[newLoc.getRowIndex()][0];
-				rook2 = board[newLoc.getRowIndex()][7];
-				if(piece instanceof King && (!((King) piece).getCastlingMove().contains(newLoc)) ) {
-					if (newLoc.getColumnIndex() < 4 && !rook1.getHasMoved()) {
-						board[newLoc.getRowIndex()][newLoc.getColumnIndex() + 1] = rook1; // if new loc was occupied, the piece that
-						rook1.setHasMoved(true);
-						// was there is now deleted as there is
-						// no reference to it
-						board[newLoc.getRowIndex()][0] = null;
-						return 4;
-					} else if (newLoc.getColumnIndex() > 5 && !rook2.getHasMoved()) {
-						
-						board[newLoc.getRowIndex()][newLoc.getColumnIndex() - 1] = rook2; // if new loc was occupied, the piece that
-						rook2.setHasMoved(true);
-						// was there is now deleted as there is
-						// no reference to it
-						board[newLoc.getRowIndex()][7] = null;
-						return 5;
-					}
-					
 
-				}
-
+				if(castledRight)
+					return 5;
+				
+				if(castledLeft)
+					return 4;
+				
 				if(pawnCrossed)
 					return 3;
 				

@@ -120,12 +120,12 @@ public class BoardController {
 					if (typeOfMove == 5) {
 						Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), 7);
 						
-						if(p.getChildren().get(0) != null) {							
+						if(p.getChildren().get(0) != null) {
+							
 							ImageView thing = (ImageView) p.getChildren().get(0);
-							p.getChildren().clear();
+							p.getChildren().remove(0);
 							Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() - 1);
 							destination.getChildren().add(thing);
-							destination.getChildren().remove(0);
 							
 						}
 						
@@ -137,7 +137,6 @@ public class BoardController {
 							p.getChildren().remove(thing);
 							Pane destination = (Pane) getPaneByRowColumnIndex(c.getRowIndex(),  c.getColumnIndex() + 1);
 							destination.getChildren().add(thing);
-							destination.getChildren().remove(0);
 							}
 					}
 				
@@ -270,8 +269,13 @@ public class BoardController {
 				changeToOriginalColor(c);
 				if (pane.getChildren().get(0) instanceof Circle)
 					pane.getChildren().remove(0);
-			} else
+			} else {
+				if(pane.getChildren().size()>1) {
+					if(pane.getChildren().get(0) instanceof Circle)
+						pane.getChildren().remove(0);
+				}
 				changeToOriginalColor(c);
+			}
 		}
 	}
 
