@@ -91,9 +91,9 @@ public class Board implements Cloneable{
 		this.rook2 = this.previousBoard.getRook2();
 		this.blackEverChecked = this.previousBoard.isBlackEverChecked();
 		this.whiteEverChecked = this.previousBoard.isWhiteEverChecked();
-		isCurrentlyCheck = this.previousBoard.isCurrentlyCheck();
-		turn = this.previousBoard.getTurn();
-		board = this.previousBoard.getBoard();
+		this.isCurrentlyCheck = this.previousBoard.isCurrentlyCheck();
+		this.turn = this.previousBoard.getTurn();
+		this.board = this.previousBoard.getBoard();
 		this.previousBoard = null;
 		//System.out.println("after undo");
 		//display();
@@ -234,9 +234,8 @@ public class Board implements Cloneable{
 		
 		for (Coordinate c : availMoves)
 			if (c.equals(newLoc)) {
-				previousBoard = new Board(this);
-				System.out.println("UUUUU previous boardUUUU");
-				previousBoard.display();
+			
+
 
 				
 				if(board[newLoc.getRowIndex()][0] != null 
@@ -293,6 +292,8 @@ public class Board implements Cloneable{
 				doubleMoveCheckAndSet(piece, oldLoc, newLoc);
 
 				changeTurn();
+				//Printer.boardCheck(previousBoard,this);
+
 				
 				if(castledRight)
 					return 5;

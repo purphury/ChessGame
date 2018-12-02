@@ -163,6 +163,9 @@ public class BoardController {
 
 					// Reset variables and see if its check or checkmate
 					endOfMoveProcessing(c);
+					//Coordinate[] h = myAI.getBestMove(boardModel, StartScreenController.value);
+					//System.out.println(h[0].toString() + " " + h[1].toString());
+					//boardModel.display();
 					if(StartScreenController.isAI)
 						moveAI();
 				}
@@ -173,16 +176,16 @@ public class BoardController {
 		if(boardModel.isCheckmate(Type.BLACK))
 			return;
 		Coordinate[] h = myAI.getBestMove(boardModel, StartScreenController.value);
-		System.out.println(h[0].toString() + " " + h[1].toString());
+		//System.out.println(h[0].toString() + " " + h[1].toString());
 		Coordinate c = h[1];
 
 		clickedPieceCoordinate = h[0];
 		selectPiece(clickedPieceCoordinate);
 	
-		System.out.println("xxx");
+		//System.out.println("xxx");
 		Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 		int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
-		System.out.println("Type of Move: " + typeOfMove);
+		//System.out.println("Type of Move: " + typeOfMove);
 		// **Move was not possible**
 		if(typeOfMove == 0)
 			unselectPiece(c);
