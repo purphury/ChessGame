@@ -2,10 +2,39 @@ package application.model;
 
 import java.util.ArrayList;
 
+import application.controller.BoardController;
+import application.controller.StartScreenController;
 import application.model.Board.Type;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
+
 
 public class AI {
-	private static int totalDepth;
+	
+	public <T> void moveAIThread(BoardController bc) {
+		final Task<Coordinate[]> t1 = new Task<Coordinate[]>() {
+
+			@Override
+			protected Coordinate[] call() throws Exception {
+				
+				return bc.getMyAI().getBestMove(BoardController.boardModel, StartScreenController.value);
+			}
+		};
+		
+		
+		t1.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		    @Override
+		    public void handle(WorkerStateEvent t) {
+		        Coordinate d[]= t1.getValue();
+		        
+		        bc.moveAI(d[0], d[1]); 
+		    }
+		});
+		Thread th = new Thread(t1);
+		th.setDaemon(true);
+		th.start();
+	}
 
 	public double evaluateBoard(Board board) {
 		double strength = 0;
@@ -20,7 +49,6 @@ public class AI {
 
 	public Coordinate[] getBestMove(Board board, int depth) {
 		Board newBoard = new Board(board);
-		totalDepth = depth;
 		Type turn = newBoard.getTurn();
 		double value, max = turn.equals(Type.WHITE) ? -Double.MAX_VALUE : Double.MAX_VALUE; 
 		Coordinate move[] = {null, null}; // old, new

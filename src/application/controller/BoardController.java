@@ -3,6 +3,8 @@ package application.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import application.model.AI;
 import application.model.Board;
@@ -29,9 +31,10 @@ public class BoardController {
 	private Coordinate clickedPieceCoordinate;
 	public static Board boardModel;
 	private Coordinate pawnToPromote;
+	private Type turn;
 	private ArrayList<Coordinate> availableMoves;
 	@FXML
-	public Label p1Min, p1Sec, p2Min, p2Sec;
+	public Label p1Min, p2Min;
 	public static Timer timer;
 	public static Thread timeThread;
 
@@ -87,6 +90,7 @@ public class BoardController {
 
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
+		if(!StartScreenController.isAI || boardModel.getTurn() == Type.WHITE) {
 			// ***A piece has not been selected yet***
 			if (selectedPiece == null) {
 				selectPiece(event);
@@ -166,20 +170,22 @@ public class BoardController {
 					//Coordinate[] h = myAI.getBestMove(boardModel, StartScreenController.value);
 					//System.out.println(h[0].toString() + " " + h[1].toString());
 					//boardModel.display();
+
 					if(StartScreenController.isAI)
-						moveAI();
+						myAI.moveAIThread(this);
 				}
+			}
 
 		}
 	}
-	public void moveAI() {
+	public void moveAI(Coordinate a, Coordinate b) {
 		if(boardModel.isCheckmate(Type.BLACK))
 			return;
-		Coordinate[] h = myAI.getBestMove(boardModel, StartScreenController.value);
+		//Coordinate[] h = myAI.getBestMove(boardModel, 4);
 		//System.out.println(h[0].toString() + " " + h[1].toString());
-		Coordinate c = h[1];
+		Coordinate c = b;
 
-		clickedPieceCoordinate = h[0];
+		clickedPieceCoordinate = a;
 		selectPiece(clickedPieceCoordinate);
 	
 		//System.out.println("xxx");
@@ -468,7 +474,7 @@ public class BoardController {
 								@Override
 								public void run() {
 									p1Min.setText("0" + String.valueOf(minutes));
-									p1Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
+//									p1Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
 								}
 
 							});
@@ -477,7 +483,7 @@ public class BoardController {
 								@Override
 								public void run() {
 									p2Min.setText("0" + String.valueOf(minutes));
-									p2Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
+		//							p2Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
 								}
 
 							});
@@ -493,57 +499,71 @@ public class BoardController {
 		
 	}
 	
-	public void diffTimer() {
-		Thread th = new Thread(new Task() {
+	public <T> void diffTimer2() {
+		ExecutorService executor = Executors.newFixedThreadPool(2);
+		Task<T> t1 = new Task<T>() {
 
 			@Override
-			protected Object call() throws Exception {
+			protected T call() throws Exception {
 				int player1Time = 300;
-				int player2Time = 299;
+
 				long startTime = System.currentTimeMillis();
-				while(player1Time > 0 && player2Time > 0) {
+				while(player1Time > 0) {
 					if(getBoard().getTurn() == Type.WHITE) {
-						final int p1FTime = player1Time;
-						
-						Platform.runLater(new Runnable() {		
-							@Override
-							public void run() {
-								p1Sec.setText(String.format("%02d", p1FTime%60));
-								p1Min.setText(String.format("0%d", p1FTime/60));
-							}
-						});
-						
-						player1Time--;
-						long elapsedTime = System.currentTimeMillis()- startTime;
-						Thread.sleep(1000-(elapsedTime%1000)+5);
-						
-					}else {
-						final long p2FTime = player2Time;
-						
-						Platform.runLater(new Runnable() {
-							@Override
-							public void run() {
-								p2Sec.setText(String.format("%02d", p2FTime%60));
-								p2Min.setText(String.format("0%d",p2FTime/60));
-							}							
-						});		
-						
-						player2Time--;
-						long elapsedTime = System.currentTimeMillis()- startTime;
-						Thread.sleep(1000-(elapsedTime%1000)+5);
-						
+						//final int p1FTime = player1Time;
+						updateMessage(player1Time/60+":"+String.format("%02d", (player1Time%60)));						
+						player1Time--;						
 					}
+					long elapsedTime = System.currentTimeMillis()- startTime;
+					Thread.sleep(1000-(elapsedTime%1000)+5);
 				}				
 				return null;
 			}
 			
-		});
-		th.setDaemon(true);
-		th.start();
+		};
+		p1Min.textProperty().bind(t1.messageProperty());
+		
+		Task<T> t2 = new Task<T>() {
+
+			@Override
+			protected T call() throws Exception {
+				int player2Time = 300;
+				long startTime = System.currentTimeMillis();
+				while(player2Time > 0) {
+					if(getBoard().getTurn() == Type.BLACK || player2Time ==300) {
+						updateMessage(player2Time/60+":"+String.format("%02d", (player2Time%60)));
+						player2Time--;
+					}
+					long elapsedTime = System.currentTimeMillis()- startTime;
+					Thread.sleep(1000-(elapsedTime%1000)+5);
+				}				
+				return null;
+			}
+			
+		};
+		p2Min.textProperty().bind(t2.messageProperty());
+
+		Thread thread1 = new Thread(t1);
+		Thread thread2 = new Thread(t2);
+
+		thread1.setDaemon(true);
+		thread2.setDaemon(true);
+		thread1.start();
+		thread2.start();
+
 	}
 	
+	public AI getMyAI() {
+		return myAI;
+	}
+
+	public void setMyAI(AI myAI) {
+		this.myAI = myAI;
+	}
+
 	@FXML
 	void initialize() {
+		turn = Type.WHITE;
 		boolean timerCheck = true;
 		assert whiteNameLabel != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert blackNameLabel != null : "fx:id=\"blackName\" was not injected: check your FXML file 'Board.fxml'.";
@@ -569,7 +589,7 @@ public class BoardController {
 		 setTime();
 		}
 		else {
-			diffTimer();
+			diffTimer2();
 		}
 	}
 
