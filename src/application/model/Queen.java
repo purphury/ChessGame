@@ -6,9 +6,13 @@ import application.model.Board.Type;
 
 public class Queen extends Piece {
 	public Queen(Type color) {
-		super(color);
+		super(color, 90);
 	}
-
+	
+	public double getStrength(int r, int c) {
+		return (this.getType() == Type.WHITE ? 90 + StrengthBoard.QueenStrengthBoard[r][c] : -90 - StrengthBoard.QueenStrengthBoard[8-r-1][c]);
+	}
+	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		//first number is the vertical direction, the second is the horizontal direction
@@ -35,5 +39,9 @@ public class Queen extends Piece {
 					availCoords.add(new Coordinate(r + i * rowInc, c + i * columnInc));
 			}
 		}
+	}
+	
+	public String toString() {
+		return "Q";
 	}
 }

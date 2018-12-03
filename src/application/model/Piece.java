@@ -8,10 +8,12 @@ public abstract class Piece
 {
 	private Type type;
 	private boolean hasMoved;
+	private double strength;
 	
-	public Piece (Type type) {
+	public Piece (Type type, int strength) {
 		this.type = type;
 		this.setHasMoved(false);
+		this.strength = strength;
 	}
 	public abstract ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board);
 	
@@ -37,5 +39,9 @@ public abstract class Piece
 	}
 	protected boolean boundsChecker(int num1, int num2) {
 		return (num1 >= 0 && num1 <= 7 && num2 >= 0 && num2 <= 7);
+	}
+	public abstract double getStrength(int r, int c);
+	public void setStrength(double strength) {
+		this.strength = strength;
 	}
 }

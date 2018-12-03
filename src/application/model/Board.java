@@ -2,13 +2,14 @@ package application.model;
 
 import java.util.ArrayList;
 
-public class Board {
+public class Board implements Cloneable{
 	private String whiteName;
 	private String blackName;
 	public boolean blackEverChecked;
 	public boolean whiteEverChecked;
 	private Piece rook1;
 	private Piece rook2;
+	private Board previousBoard;
 
 	public static enum Type {
 		BLACK, WHITE
@@ -19,6 +20,7 @@ public class Board {
 	private Piece[][] board;
 
 	public Board(String whiteName, String blackName) {
+		this.previousBoard = null;
 		this.whiteName = whiteName;
 		this.blackName = blackName;
 		this.rook1 = null;
@@ -53,7 +55,65 @@ public class Board {
 		board[0][4] = new King(Type.BLACK);
 		board[7][4] = new King(Type.WHITE);
 	}
+	
+	public Board(Board oldBoard) {
+		this.previousBoard = null;
+		this.whiteName = oldBoard.getWhiteName();
+		this.blackName = oldBoard.getBlackName();
+		this.rook1 = oldBoard.getRook1();
+		this.rook2 = oldBoard.getRook2();
+		this.blackEverChecked = oldBoard.isBlackEverChecked();
+		this.whiteEverChecked = oldBoard.isWhiteEverChecked();
+		this.isCurrentlyCheck = oldBoard.isCurrentlyCheck();
+		this.turn = oldBoard.getTurn();
+		this.board = new Piece[8][8];
+		for(int i = 0; i < 8; i++)
+			for(int j = 0; j < 8; j++)
+				this.board[i][j] = oldBoard.getBoard()[i][j];
+		
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
+	}
+	
+	public void undo() {
+		//System.out.println("before undo ");
+		//display();
 
+		//System.out.println("after undo");
+		//board.display();
+		if(this.previousBoard == null)
+			return;
+		this.whiteName = this.previousBoard.getWhiteName();
+		this.blackName = this.previousBoard.getBlackName();
+		this.rook1 = this.previousBoard.getRook1();
+		this.rook2 = this.previousBoard.getRook2();
+		this.blackEverChecked = this.previousBoard.isBlackEverChecked();
+		this.whiteEverChecked = this.previousBoard.isWhiteEverChecked();
+		this.isCurrentlyCheck = this.previousBoard.isCurrentlyCheck();
+		this.turn = this.previousBoard.getTurn();
+		this.board = this.previousBoard.getBoard();
+		this.previousBoard = null;
+		//System.out.println("after undo");
+		//display();
+	}
+	
+	public void display() {
+		for(int i = 0; i < 8 ; i++) {
+			for(int j = 0; j < 8 ; j++) {
+				System.out.print("| ");
+				if(this.hasPiece(i,j)) {
+					System.out.print(this.getPiece(i,j)+" ");
+				}
+				else
+					System.out.print("  ");
+			}
+			System.out.println("|");
+		}
+		System.out.println();
+	}
+	
 	public String getWhiteName() {
 		return whiteName;
 	}
@@ -174,6 +234,9 @@ public class Board {
 		
 		for (Coordinate c : availMoves)
 			if (c.equals(newLoc)) {
+			
+
+
 				
 				if(board[newLoc.getRowIndex()][0] != null 
 								&& board[newLoc.getRowIndex()][0] instanceof Rook) {
@@ -229,9 +292,9 @@ public class Board {
 				doubleMoveCheckAndSet(piece, oldLoc, newLoc);
 
 				changeTurn();
+				//Printer.boardCheck(previousBoard,this);
+
 				
-
-
 				if(castledRight)
 					return 5;
 				
@@ -247,7 +310,6 @@ public class Board {
 				return 1;
 
 			}
-
 		return 0;
 	}
 	
@@ -506,6 +568,54 @@ public class Board {
 			return false;
 		}
 
+	}
+	
+	public boolean isBlackEverChecked() {
+		return blackEverChecked;
+	}
+
+	public void setBlackEverChecked(boolean blackEverChecked) {
+		this.blackEverChecked = blackEverChecked;
+	}
+
+	public boolean isWhiteEverChecked() {
+		return whiteEverChecked;
+	}
+
+	public void setWhiteEverChecked(boolean whiteEverChecked) {
+		this.whiteEverChecked = whiteEverChecked;
+	}
+
+	public Piece getRook1() {
+		return rook1;
+	}
+
+	public void setRook1(Piece rook1) {
+		this.rook1 = rook1;
+	}
+
+	public Piece getRook2() {
+		return rook2;
+	}
+
+	public void setRook2(Piece rook2) {
+		this.rook2 = rook2;
+	}
+
+	public Board getPreviousBoard() {
+		return previousBoard;
+	}
+
+	public void setPreviousBoard(Board previousBoard) {
+		this.previousBoard = previousBoard;
+	}
+
+	public boolean isCurrentlyCheck() {
+		return isCurrentlyCheck;
+	}
+
+	public void setCurrentlyCheck(boolean isCurrentlyCheck) {
+		this.isCurrentlyCheck = isCurrentlyCheck;
 	}
 
 	public void changeTurn() {

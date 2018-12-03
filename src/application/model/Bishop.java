@@ -6,9 +6,13 @@ import application.model.Board.Type;
 
 public class Bishop extends Piece {
 	public Bishop(Type color) {
-		super(color);
+		super(color, 30);
 	}
 
+	public double getStrength(int r, int c) {
+		return (this.getType() == Type.WHITE ? 30 + StrengthBoard.BishopStrengthBoard[r][c] : -30 - StrengthBoard.BishopStrengthBoard[8-r-1][c]);
+	}
+	
 	@Override
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
@@ -32,5 +36,9 @@ public class Bishop extends Piece {
 					availCoords.add(new Coordinate(r + i * rowInc, c + i * columnInc));
 			}
 		}
+	}
+	
+	public String toString() {
+		return "B";
 	}
 }

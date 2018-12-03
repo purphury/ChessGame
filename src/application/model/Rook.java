@@ -8,9 +8,13 @@ public class Rook extends Piece
 {
 	public Rook(Type color)
 	{
-		super (color);
+		super (color, 50);
 	}
 
+	public double getStrength(int r, int c) {
+		return (this.getType() == Type.WHITE ? 50 + StrengthBoard.RookStrengthBoard[r][c] : -50 - StrengthBoard.RookStrengthBoard[8-r-1][c]);
+	}
+	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 							
@@ -39,7 +43,7 @@ public class Rook extends Piece
 		}
 	}
 	public String toString() {
-		return "Rook";
+		return "R";
 	}
 	
 

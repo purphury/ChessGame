@@ -1,7 +1,6 @@
 package application.model;
 
 import java.util.ArrayList;
-
 import application.model.Board.Type;
 
 public class Pawn extends Piece {
@@ -11,7 +10,7 @@ public class Pawn extends Piece {
 	private boolean promotion;
 
 	public Pawn(int r, int c, Type color) {
-		super(color);
+		super(color, 10);
 		promotion = false;
 		startR = r;
 		startC = c;
@@ -24,7 +23,10 @@ public class Pawn extends Piece {
 	public void setPromotion(boolean promotion) {
 		this.promotion = promotion;
 	}
-
+	
+	public double getStrength(int r, int c) {
+		return (this.getType() == Type.WHITE ? 10 + StrengthBoard.PawnStrengthBoard[r][c] : -10 - StrengthBoard.PawnStrengthBoard[8-r-1][c]);
+	}
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		// color is white//
@@ -88,6 +90,9 @@ public class Pawn extends Piece {
 		}
 	}
 	
+	public String toString() {
+		return "p";
+	}
 	
 	
 }

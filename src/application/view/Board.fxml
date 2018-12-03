@@ -397,17 +397,7 @@
             <DropShadow />
          </effect>
          <children>
-            <Label fx:id="p1Min" layoutX="12.0" layoutY="59.0" prefHeight="50.0" prefWidth="49.0" text="05">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-            <Label layoutX="58.0" layoutY="59.0" prefHeight="37.0" prefWidth="11.0" text=":">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-            <Label fx:id="p1Sec" layoutX="69.0" layoutY="59.0" prefHeight="50.0" prefWidth="49.0" text="00">
+            <Label fx:id="p1Min" layoutX="12.0" layoutY="60.0" prefHeight="50.0" prefWidth="124.0" text="05">
                <font>
                   <Font size="36.0" />
                </font>
@@ -424,17 +414,7 @@
             <DropShadow />
          </effect>
          <children>
-            <Label fx:id="p2Min" layoutX="14.0" layoutY="61.0" prefHeight="50.0" prefWidth="49.0" text="05">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-            <Label layoutX="59.0" layoutY="61.0" text=":">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-            <Label fx:id="p2Sec" layoutX="71.0" layoutY="64.0" prefHeight="44.0" prefWidth="49.0" text="00">
+            <Label fx:id="p2Min" layoutX="14.0" layoutY="60.0" prefHeight="50.0" prefWidth="117.0" text="05">
                <font>
                   <Font size="36.0" />
                </font>
