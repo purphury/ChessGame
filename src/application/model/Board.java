@@ -546,9 +546,7 @@ public class Board implements Cloneable{
 		// checks that the piece is really there
 		if (this.board[r][c] != null && this.board[r][c].getType() == turn) {
 			availMoves = this.board[r][c].getAvailableMovements(r, c, this);
-			for(Coordinate t: availMoves)
-				System.out.println(t);
-			System.out.println("\n");
+	
 			// You cant remove elements inside a for-each loop from an ArrayList you're
 			// iterating through.
 			// So toBeRemoved keeps track of those elements

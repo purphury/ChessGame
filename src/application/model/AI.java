@@ -21,7 +21,6 @@ public class AI {
 			@Override
 			protected String call() throws Exception {
 				String str = getFeedback(BoardController.boardModel.getPreviousBoard(), true, oldLoc, newLoc);
-				System.out.println("Str: "+str);
 				return str;
 				
 			}
@@ -73,7 +72,7 @@ public class AI {
 				}
 			}
 		}
-		System.out.println();
+		//System.out.println();
 		ArrayList<Double> al = new ArrayList<Double>();
 
 		listOfMoves.sort(new Comparator() {
@@ -178,9 +177,9 @@ public class AI {
 				//System.out.println("randomizer: "+roundedRandomizer);
 				double d = rand.nextDouble();
 				boolean setStrategy = setStrategy(d);
-				System.out.println("randomizer "+randomizer);
+				//System.out.println("randomizer "+randomizer);
 
-				System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
+				//System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
 				return bc.getMyAI().getBestMove(BoardController.boardModel, (int)roundedRandomizer, setStrategy, rand, true);
 			}
 		};

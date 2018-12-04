@@ -35,7 +35,7 @@ public class BoardController {
 	private Coordinate clickedPieceCoordinate;
 	public static Board boardModel;
 	private Coordinate pawnToPromote;
-	private boolean timesUp;
+	private boolean timesUp, isStalemate;
 	private Type turn;
 	private ArrayList<Coordinate> availableMoves;
 	@FXML
@@ -492,7 +492,7 @@ public class BoardController {
 			checkLabel.setVisible(false);
 			endGameLabel.setVisible(true);
 			boardModel.setWhiteIsCheckmated(true);
-
+			isStalemate = true;
 			boardModel.setBlackIsCheckmated(true);
 			endGameLabel.setText("Stalemate!\nEveryone's a winner!");
 
@@ -625,11 +625,11 @@ public class BoardController {
 
 			@Override
 			protected T call() throws Exception {
-				int player1Time = 10*StartScreenController.minutes;
+				int player1Time = 60*StartScreenController.minutes;
 
 				long startTime = System.currentTimeMillis();
 				while(player1Time > 0 && !boardModel.isWhiteIsCheckmated()
-						&&!boardModel.isBlackIsCheckmated()) {
+						&&!boardModel.isBlackIsCheckmated() && !isStalemate) {
 					if(getBoard().getTurn() == Type.WHITE) {
 						//final int p1FTime = player1Time;
 						updateMessage(player1Time/60+":"+String.format("%02d", (player1Time%60)));						
@@ -649,7 +649,7 @@ public class BoardController {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				// TODO Auto-generated method stub
-				if( !boardModel.isWhiteIsCheckmated()&&!boardModel.isBlackIsCheckmated()) {
+				if( !boardModel.isWhiteIsCheckmated()&&!boardModel.isBlackIsCheckmated()&&!isStalemate) {
 					endGameLabel.setVisible(true);
 					String finishStr = "Times up!\n"+blackNameLabel.getText()+" wins";
 					endGameLabel.setText(finishStr);
@@ -668,7 +668,7 @@ public class BoardController {
 
 				long startTime = System.currentTimeMillis();
 				while(player2Time > 0 && !boardModel.isWhiteIsCheckmated()
-						&&!boardModel.isBlackIsCheckmated()) {
+						&&!boardModel.isBlackIsCheckmated() && !isStalemate) {
 					if(getBoard().getTurn() == Type.BLACK || player2Time == origTime) {
 						updateMessage(player2Time/60+":"+String.format("%02d", (player2Time%60)));
 						player2Time--;
@@ -690,7 +690,8 @@ public class BoardController {
 			@Override
 			public void handle(WorkerStateEvent event) {
 				// TODO Auto-generated method stub
-				if( !boardModel.isWhiteIsCheckmated()&&!boardModel.isBlackIsCheckmated()) {
+				if( !boardModel.isWhiteIsCheckmated()&&!boardModel.isBlackIsCheckmated()
+												&& !isStalemate) {
 					endGameLabel.setVisible(true);
 					String finishStr = "Times up!\n"+whiteNameLabel.getText()+" wins";
 					endGameLabel.setText(finishStr);
@@ -720,7 +721,7 @@ public class BoardController {
 	@FXML
 	void initialize() {
 		turn = Type.WHITE;
-		boolean timerCheck = true;
+		isStalemate = false;
 		assert whiteNameLabel != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert blackNameLabel != null : "fx:id=\"blackName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert turnLabel != null : "fx:id=\"turnName\" was not injected: check your FXML file 'Board.fxml'.";
