@@ -488,15 +488,7 @@ public class BoardController {
 		else
 			checkLabel.setVisible(false);
 
-		if (boardModel.isStalemate(type)) {
-			checkLabel.setVisible(false);
-			endGameLabel.setVisible(true);
-			boardModel.setWhiteIsCheckmated(true);
-			isStalemate = true;
-			boardModel.setBlackIsCheckmated(true);
-			endGameLabel.setText("Stalemate!\nEveryone's a winner!");
-
-		}else if (boardModel.isCheckmate(type)) {
+		if (boardModel.isCheckmate(type)) {
 			checkLabel.setVisible(false);
 			endGameLabel.setVisible(true);
 			if(type == Type.WHITE) {
@@ -509,8 +501,17 @@ public class BoardController {
 				endGameLabel.setText("Checkmate!\n"+whiteNameLabel.getText()+" wins");
 
 			}
+		}else if (boardModel.isStalemate(type)) {
+			checkLabel.setVisible(false);
+			endGameLabel.setVisible(true);
+			boardModel.setWhiteIsCheckmated(true);
+			isStalemate = true;
+			boardModel.setBlackIsCheckmated(true);
+			endGameLabel.setText("Stalemate!\nEveryone's a winner!");
 
 		}
+
+
 	}
 
 	public void processEnPassant(Coordinate fromPosition, Coordinate toPosition) {
