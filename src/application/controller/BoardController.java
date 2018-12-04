@@ -33,17 +33,21 @@ public class BoardController {
 	private Coordinate clickedPieceCoordinate;
 	public static Board boardModel;
 	private Coordinate pawnToPromote;
+	private boolean timesUp;
 	private Type turn;
 	private ArrayList<Coordinate> availableMoves;
 	@FXML
 	public Label p1Min, p2Min;
+	public Pane timer1Pane, timer2Pane;
 	public static Timer timer;
 	public static Thread timeThread;
 
 	@FXML
-	
 	private Label whiteNameLabel, whiteNameLabel2;
 
+	@FXML
+	public Label feedbackLabel;
+	
 	@FXML
 	private Label blackNameLabel, blackNameLabel2;
 
@@ -51,7 +55,7 @@ public class BoardController {
 	private Label checkLabel;
 
 	@FXML
-	private Label checkmateLabel;
+	private Label endGameLabel;
 
 	@FXML
 	private Label turnLabel;
@@ -92,7 +96,8 @@ public class BoardController {
 
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
-		if(!StartScreenController.isAI || boardModel.getTurn() == Type.WHITE) {
+		if((!StartScreenController.isAI || boardModel.getTurn() == Type.WHITE)
+				&& !timesUp && !boardModel.isBlackIsCheckmated() && !boardModel.isWhiteIsCheckmated()) {
 			// ***A piece has not been selected yet***
 			if (selectedPiece == null) {
 				selectPiece(event);
@@ -165,16 +170,20 @@ public class BoardController {
 							promotePawn(boardModel.getPreviousTurn(), c);
 						}
 					}
-
-
+					
+					if(StartScreenController.giveFeedback) {
+						myAI.feedbackThread(this, clickedPieceCoordinate, c);
+					}
 					// Reset variables and see if its check or checkmate
 					endOfMoveProcessing(c);
 					//Coordinate[] h = myAI.getBestMove(boardModel, StartScreenController.value);
 					//System.out.println(h[0].toString() + " " + h[1].toString());
 					//boardModel.display();
 
-					if(StartScreenController.isAI)
+					if(StartScreenController.isAI) {
 						myAI.moveAIThread(this);
+					}
+					
 				}
 			}
 
@@ -369,7 +378,18 @@ public class BoardController {
 
 		if (boardModel.isCheckmate(type)) {
 			checkLabel.setVisible(false);
-			checkmateLabel.setVisible(true);
+			endGameLabel.setVisible(true);
+			if(type == Type.WHITE) {
+				boardModel.setWhiteIsCheckmated(true);
+				endGameLabel.setText("Checkmate!\n"+blackNameLabel.getText()+" wins");
+
+			}
+			else {
+				boardModel.setBlackIsCheckmated(true);
+				endGameLabel.setText("Checkmate!\n"+whiteNameLabel.getText()+" wins");
+
+			}
+
 		}
 	}
 
@@ -479,57 +499,17 @@ public class BoardController {
 		}
 	}
 	
-	public void setTime() {
-		Thread th = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				long currentPlayer;
-				do {
-					currentPlayer = timer.getCurrentPlayerTimeInMilliseconds();
-					if (timer.getCount() >= 1000) {
-						timer.setCount(0);
-						int seconds = (int) ((currentPlayer/1000) % 60);
-						int minutes = (int) currentPlayer/60000;
-						if(boardModel.getTurn() == Type.WHITE) {
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									p1Min.setText("0" + String.valueOf(minutes));
-//									p1Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
-								}
-
-							});
-						} else {
-							Platform.runLater(new Runnable() {
-								@Override
-								public void run() {
-									p2Min.setText("0" + String.valueOf(minutes));
-		//							p2Sec.setText(seconds < 10 ? "0" + String.valueOf(seconds) : "" + String.valueOf(seconds));								
-								}
-
-							});
-						}
-					}
-				} while(currentPlayer > 0);
-			}
-		});
-		
-		
-		th.setDaemon(true);
-		th.start();
-		
-	}
 	
 	public <T> void diffTimer2() {
-		ExecutorService executor = Executors.newFixedThreadPool(2);
 		Task<T> t1 = new Task<T>() {
 
 			@Override
 			protected T call() throws Exception {
-				int player1Time = 300;
+				int player1Time = 10*StartScreenController.minutes;
 
 				long startTime = System.currentTimeMillis();
-				while(player1Time > 0) {
+				while(player1Time > 0 && !boardModel.isWhiteIsCheckmated()
+						&&!boardModel.isBlackIsCheckmated()) {
 					if(getBoard().getTurn() == Type.WHITE) {
 						//final int p1FTime = player1Time;
 						updateMessage(player1Time/60+":"+String.format("%02d", (player1Time%60)));						
@@ -537,33 +517,68 @@ public class BoardController {
 					}
 					long elapsedTime = System.currentTimeMillis()- startTime;
 					Thread.sleep(1000-(elapsedTime%1000)+5);
-				}				
+				}		
+
 				return null;
 			}
 			
 		};
 		p1Min.textProperty().bind(t1.messageProperty());
+		t1.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+
+			@Override
+			public void handle(WorkerStateEvent event) {
+				// TODO Auto-generated method stub
+				if( !boardModel.isWhiteIsCheckmated()&&!boardModel.isBlackIsCheckmated()) {
+					endGameLabel.setVisible(true);
+					String finishStr = "Times up!\n"+blackNameLabel.getText()+" wins";
+					endGameLabel.setText(finishStr);
+					timesUp = true;
+				}
+			}
+			
+		});
 		
 		Task<T> t2 = new Task<T>() {
 
 			@Override
 			protected T call() throws Exception {
-				int player2Time = 300;
+				int origTime = 60*StartScreenController.minutes;
+				int player2Time = origTime;
+
 				long startTime = System.currentTimeMillis();
-				while(player2Time > 0) {
-					if(getBoard().getTurn() == Type.BLACK || player2Time ==300) {
+				while(player2Time > 0 && !boardModel.isWhiteIsCheckmated()
+						&&!boardModel.isBlackIsCheckmated()) {
+					if(getBoard().getTurn() == Type.BLACK || player2Time == origTime) {
 						updateMessage(player2Time/60+":"+String.format("%02d", (player2Time%60)));
 						player2Time--;
 					}
 					long elapsedTime = System.currentTimeMillis()- startTime;
 					Thread.sleep(1000-(elapsedTime%1000)+5);
-				}				
+				}	
+				if(player2Time <= 0)
+					endGameLabel.setVisible(true);
+					String finishStr = "Times up!\n"+blackNameLabel.getText()+" wins";
+					endGameLabel.setText(finishStr);
 				return null;
 			}
 			
 		};
 		p2Min.textProperty().bind(t2.messageProperty());
+		t2.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
 
+			@Override
+			public void handle(WorkerStateEvent event) {
+				// TODO Auto-generated method stub
+				if( !boardModel.isWhiteIsCheckmated()&&!boardModel.isBlackIsCheckmated()) {
+					endGameLabel.setVisible(true);
+					String finishStr = "Times up!\n"+whiteNameLabel.getText()+" wins";
+					endGameLabel.setText(finishStr);
+					timesUp = true;
+				}
+			}
+			
+		});
 		Thread thread1 = new Thread(t1);
 		Thread thread2 = new Thread(t2);
 
@@ -592,6 +607,13 @@ public class BoardController {
 		assert boardFX != null : "fx:id=\"boardFX\" was not injected: check your FXML file 'Board.fxml'.";
 		String blackNameString = StartScreenController.names.get(1),
 				whiteNameString = StartScreenController.names.get(0);
+		this.blackNameLabel.setWrapText(true);
+		this.whiteNameLabel.setWrapText(true);
+		this.blackNameLabel2.setWrapText(true);
+		this.whiteNameLabel2.setWrapText(true);
+		this.feedbackLabel.setVisible(false);
+		this.timer1Pane.setVisible(false);
+		this.timer2Pane.setVisible(false);
 		this.blackNameLabel.setText(blackNameString);
 		this.whiteNameLabel.setText(whiteNameString);
 		this.blackNameLabel2.setText(blackNameString);
@@ -599,18 +621,19 @@ public class BoardController {
 		String whiteTurn = whiteNameString + "'" + (whiteNameString.charAt(whiteNameString.length()-1) == 's' ? "" : "s") + " turn";
 		turnLabel.setText(whiteTurn);
 		checkLabel.setVisible(false);
-		checkmateLabel.setVisible(false);
+		endGameLabel.setVisible(false);
 		promotionPane.setVisible(false);
+		timesUp = false;
 		boardModel = new Board(whiteNameString, blackNameString);
 		selectedPiece = null;
 		availableMoves = new ArrayList<Coordinate>();
-		if(!timerCheck) {
-		 timer = new Timer(); timeThread = new Thread(timer); 
-		 timeThread.setDaemon(true); timeThread.start();
-		 setTime();
-		}
-		else {
+		if(StartScreenController.haveTimer) {
+			this.timer1Pane.setVisible(true);
+			this.timer2Pane.setVisible(true);
 			diffTimer2();
+		}
+		else if(StartScreenController.giveFeedback) {
+			feedbackLabel.setVisible(true);
 		}
 	}
 

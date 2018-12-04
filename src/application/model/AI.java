@@ -1,6 +1,8 @@
 package application.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Random;
 
 import application.controller.BoardController;
@@ -12,6 +14,146 @@ import javafx.event.EventHandler;
 
 
 public class AI {
+	
+	public <T> void feedbackThread(BoardController bc, Coordinate oldLoc, Coordinate newLoc) {
+		Task t1 = new Task() {
+
+			@Override
+			protected String call() throws Exception {
+				String str = getFeedback(BoardController.boardModel.getPreviousBoard(), true, oldLoc, newLoc);
+				System.out.println("Str: "+str);
+				return str;
+				
+			}
+			
+		};
+		t1.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		    @Override
+		    public void handle(WorkerStateEvent t) {
+		        bc.feedbackLabel.setText((String) t1.getValue());
+		        
+		    }
+		});
+		
+		Thread th1 = new Thread(t1);
+		th1.setDaemon(true);
+		th1.start();
+	}
+	
+	public String getFeedback(Board board, boolean setStrategy, Coordinate oldLoc, Coordinate newLoc) {
+		int depth = 3;
+		ArrayList<MoveValue> listOfMoves = new ArrayList<MoveValue>(); 
+
+		Board newBoard = new Board(board);
+		Type turn = newBoard.getTurn();
+		Double value, max = turn.equals(Type.WHITE) ? -Double.MAX_VALUE : Double.MAX_VALUE; 
+
+		double alpha = -100000;
+		double beta = 100000;
+		boolean toMaximize = board.getTurn() == Type.WHITE;
+		for(int i=0; i<8; i++) {
+			for(int j = 0; j<8; j++) {
+				Coordinate coord = new Coordinate(i, j);
+				if(newBoard.hasPiece(coord)&& newBoard.getPiece(coord).getType()==turn) {
+					ArrayList<Coordinate> availableMoves = newBoard.getMoves(coord);
+
+					for(Coordinate c : availableMoves) {
+						newBoard.setPreviousBoard(new Board(newBoard));
+						newBoard.movePieces(coord, c);
+						//Printer.printNodeLabel(newBoard, c);
+						value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, setStrategy);
+						newBoard.undo();
+						Coordinate move[] = {null,null}; // old, new
+						move[0] = coord; 
+						move[1] = c;
+						listOfMoves.add(new MoveValue(coord, c, value));
+						
+
+					}					
+				}
+			}
+		}
+		System.out.println();
+		ArrayList<Double> al = new ArrayList<Double>();
+
+		listOfMoves.sort(new Comparator() {
+
+			@Override
+			public int compare(Object o1, Object o2) {
+				if(board.getTurn() == Type.WHITE) {
+					return Double.compare(((MoveValue)o2).getValue(), ((MoveValue)o1).getValue());
+				}
+				else {
+					return Double.compare(((MoveValue)o1).getValue(), ((MoveValue)o2).getValue());
+
+				}
+			}
+			
+		});
+
+		//System.out.println("OL: "+oldLoc+" NL: "+newLoc);
+		int fbValue=0;
+		for(MoveValue v: listOfMoves) {
+			if(v.getCoordinateFrom().equals(oldLoc)&&v.getCoordinateTo().equals(newLoc))
+				fbValue=listOfMoves.indexOf(v);
+		}
+		String strFbValue=String.valueOf(fbValue+1);
+		
+		if(fbValue+1 == 1 )
+			strFbValue="best";
+		else if((fbValue+1)%10 == 1 && fbValue != 11)
+			strFbValue+="st best";
+		else if((fbValue+1) == 2|| (fbValue%10 == 2 && fbValue != 12))
+			strFbValue +="nd best";
+		else if((fbValue+1) == 3|| (fbValue%10 == 3 && fbValue != 13))
+			strFbValue +="rd best";
+		else 
+			strFbValue +="th best";
+		
+		
+		String str=convertMoveToString(board, oldLoc, newLoc)+
+				"\nC3PO:\n  By my calculations that was the "+
+						strFbValue+" move of "+String.valueOf(listOfMoves.size());
+		return str;
+	}
+	
+	private String convertMoveToString(Board board, Coordinate oldLoc, Coordinate newLoc) {
+		String ret= "";
+		if(board.getTurn() == Type.WHITE)
+			ret+="White ";
+		else
+			ret+="Black ";
+		
+		if(board.hasPiece(oldLoc))
+			ret+= board.getPiece(oldLoc).toString()+" ";
+		
+		ret += convertRow(oldLoc.getRowIndex());
+		ret += String.valueOf(oldLoc.getColumnIndex()+1)+" to ";
+		ret += convertRow(newLoc.getRowIndex());
+		ret += String.valueOf(newLoc.getColumnIndex()+1);
+		return ret;
+	}
+	
+	private String convertRow(int row) {
+		String ret = "";
+		if(row == 0)
+			ret+="A";
+		else if(row == 1)
+			ret+="B";
+		else if(row == 2)
+			ret+="C";
+		else if(row == 3)
+			ret+="D";
+		else if(row == 4)
+			ret+="E";
+		else if(row == 5)
+			ret+="F";
+		else if(row == 6)
+			ret+="G";
+		else if(row == 7)
+			ret+="H";
+		return ret;
+	}
 	
 	public <T> void moveAIThread(BoardController bc) {
 		Random rand = new Random();
@@ -27,7 +169,7 @@ public class AI {
 				
 				double randomizer= -1;
 				while(randomizer<0 || randomizer > 5) {
-					randomizer = (rand.nextGaussian()+newMean);
+					randomizer = (rand.nextGaussian()*3/4+newMean);
 				//	System.out.println("randomizer: "+randomizer+" new mean: "+newMean);
 
 				}
@@ -36,6 +178,8 @@ public class AI {
 				//System.out.println("randomizer: "+roundedRandomizer);
 				double d = rand.nextDouble();
 				boolean setStrategy = setStrategy(d);
+				System.out.println("randomizer "+randomizer);
+
 				System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
 				return bc.getMyAI().getBestMove(BoardController.boardModel, (int)roundedRandomizer, setStrategy, rand);
 			}
@@ -65,8 +209,7 @@ public class AI {
 		Piece[][] boardM = board.getBoard();
 		for(int i = 0; i < 8; i++)
 			for(int j = 0; j < 8; j++) {
-				if(boardM[i][j] != null)
-					
+				if(boardM[i][j] != null)					
 					strength += useStrategy ? boardM[i][j].getStrength(i, j) : boardM[i][j].getStrengthWOStrategy(i, j);
 			}
 		return strength;
@@ -94,10 +237,10 @@ public class AI {
 						value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, setStrategy);
 						newBoard.undo();
 
-						if(depth == 0 && !setStrategy&& turn.equals(Type.WHITE)) {
+						if(!setStrategy&& turn.equals(Type.WHITE)) {
 							value += 10*rand.nextDouble();
 						}
-						if(depth == 0 && !setStrategy && turn.equals(Type.BLACK)){
+						if(!setStrategy && turn.equals(Type.BLACK)){
 							value -= 10*rand.nextDouble();
 
 						}
@@ -111,6 +254,12 @@ public class AI {
 					}					
 				}
 			}
+		}
+		try {
+			Thread.sleep((5-depth)*1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return move;
 	}

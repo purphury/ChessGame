@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.StartScreenController">
+<AnchorPane fx:id="rootPane" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.StartScreenController">
    <children>
       <Pane layoutX="1.0" prefHeight="632.0" prefWidth="791.0">
          <children>
@@ -36,5 +36,22 @@
             <TextField fx:id="sliderText" layoutX="548.0" layoutY="452.0" prefHeight="27.0" prefWidth="56.0" />
          </children>
       </Pane>
+      <CheckBox fx:id="fbCheckBox" layoutX="138.0" layoutY="642.0" mnemonicParsing="false" onAction="#feedbackCheck" prefHeight="28.0" prefWidth="354.0" text="Feedback and suggestions from C3PO">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="compCheckBox" layoutX="138.0" layoutY="688.0" mnemonicParsing="false" onAction="#competitionCheck" prefHeight="28.0" prefWidth="309.0" text="Competition mode">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </CheckBox>
+      <TextField fx:id="timerTextField" layoutX="405.0" layoutY="722.0" prefHeight="27.0" prefWidth="70.0" />
+      <Label fx:id="timerLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="355.0" layoutY="684.0" prefHeight="38.0" prefWidth="170.0" text="Enter minutes for timer" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="errorLabel" layoutX="511.0" layoutY="713.0" prefHeight="46.0" prefWidth="170.0" text="Please enter a number between 1 and 60" wrapText="true" />
    </children>
 </AnchorPane>

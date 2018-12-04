@@ -10,6 +10,8 @@ public class Board implements Cloneable{
 	private Piece rook1;
 	private Piece rook2;
 	private Board previousBoard;
+	public boolean blackIsCheckmated;
+	public boolean whiteIsCheckmated;
 
 	public static enum Type {
 		BLACK, WHITE
@@ -20,6 +22,8 @@ public class Board implements Cloneable{
 	private Piece[][] board;
 
 	public Board(String whiteName, String blackName) {
+		this.blackIsCheckmated = false;
+		this.whiteIsCheckmated= false;
 		this.previousBoard = null;
 		this.whiteName = whiteName;
 		this.blackName = blackName;
@@ -58,6 +62,8 @@ public class Board implements Cloneable{
 	
 	public Board(Board oldBoard) {
 		this.previousBoard = null;
+		this.blackIsCheckmated = oldBoard.blackIsCheckmated;
+		this.whiteIsCheckmated = oldBoard.whiteIsCheckmated;
 		this.whiteName = oldBoard.getWhiteName();
 		this.blackName = oldBoard.getBlackName();
 		this.rook1 = oldBoard.getRook1();
@@ -203,6 +209,24 @@ public class Board implements Cloneable{
 		return board[coord.getRowIndex()][coord.getColumnIndex()] != null;
 	}
 	
+	
+	
+	public boolean isBlackIsCheckmated() {
+		return blackIsCheckmated;
+	}
+
+	public void setBlackIsCheckmated(boolean blackIsCheckmated) {
+		this.blackIsCheckmated = blackIsCheckmated;
+	}
+
+	public boolean isWhiteIsCheckmated() {
+		return whiteIsCheckmated;
+	}
+
+	public void setWhiteIsCheckmated(boolean whiteIsCheckmated) {
+		this.whiteIsCheckmated = whiteIsCheckmated;
+	}
+
 	public void exchangePiece(String name, Coordinate c, Type type) {
 		if(board[c.getRowIndex()][c.getColumnIndex()] instanceof Pawn) {
 			if(name.equals("rook")) 
@@ -236,7 +260,7 @@ public class Board implements Cloneable{
 		
 		for (Coordinate c : availMoves)
 			if (c.equals(newLoc)) {
-			
+				this.previousBoard = new Board(this);
 
 
 				
