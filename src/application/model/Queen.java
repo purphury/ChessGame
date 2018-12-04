@@ -9,8 +9,18 @@ public class Queen extends Piece {
 		super(color, 90);
 	}
 	
+	public Piece copyPiece(Piece piece) {
+		Queen nQ =  new Queen(piece.getType());
+		nQ.setHasMoved(piece.getHasMoved());
+		return nQ;
+	}
+	
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 90 + StrengthBoard.QueenStrengthBoard[r][c] : -90 - StrengthBoard.QueenStrengthBoard[8-r-1][c]);
+	}
+	
+	public double getStrengthWOStrategy(int r, int c) {
+		return (this.getType() == Type.WHITE ? 90 : -90);
 	}
 	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {

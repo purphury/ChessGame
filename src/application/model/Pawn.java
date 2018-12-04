@@ -15,6 +15,14 @@ public class Pawn extends Piece {
 		startR = r;
 		startC = c;
 	}
+	
+	public Piece copyPiece(Piece piece) {
+		Pawn newPawn = new Pawn(((Pawn)piece).getStartR(), ((Pawn)piece).getStartC(),piece.getType());
+		newPawn.setPromotion(((Pawn)piece).isPromotion());
+		newPawn.setJustDidDoubleMove(((Pawn)piece).isJustDidDoubleMove());
+		newPawn.setHasMoved(piece.getHasMoved());
+		return newPawn;
+	}
 
 	public boolean isPromotion() {
 		return promotion;
@@ -27,6 +35,11 @@ public class Pawn extends Piece {
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 10 + StrengthBoard.PawnStrengthBoard[r][c] : -10 - StrengthBoard.PawnStrengthBoard[8-r-1][c]);
 	}
+	
+	public double getStrengthWOStrategy(int r, int c) {
+		return (this.getType() == Type.WHITE ? 10 : -10 );
+	}
+	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		// color is white//
@@ -90,6 +103,30 @@ public class Pawn extends Piece {
 		}
 	}
 	
+	public int getStartR() {
+		return startR;
+	}
+
+	public void setStartR(int startR) {
+		this.startR = startR;
+	}
+
+	public int getStartC() {
+		return startC;
+	}
+
+	public void setStartC(int startC) {
+		this.startC = startC;
+	}
+
+	public boolean isJustDidDoubleMove() {
+		return justDidDoubleMove;
+	}
+
+	public void setJustDidDoubleMove(boolean justDidDoubleMove) {
+		this.justDidDoubleMove = justDidDoubleMove;
+	}
+
 	public String toString() {
 		return "p";
 	}

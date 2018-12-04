@@ -10,9 +10,19 @@ public class Rook extends Piece
 	{
 		super (color, 50);
 	}
+	
+	public Piece copyPiece(Piece piece) {
+		Rook nR = new Rook(piece.getType());
+		nR.setHasMoved(piece.getHasMoved());
+		return nR;
+	}
 
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 50 + StrengthBoard.RookStrengthBoard[r][c] : -50 - StrengthBoard.RookStrengthBoard[8-r-1][c]);
+	}
+	
+	public double getStrengthWOStrategy(int r, int c) {
+		return (this.getType() == Type.WHITE ? 50: -50 );
 	}
 	
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {

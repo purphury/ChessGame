@@ -27,10 +27,24 @@ public class King extends Piece {
 		castlingAvailableLeft = false;
 		castlingMove = new ArrayList<Coordinate>();
 	}
+	
+	public Piece copyPiece(Piece piece) {
+		King newKing = new King(piece.getType());
+		newKing.setCastlingAvailableLeft(((King)piece).isCastlingAvailableLeft());
+		newKing.setCastlingAvailableRight(((King) piece).isCastlingAvailableRight());
+		newKing.setCastlingMove(((King)piece).getCastlingMove());
+		newKing.setHasMoved(((King)piece).getHasMoved());
+		return newKing;
+	}
 
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 900 + StrengthBoard.KingStrengthBoard[r][c] : -900 - StrengthBoard.KingStrengthBoard[8-r-1][c]);
 	}
+	
+	public double getStrengthWOStrategy(int r, int c) {
+		return (this.getType() == Type.WHITE ? 900 : -900);
+	}
+
 
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();

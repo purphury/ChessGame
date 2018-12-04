@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +26,7 @@ public class StartScreenController implements Initializable{
 	@FXML private AnchorPane rootPane;
 	@FXML Label easyL, medL, hardL;
 	@FXML Slider difficultySlider;
+	@FXML TextField sliderText;
 	
 	public static ArrayList<String> names;
 
@@ -58,6 +61,7 @@ public class StartScreenController implements Initializable{
 			medL.setVisible(false);
 			hardL.setVisible(false);
 			difficultySlider.setVisible(false);
+			sliderText.setVisible(false);
 		} else {
 			isAI = true;
 			playerTwo.setText("Computer");
@@ -66,6 +70,7 @@ public class StartScreenController implements Initializable{
 			medL.setVisible(true);
 			hardL.setVisible(true);
 			difficultySlider.setVisible(true);
+			sliderText.setVisible(true);
 		}
 	}
 
@@ -76,6 +81,18 @@ public class StartScreenController implements Initializable{
 		medL.setVisible(false);
 		hardL.setVisible(false);
 		difficultySlider.setVisible(false);
+		sliderText.setVisible(false);
+		sliderText.setText("1");
+		difficultySlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				
+				sliderText.setText(String.format("%2.0f",Math.floor((double)newValue)));
+				
+			}			
+		});
+		
 		
 	}
 }

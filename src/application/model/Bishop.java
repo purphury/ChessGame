@@ -8,9 +8,19 @@ public class Bishop extends Piece {
 	public Bishop(Type color) {
 		super(color, 30);
 	}
+	
+	public Piece copyPiece(Piece piece) {
+		Bishop nB =  new Bishop(piece.getType());
+		nB.setHasMoved(piece.getHasMoved());
+		return nB;
+	}
 
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 30 + StrengthBoard.BishopStrengthBoard[r][c] : -30 - StrengthBoard.BishopStrengthBoard[8-r-1][c]);
+	}
+	
+	public double getStrengthWOStrategy(int r, int c) {
+		return (this.getType() == Type.WHITE ? 30  : -30 );
 	}
 	
 	@Override

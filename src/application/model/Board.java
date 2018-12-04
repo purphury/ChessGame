@@ -69,7 +69,9 @@ public class Board implements Cloneable{
 		this.board = new Piece[8][8];
 		for(int i = 0; i < 8; i++)
 			for(int j = 0; j < 8; j++)
-				this.board[i][j] = oldBoard.getBoard()[i][j];
+				if(oldBoard.hasPiece(i,j)) {
+					this.board[i][j] = oldBoard.getPiece(i,j).copyPiece(oldBoard.getPiece(i,j));
+				}
 		
 	}
 	

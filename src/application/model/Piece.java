@@ -15,6 +15,9 @@ public abstract class Piece
 		this.setHasMoved(false);
 		this.strength = strength;
 	}
+	
+	public abstract Piece copyPiece(Piece piece);
+	
 	public abstract ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board);
 	
 	// gets the color for a given piece
@@ -41,6 +44,9 @@ public abstract class Piece
 		return (num1 >= 0 && num1 <= 7 && num2 >= 0 && num2 <= 7);
 	}
 	public abstract double getStrength(int r, int c);
+	
+	public abstract double getStrengthWOStrategy(int r, int c);
+	
 	public void setStrength(double strength) {
 		this.strength = strength;
 	}

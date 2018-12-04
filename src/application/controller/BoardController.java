@@ -14,7 +14,9 @@ import application.model.Timer;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -178,20 +180,38 @@ public class BoardController {
 
 		}
 	}
-	public void moveAI(Coordinate a, Coordinate b) {
+	synchronized public void moveAI(Coordinate a, Coordinate b) {
 		if(boardModel.isCheckmate(Type.BLACK))
 			return;
-		//Coordinate[] h = myAI.getBestMove(boardModel, 4);
-		//System.out.println(h[0].toString() + " " + h[1].toString());
 		Coordinate c = b;
 
 		clickedPieceCoordinate = a;
 		selectPiece(clickedPieceCoordinate);
+		final Coordinate cf = c;
+		Task<?> t3 = new Task() {
+
+			@Override
+			protected Object call() throws Exception {
+				Thread.sleep(1500);
+				return null;
+			}
+			
+		};
+		
+		t3.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		    @Override
+		    public void handle(WorkerStateEvent t) {
+		        moveAI2(cf);
+		    }
+		});
+		Thread th3 = new Thread(t3);
+		th3.setDaemon(true);
+		th3.start();
+	}
 	
-		//System.out.println("xxx");
+	synchronized public void moveAI2(Coordinate c) {
 		Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 		int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
-		//System.out.println("Type of Move: " + typeOfMove);
 		// **Move was not possible**
 		if(typeOfMove == 0)
 			unselectPiece(c);
@@ -295,7 +315,8 @@ public class BoardController {
 		}
 	}
 	
-	public void selectPiece(Coordinate c) {
+	synchronized public void selectPiece(Coordinate c) {
+
 		clickedPieceCoordinate = c;
 		Pane p = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 		if (p.getChildren().size() != 0 && boardModel.hasPiece(clickedPieceCoordinate)) {

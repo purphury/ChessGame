@@ -10,9 +10,20 @@ public class Knight extends Piece
 	public Knight(Type color) {
 		super(color, 30);
 	}
+	
+	public Piece copyPiece(Piece piece) {
+		Knight nk =  new Knight(piece.getType());
+		nk.setHasMoved(piece.getHasMoved());
+		return nk;
+	}
+	
 
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 30 + StrengthBoard.KnightStrengthBoard[r][c] : -30 - StrengthBoard.KnightStrengthBoard[8-r-1][c]);
+	}
+	
+	public double getStrengthWOStrategy(int r, int c) {
+		return (this.getType() == Type.WHITE ? 30 : -30 );
 	}
 	
 	@Override
