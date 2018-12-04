@@ -435,5 +435,20 @@
             <Font size="20.0" />
          </font>
       </Label>
+      <Button fx:id="suggestionButton" layoutX="601.0" layoutY="736.0" mnemonicParsing="false" onAction="#handleSuggestion" prefHeight="44.0" prefWidth="124.0" text="Get suggetstion from C3PO" wrapText="true" />
+      <Button fx:id="infoButton" layoutX="602.0" layoutY="670.0" mnemonicParsing="false" onAction="#showInfo" prefHeight="44.0" prefWidth="124.0" text="Info about C3PO" />
+      <Pane fx:id="infoPane" layoutX="159.0" layoutY="187.0" mouseTransparent="true" prefHeight="185.0" prefWidth="352.0" style="-fx-background-color: white; -fx-border-radius: 10;">
+         <children>
+            <Label layoutX="37.0" layoutY="27.0" prefHeight="109.0" prefWidth="279.0" style="-fx-background-color: white; -fx-border-color: black;" text="C3PO is fluent in over 6 million forms of communication. He can also see three moves ahead in chess. Click the suggestion button to see what move C3PO recommends!" wrapText="true">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Button layoutX="166.0" layoutY="144.0" mnemonicParsing="false" onAction="#returnToGame" prefHeight="27.0" prefWidth="124.0" text="Return to game" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
    </children>
 </AnchorPane>

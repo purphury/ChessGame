@@ -157,6 +157,21 @@ public class Board implements Cloneable{
 		this.board = board;
 	}
 
+	public boolean isStalemate(Type type) {
+		ArrayList<Coordinate> possibleMoves= new ArrayList<Coordinate>();
+		for(int i =0; i< 8; i++) {
+			for(int j= 0; j < 8; j++) {
+				if(this.hasPiece(i,j) && this.getPiece(i,j).getType() == type ) {
+					possibleMoves.addAll(this.getMoves(new Coordinate(i,j)));
+				}
+			}
+		}
+		if(possibleMoves.size() == 0)
+			return true;
+		else
+			return false;
+	}
+	
 	/**
 	 * @param coord
 	 * @return piece at that location

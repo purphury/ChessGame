@@ -181,7 +181,7 @@ public class AI {
 				System.out.println("randomizer "+randomizer);
 
 				System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
-				return bc.getMyAI().getBestMove(BoardController.boardModel, (int)roundedRandomizer, setStrategy, rand);
+				return bc.getMyAI().getBestMove(BoardController.boardModel, (int)roundedRandomizer, setStrategy, rand, true);
 			}
 		};
 		
@@ -216,7 +216,7 @@ public class AI {
 	}
 
 
-	public Coordinate[] getBestMove(Board board, int depth, boolean setStrategy, Random rand) {
+	public Coordinate[] getBestMove(Board board, int depth, boolean setStrategy, Random rand, boolean adjustTime) {
 		Board newBoard = new Board(board);
 		Type turn = newBoard.getTurn();
 		double value, max = turn.equals(Type.WHITE) ? -Double.MAX_VALUE : Double.MAX_VALUE; 
@@ -255,11 +255,13 @@ public class AI {
 				}
 			}
 		}
-		try {
-			Thread.sleep((5-depth)*1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(adjustTime) {
+			try {
+				Thread.sleep((5-depth)*1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return move;
 	}

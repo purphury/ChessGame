@@ -3,6 +3,7 @@ package application.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -10,6 +11,7 @@ import application.model.AI;
 import application.model.Board;
 import application.model.Board.Type;
 import application.model.Coordinate;
+import application.model.Piece;
 import application.model.Timer;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -38,9 +40,11 @@ public class BoardController {
 	private ArrayList<Coordinate> availableMoves;
 	@FXML
 	public Label p1Min, p2Min;
-	public Pane timer1Pane, timer2Pane;
+	public Pane timer1Pane, timer2Pane, infoPane;
 	public static Timer timer;
 	public static Thread timeThread;
+	@FXML 
+	private Button suggestionButton, infoButton;
 
 	@FXML
 	private Label whiteNameLabel, whiteNameLabel2;
@@ -68,6 +72,101 @@ public class BoardController {
 	
 	private AI myAI = new AI();
 	
+	@FXML
+	public void showInfo(ActionEvent event) {
+		infoPane.setVisible(true);
+		infoPane.setMouseTransparent(false);
+		timesUp = true;
+	}
+	
+	@FXML
+	public void returnToGame(ActionEvent event) {
+		timesUp = false;
+		infoPane.setMouseTransparent(true);
+
+		infoPane.setVisible(false);
+
+	}
+	
+	@FXML
+	public void handleSuggestion(ActionEvent event) {
+		timesUp = true;
+		Coordinate[] moveSug = myAI.getBestMove(boardModel, 3, true, new Random(), false);
+		if(clickedPieceCoordinate != null) {
+			unselectPiece(clickedPieceCoordinate);
+		}
+		selectPiece2(moveSug[0]);
+		Task<?> t3 = new Task() {
+
+			@Override
+			protected Object call() throws Exception {
+				Thread.sleep(1500);
+				return null;
+			}
+			
+		};
+		
+		t3.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		    @Override
+		    public void handle(WorkerStateEvent t) {
+				moveAndReturn(moveSug);
+				timesUp = false;
+				selectedPiece = null;
+		    }
+		});
+		Thread th3 = new Thread(t3);
+		th3.setDaemon(true);
+		th3.start();
+
+
+	}
+	
+	public void moveAndReturn(Coordinate[] moveSug) {
+		Pane pFrom =getPaneByRowColumnIndex(clickedPieceCoordinate.getRowIndex()
+				, clickedPieceCoordinate.getColumnIndex());
+		Pane pTo =getPaneByRowColumnIndex(moveSug[1].getRowIndex()
+				, moveSug[1].getColumnIndex());
+		Node killedPiece = null;
+    	removeDots(moveSug[1]);
+
+		if(boardModel.hasPiece(moveSug[1]) && pTo != null && pTo.getChildren().size() >0 
+										&& !(pTo.getChildren().get(0) instanceof Circle )) {
+			killedPiece = pTo.getChildren().get(0);
+			killPiece(pTo);
+		}
+		else {
+			movePiece(pTo);
+		}
+		final Node fKilledPiece = killedPiece;
+		Task<?> t7 = new Task() {
+
+			@Override
+			protected Object call() throws Exception {
+				Thread.sleep(1500);
+				return null;
+			}
+			
+		};
+		
+		t7.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		    @Override
+		    public void handle(WorkerStateEvent t) {
+				pFrom.getChildren().add(pTo.getChildren().get(0));
+				if(fKilledPiece != null) {
+					
+					pTo.getChildren().add(fKilledPiece);
+				}
+				
+		    }
+		});
+		Thread th3 = new Thread(t7);
+		th3.setDaemon(true);
+		th3.start();
+		
+
+		
+		
+	}
 	
 	@FXML
 	public void handleChoice(ActionEvent event) {
@@ -324,6 +423,19 @@ public class BoardController {
 		}
 	}
 	
+	public void selectPiece2(Coordinate c) {
+		clickedPieceCoordinate = c;
+		Pane p = (Pane) getPaneByRowColumnIndex(clickedPieceCoordinate.getRowIndex()
+									, clickedPieceCoordinate.getColumnIndex());
+		if (p.getChildren().size() != 0 && boardModel.hasPiece(clickedPieceCoordinate)) {
+			if (boardModel.getPiece(clickedPieceCoordinate).getType() == boardModel.getTurn()) {
+				selectedPiece = (ImageView) p.getChildren().get(0);
+				availableMoves = boardModel.getMoves(clickedPieceCoordinate);
+				addDots(clickedPieceCoordinate);
+			}
+		}
+	}
+	
 	synchronized public void selectPiece(Coordinate c) {
 
 		clickedPieceCoordinate = c;
@@ -376,7 +488,15 @@ public class BoardController {
 		else
 			checkLabel.setVisible(false);
 
-		if (boardModel.isCheckmate(type)) {
+		if (boardModel.isStalemate(type)) {
+			checkLabel.setVisible(false);
+			endGameLabel.setVisible(true);
+			boardModel.setWhiteIsCheckmated(true);
+
+			boardModel.setBlackIsCheckmated(true);
+			endGameLabel.setText("Stalemate!\nEveryone's a winner!");
+
+		}else if (boardModel.isCheckmate(type)) {
 			checkLabel.setVisible(false);
 			endGameLabel.setVisible(true);
 			if(type == Type.WHITE) {
@@ -614,6 +734,9 @@ public class BoardController {
 		this.feedbackLabel.setVisible(false);
 		this.timer1Pane.setVisible(false);
 		this.timer2Pane.setVisible(false);
+		this.suggestionButton.setVisible(false);
+		this.infoButton.setVisible(false);
+		this.infoPane.setVisible(false);
 		this.blackNameLabel.setText(blackNameString);
 		this.whiteNameLabel.setText(whiteNameString);
 		this.blackNameLabel2.setText(blackNameString);
@@ -634,6 +757,8 @@ public class BoardController {
 		}
 		else if(StartScreenController.giveFeedback) {
 			feedbackLabel.setVisible(true);
+			infoButton.setVisible(true);
+			this.suggestionButton.setVisible(true);
 		}
 	}
 
