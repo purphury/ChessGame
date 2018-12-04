@@ -15,6 +15,7 @@ public class AI {
 	public <T> void moveAIThread(BoardController bc) {
 		final Task<Coordinate[]> t1 = new Task<Coordinate[]>() {
 
+			
 			@Override
 			protected Coordinate[] call() throws Exception {
 				
