@@ -9,20 +9,32 @@ public class Queen extends Piece {
 		super(color, 90);
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#copyPiece(application.model.Piece)
+	 */
 	public Piece copyPiece(Piece piece) {
 		Queen nQ =  new Queen(piece.getType());
 		nQ.setHasMoved(piece.getHasMoved());
 		return nQ;
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrength(int, int)
+	 */
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 90 + StrengthBoard.QueenStrengthBoard[r][c] : -90 - StrengthBoard.QueenStrengthBoard[8-r-1][c]);
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrengthWOStrategy(int, int)
+	 */
 	public double getStrengthWOStrategy(int r, int c) {
 		return (this.getType() == Type.WHITE ? 90 : -90);
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getAvailableMovements(int, int, application.model.Board)
+	 */
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		//first number is the vertical direction, the second is the horizontal direction
@@ -38,6 +50,15 @@ public class Queen extends Piece {
 		return availCoords;
 	}
 
+	/**
+	 * Adds locations to moveset if valid
+	 * @param availCoords
+	 * @param rowInc
+	 * @param columnInc
+	 * @param r
+	 * @param c
+	 * @param board
+	 */
 	public void addMovements(ArrayList<Coordinate> availCoords, int rowInc, int columnInc, int r, int c, Board board) {
 		for (int i = 1; i < 8; i++) {
 			if (boundsChecker(r + i * rowInc, c + i * columnInc)) { // Checks if location is on the board
@@ -51,6 +72,9 @@ public class Queen extends Piece {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "Queen";
 	}

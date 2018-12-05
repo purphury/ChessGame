@@ -16,6 +16,9 @@ public class Pawn extends Piece {
 		startC = c;
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#copyPiece(application.model.Piece)
+	 */
 	public Piece copyPiece(Piece piece) {
 		Pawn newPawn = new Pawn(((Pawn)piece).getStartR(), ((Pawn)piece).getStartC(),piece.getType());
 		newPawn.setPromotion(((Pawn)piece).isPromotion());
@@ -24,22 +27,37 @@ public class Pawn extends Piece {
 		return newPawn;
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean isPromotion() {
 		return promotion;
 	}
 
+	/**
+	 * @param promotion
+	 */
 	public void setPromotion(boolean promotion) {
 		this.promotion = promotion;
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrength(int, int)
+	 */
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 10 + StrengthBoard.PawnStrengthBoard[r][c] : -10 - StrengthBoard.PawnStrengthBoard[8-r-1][c]);
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrengthWOStrategy(int, int)
+	 */
 	public double getStrengthWOStrategy(int r, int c) {
 		return (this.getType() == Type.WHITE ? 10 : -10 );
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getAvailableMovements(int, int, application.model.Board)
+	 */
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		// color is white//
@@ -75,6 +93,14 @@ public class Pawn extends Piece {
 		return availCoords;
 	}
 
+	/**
+	 * Adds location to move set if valid
+	 * @param availCoords
+	 * @param r
+	 * @param c
+	 * @param board
+	 * @param attackStatus
+	 */
 	public void addMovement(ArrayList<Coordinate> availCoords,int r, int c, Board board,IsAttack attackStatus) {		
 		if(boundsChecker(r, c)) { //the location is inbounds
 			if(board.hasPiece(new Coordinate(r, c))) { //a piece is on this location
@@ -88,6 +114,13 @@ public class Pawn extends Piece {
 		}
 	}
 	
+	/**
+	 * @param availCoords
+	 * @param r
+	 * @param c
+	 * @param board
+	 * @param type
+	 */
 	public void addEnPassant(ArrayList<Coordinate> availCoords,int r, int c, Board board, Type type) {
 		if(boundsChecker(r,c)) {
 			if(board.hasPiece(r, c)) {
@@ -103,30 +136,51 @@ public class Pawn extends Piece {
 		}
 	}
 	
+	/**
+	 * @return
+	 */
 	public int getStartR() {
 		return startR;
 	}
 
+	/**
+	 * @param startR
+	 */
 	public void setStartR(int startR) {
 		this.startR = startR;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getStartC() {
 		return startC;
 	}
 
+	/**
+	 * @param startC
+	 */
 	public void setStartC(int startC) {
 		this.startC = startC;
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean isJustDidDoubleMove() {
 		return justDidDoubleMove;
 	}
 
+	/**
+	 * @param justDidDoubleMove
+	 */
 	public void setJustDidDoubleMove(boolean justDidDoubleMove) {
 		this.justDidDoubleMove = justDidDoubleMove;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "Pawn";
 	}
