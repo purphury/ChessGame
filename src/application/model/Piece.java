@@ -10,6 +10,13 @@ public abstract class Piece
 	private boolean hasMoved;
 	private double strength;
 	
+	/**
+	 * @return
+	 */
+	public double getStrength() {
+		return strength;
+	}
+
 	public Piece (Type type, int strength) {
 		this.type = type;
 		this.setHasMoved(false);

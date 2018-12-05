@@ -713,7 +713,7 @@ public class BoardController {
 
 	@FXML
 	void initialize() {
-		turn = Type.WHITE;
+		setTurn(Type.WHITE);
 		isStalemate = false;
 		assert whiteNameLabel != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert blackNameLabel != null : "fx:id=\"blackName\" was not injected: check your FXML file 'Board.fxml'.";
@@ -754,6 +754,14 @@ public class BoardController {
 			infoButton.setVisible(true);
 			this.suggestionButton.setVisible(true);
 		}
+	}
+
+	public Type getTurn() {
+		return turn;
+	}
+
+	public void setTurn(Type turn) {
+		this.turn = turn;
 	}
 
 }
