@@ -162,13 +162,13 @@ public class AI {
 			@Override
 			protected Coordinate[] call() throws Exception {
 				double value = StartScreenController.value;
-				double newMean = value/100*4+1;
+				double newMean = value/100*4.4+.8;
 				//System.out.println("Cont value: "+StartScreenController.value+"(pre calc)newMean"
 				//			+(StartScreenController.value/100*5));
 				
 				double randomizer= -1;
-				while(randomizer<=1 || randomizer >= 5) {
-					randomizer = (rand.nextGaussian()*15/16+newMean);
+				while(randomizer< .8 || randomizer > 5.2) {
+					randomizer = (rand.nextGaussian()*3/4+newMean);
 				//	System.out.println("randomizer: "+randomizer+" new mean: "+newMean);
 
 				}
