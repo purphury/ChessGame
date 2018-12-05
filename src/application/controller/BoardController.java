@@ -289,7 +289,7 @@ public class BoardController {
 		}
 	}
 	synchronized public void moveAI(Coordinate a, Coordinate b) {
-		if(boardModel.isCheckmate(Type.BLACK))
+		if(boardModel.isCheckmate(Type.BLACK)||boardModel.isWhiteIsCheckmated()|| timesUp|| this.isStalemate)
 			return;
 		Coordinate c = b;
 
@@ -424,6 +424,7 @@ public class BoardController {
 	}
 	
 	public void selectPiece2(Coordinate c) {
+		System.out.println("Coordinat for sug: "+c);
 		clickedPieceCoordinate = c;
 		Pane p = (Pane) getPaneByRowColumnIndex(clickedPieceCoordinate.getRowIndex()
 									, clickedPieceCoordinate.getColumnIndex());
@@ -715,6 +716,7 @@ public class BoardController {
 	public void setMyAI(AI myAI) {
 		this.myAI = myAI;
 	}
+
 
 	@FXML
 	void initialize() {

@@ -8,12 +8,10 @@ public abstract class Piece
 {
 	private Type type;
 	private boolean hasMoved;
-	private double strength;
 	
 	public Piece (Type type, int strength) {
 		this.type = type;
 		this.setHasMoved(false);
-		this.strength = strength;
 	}
 	
 	public abstract Piece copyPiece(Piece piece);
@@ -47,7 +45,5 @@ public abstract class Piece
 	
 	public abstract double getStrengthWOStrategy(int r, int c);
 	
-	public void setStrength(double strength) {
-		this.strength = strength;
-	}
+	public abstract String toString2();
 }

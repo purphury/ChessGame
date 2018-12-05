@@ -2,7 +2,6 @@ package application.model;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Random;
 
 import application.controller.BoardController;
@@ -14,9 +13,12 @@ import javafx.event.EventHandler;
 
 
 public class AI {
+	private int count;
+	private int abCount;
+	
 	
 	public <T> void feedbackThread(BoardController bc, Coordinate oldLoc, Coordinate newLoc) {
-		Task t1 = new Task() {
+		Task<Object> t1 = new Task<Object>() {
 
 			@Override
 			protected String call() throws Exception {
@@ -45,10 +47,11 @@ public class AI {
 
 		Board newBoard = new Board(board);
 		Type turn = newBoard.getTurn();
-		Double value, max = turn.equals(Type.WHITE) ? -Double.MAX_VALUE : Double.MAX_VALUE; 
+		Double value;
 
 		double alpha = -100000;
 		double beta = 100000;
+		boolean toSort = false;
 		boolean toMaximize = board.getTurn() == Type.WHITE;
 		for(int i=0; i<8; i++) {
 			for(int j = 0; j<8; j++) {
@@ -60,7 +63,7 @@ public class AI {
 						newBoard.setPreviousBoard(new Board(newBoard));
 						newBoard.movePieces(coord, c);
 						//Printer.printNodeLabel(newBoard, c);
-						value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, setStrategy);
+						value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, setStrategy, toSort);
 						newBoard.undo();
 						Coordinate move[] = {null,null}; // old, new
 						move[0] = coord; 
@@ -72,25 +75,22 @@ public class AI {
 				}
 			}
 		}
-		//System.out.println();
-		ArrayList<Double> al = new ArrayList<Double>();
 
-		listOfMoves.sort(new Comparator() {
+		listOfMoves.sort(new Comparator<MoveValue>() {
 
 			@Override
-			public int compare(Object o1, Object o2) {
+			public int compare(MoveValue o1, MoveValue o2) {
 				if(board.getTurn() == Type.WHITE) {
-					return Double.compare(((MoveValue)o2).getValue(), ((MoveValue)o1).getValue());
+					return Double.compare(o2.getValue(), o1.getValue());
 				}
 				else {
-					return Double.compare(((MoveValue)o1).getValue(), ((MoveValue)o2).getValue());
+					return Double.compare(o1.getValue(), o2.getValue());
 
 				}
 			}
 			
 		});
 
-		//System.out.println("OL: "+oldLoc+" NL: "+newLoc);
 		int fbValue=0;
 		for(MoveValue v: listOfMoves) {
 			if(v.getCoordinateFrom().equals(oldLoc)&&v.getCoordinateTo().equals(newLoc))
@@ -113,6 +113,10 @@ public class AI {
 		String str=convertMoveToString(board, oldLoc, newLoc)+
 				"\nC3PO:\n  By my calculations that was the "+
 						strFbValue+" move of "+String.valueOf(listOfMoves.size());
+		if(StartScreenController.value >=80)
+			str+=". But watch out! You're opponent is much smarter than me.";
+		else if(StartScreenController.value >= 60)
+			str+=". But watch out! You're opponent is a little smarter than me.";
 		return str;
 	}
 	
@@ -162,23 +166,17 @@ public class AI {
 			@Override
 			protected Coordinate[] call() throws Exception {
 				double value = StartScreenController.value;
-				double newMean = value/100*4.4+.8;
-				//System.out.println("Cont value: "+StartScreenController.value+"(pre calc)newMean"
-				//			+(StartScreenController.value/100*5));
+				double newMean = value/100*4+1;
 				
 				double randomizer= -1;
-				while(randomizer< .8 || randomizer > 5.2) {
+				while(randomizer< .5 || randomizer > 5.5) {
 					randomizer = (rand.nextGaussian()*3/4+newMean);
-				//	System.out.println("randomizer: "+randomizer+" new mean: "+newMean);
-
 				}
 				
 				double roundedRandomizer = Math.round(randomizer);
-				//System.out.println("randomizer: "+roundedRandomizer);
 				double d = rand.nextDouble();
 				boolean setStrategy = setStrategy(d);
 				//System.out.println("newMean: "+newMean+" randomizer: "+randomizer);
-
 				//System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
 				return bc.getMyAI().getBestMove(BoardController.boardModel, (int)roundedRandomizer, setStrategy, rand, true);
 			}
@@ -216,101 +214,177 @@ public class AI {
 
 
 	public Coordinate[] getBestMove(Board board, int depth, boolean setStrategy, Random rand, boolean adjustTime) {
+		count = 0;
+		abCount= 0;
 		Board newBoard = new Board(board);
 		Type turn = newBoard.getTurn();
+		boolean toSort = true;
+		ArrayList<Coordinate[]> availableMoves2 = new ArrayList<Coordinate[]>();
 		double value, max = turn.equals(Type.WHITE) ? -Double.MAX_VALUE : Double.MAX_VALUE; 
 		Coordinate move[] = {null, null}; // old, new
 		double alpha = -100000;
 		double beta = 100000;
-		boolean toMaximize = false;
+		boolean toMaximize = turn.equals(Type.WHITE) ? true : false;//p1 maximizes p2 minimizes
 		for(int i=0; i<8; i++) {
 			for(int j = 0; j<8; j++) {
 				Coordinate coord = new Coordinate(i, j);
 				if(newBoard.hasPiece(coord)&& newBoard.getPiece(coord).getType()==turn) {
 					ArrayList<Coordinate> availableMoves = newBoard.getMoves(coord);
-
 					for(Coordinate c : availableMoves) {
-						newBoard.setPreviousBoard(new Board(newBoard));
-						newBoard.movePieces(coord, c);
-						//Printer.printNodeLabel(newBoard, c);
-						value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, setStrategy);
-						newBoard.undo();
+						availableMoves2.add(new Coordinate[]{coord, c});
 
-						if(!setStrategy&& turn.equals(Type.WHITE)) {
-							value += 10*rand.nextDouble();
-						}
-						if(!setStrategy && turn.equals(Type.BLACK)){
-							value -= 10*rand.nextDouble();
-
-						}
-
-						if(turn.equals(Type.WHITE) ? value > max : value < max) {
-							move[0] = coord; move[1] = c;
-							max = value;
-
-						}
-
-					}					
+					}									
 				}
 			}
 		}
+		
+		availableMoves2.sort(new Comparator<Coordinate[]>() {
+
+			@Override
+			public int compare(Coordinate[] o1, Coordinate[] o2) {
+				Board newBoard = new Board(board);
+				newBoard.movePieces(((Coordinate[])o1)[0], ((Coordinate[])o1)[1]);
+				Double d1 = evaluateBoard(newBoard, true);
+			
+				Board newBoard2 = new Board(board);
+				newBoard2.movePieces(((Coordinate[])o2)[0], ((Coordinate[])o2)[1]);
+				Double d2 = evaluateBoard(newBoard2,true);
+				if(toMaximize) {					
+					return Double.compare(d2, d1);
+				}
+				else {
+					return Double.compare(d1, d2);
+
+				}
+			}
+			
+		});
+		for(Coordinate[] coord: availableMoves2) {
+			newBoard.setPreviousBoard(new Board(newBoard));
+
+			newBoard.movePieces(coord[0], coord[1]);
+			value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, setStrategy, toSort);
+			newBoard.undo();
+
+
+			if(!setStrategy&& turn.equals(Type.WHITE)) {
+				value += 10*rand.nextDouble();
+			}
+			if(!setStrategy && turn.equals(Type.BLACK)){
+				value -= 10*rand.nextDouble();
+			}
+
+			if(toMaximize ? value > max : value < max) {
+				move[0] = coord[0]; move[1] = coord[1];
+				max = value;
+			}
+
+			if(toMaximize) {
+				alpha = Math.max(alpha, max);
+			}
+
+			if(!toMaximize) {
+				beta = Math.min(beta, max);
+			}
+
+		}
+
+		//System.out.println("Count: "+count+" abCount: "+abCount);
 		if(adjustTime) {
 			try {
-				Thread.sleep((5-depth)*1000);
+				int sleepTime=0;
+				if(depth <=4)
+					sleepTime = depth;
+				Thread.sleep((4-sleepTime)*1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return move;
 	}
 
-	private double minimax(Board board, int depth, double alpha, double beta, boolean toMaximize, boolean useStrategy){
-		if(depth <= 0)
+	private double minimax(Board board, int depth, double alpha, double beta, boolean toMaximize, boolean useStrategy, boolean toSort){
+		if(depth <= 0) {
+			count++;
 			return this.evaluateBoard(board, useStrategy);
-		
+		}
+		count++;
+
 		Board newBoard = new Board(board);
+		ArrayList<Coordinate[]> availableMoves2 = new ArrayList<Coordinate[]>();
 
 		Type turn = newBoard.getTurn();
-		double value, max = turn.equals(Type.WHITE) ? -Double.MAX_VALUE : Double.MAX_VALUE; 
+		double value, max = toMaximize ? -Double.MAX_VALUE : Double.MAX_VALUE; 
 
 		for(int i=0; i<8; i++) {
 			for(int j = 0; j<8; j++) {
 				Coordinate coord = new Coordinate(i, j);
 				if(newBoard.hasPiece(coord)&& newBoard.getPiece(coord).getType()==turn) {
 					ArrayList<Coordinate> availableMoves = newBoard.getMoves(coord);
-
 					for(Coordinate c : availableMoves) {
-						newBoard.setPreviousBoard(new Board(newBoard));
-						newBoard.movePieces(coord, c);
-						//Printer.print(newBoard, depth, totalDepth);
-						value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, useStrategy);
-						//System.out.println("****Value:  "+value);
-						newBoard.undo();
-						if(turn.equals(Type.WHITE) ? value > max : value < max) 
-							max = value;
+						availableMoves2.add(new Coordinate[]{coord, c});
+
+					}
 						
-						
-						if(toMaximize) {
-							alpha = Math.max(alpha, max);
-							if(alpha >= beta) {
-								return max;
-							}
-						}
-						
-						if(!toMaximize) {
-							beta = Math.min(beta, max);
-							if(beta <= alpha) {
-								return max;
-							}
-						}
-						
-						
-					}					
+										
 				}
 			}
 		}
-		//System.out.println("****MAX VALUE FOR DEPTH ("+depth+"): "+max+" ***");
+		if(toSort) {
+			availableMoves2.sort(new Comparator<Coordinate[]>() {
+
+				@Override
+				public int compare(Coordinate[] o1, Coordinate[] o2) {
+					Board newBoard = new Board(board);
+					newBoard.movePieces(((Coordinate[])o1)[0], ((Coordinate[])o1)[1]);
+					Double d1 = evaluateBoard(newBoard, true);
+
+					Board newBoard2 = new Board(board);
+					newBoard2.movePieces(((Coordinate[])o2)[0], ((Coordinate[])o2)[1]);
+					Double d2 = evaluateBoard(newBoard2,true);
+					if(toMaximize) {
+
+						return Double.compare(d2, d1);
+					}
+					else {
+						return Double.compare(d1, d2);
+
+					}
+				}
+
+			});
+		}
+		
+		for(Coordinate[] coord: availableMoves2) {
+			newBoard.setPreviousBoard(new Board(newBoard));
+
+			newBoard.movePieces(coord[0], coord[1]);
+			value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, useStrategy, toSort);
+			newBoard.undo();
+
+			if(toMaximize ? value > max : value < max) {
+				max = value;
+
+			}
+			
+			if(toMaximize) {
+				alpha = Math.max(alpha, max);
+				if(alpha >= beta) {
+					abCount++;
+					return max;
+				}
+			}
+
+			if(!toMaximize) {
+				beta = Math.min(beta, max);
+				if(beta <= alpha) {
+					abCount++;
+					return max;
+				}
+			}				
+		
+		}
+		
 		return max;
 	}
 }

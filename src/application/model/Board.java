@@ -112,7 +112,7 @@ public class Board implements Cloneable{
 			for(int j = 0; j < 8 ; j++) {
 				System.out.print("| ");
 				if(this.hasPiece(i,j)) {
-					System.out.print(this.getPiece(i,j)+" ");
+					System.out.print(this.getPiece(i,j).toString2()+" ");
 				}
 				else
 					System.out.print("  ");

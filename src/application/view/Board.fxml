@@ -425,7 +425,7 @@
             </Label>
          </children>
       </Pane>
-      <Label fx:id="feedbackLabel" alignment="TOP_LEFT" layoutX="30.0" layoutY="652.0" prefHeight="128.0" prefWidth="467.0" style="-fx-background-color: white; -fx-border-color: black;" text="C3PO:" wrapText="true">
+      <Label fx:id="feedbackLabel" alignment="TOP_LEFT" layoutX="30.0" layoutY="652.0" prefHeight="141.0" prefWidth="467.0" style="-fx-background-color: white; -fx-border-color: black;" text="C3PO:" wrapText="true">
          <font>
             <Font size="20.0" />
          </font>

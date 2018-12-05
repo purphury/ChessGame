@@ -130,6 +130,8 @@ public class Pawn extends Piece {
 	public String toString() {
 		return "Pawn";
 	}
-	
+	public String toString2() {
+		return "p";
+	}
 	
 }

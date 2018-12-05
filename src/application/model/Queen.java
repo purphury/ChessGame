@@ -54,4 +54,10 @@ public class Queen extends Piece {
 	public String toString() {
 		return "Queen";
 	}
+	
+	public String toString2() {
+		return "Q";
+	}
+	
+	
 }

@@ -62,4 +62,8 @@ public class Knight extends Piece
 	public String toString() {
 		return "Knight";
 	}
+	
+	public String toString2() {
+		return "k";
+	}
 }
