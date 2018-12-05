@@ -13,10 +13,16 @@ public class King extends Piece {
 	public ArrayList<Coordinate> castlingMove;
 
 
+	/**
+	 * @return castlingMove
+	 */
 	public ArrayList<Coordinate> getCastlingMove() {
 		return castlingMove;
 	}
 
+	/**
+	 * @param castlingMove
+	 */
 	public void setCastlingMove(ArrayList<Coordinate> castlingMove) {
 		this.castlingMove = castlingMove;
 	}
@@ -28,6 +34,9 @@ public class King extends Piece {
 		castlingMove = new ArrayList<Coordinate>();
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#copyPiece(application.model.Piece)
+	 */
 	public Piece copyPiece(Piece piece) {
 		King newKing = new King(piece.getType());
 		newKing.setCastlingAvailableLeft(((King)piece).isCastlingAvailableLeft());
@@ -37,15 +46,24 @@ public class King extends Piece {
 		return newKing;
 	}
 
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrength(int, int)
+	 */
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 900 + StrengthBoard.KingStrengthBoard[r][c] : -900 - StrengthBoard.KingStrengthBoard[8-r-1][c]);
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrengthWOStrategy(int, int)
+	 */
 	public double getStrengthWOStrategy(int r, int c) {
 		return (this.getType() == Type.WHITE ? 900 : -900);
 	}
 
 
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getAvailableMovements(int, int, application.model.Board)
+	 */
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 		//first number is the vertical direction, the second is the horizontal direction
@@ -106,22 +124,41 @@ public class King extends Piece {
 
 
 
+	/**
+	 * @return castlingAvailableRight
+	 */
 	public boolean isCastlingAvailableRight() {
 		return castlingAvailableRight;
 	}
 
+	/**
+	 * @param castlingAvailableRight
+	 */
 	public void setCastlingAvailableRight(boolean castlingAvailableRight) {
 		this.castlingAvailableRight = castlingAvailableRight;
 	}
 
+	/**
+	 * @return castlingAvailableLeft
+	 */
 	public boolean isCastlingAvailableLeft() {
 		return castlingAvailableLeft;
 	}
 
+	/**
+	 * @param castlingAvailableLeft
+	 */
 	public void setCastlingAvailableLeft(boolean castlingAvailableLeft) {
 		this.castlingAvailableLeft = castlingAvailableLeft;
 	}
 
+	/**
+	 * Adds a move to the availCoords collection
+	 * @param availCoords
+	 * @param r
+	 * @param c
+	 * @param board
+	 */
 	public void addMovement(ArrayList<Coordinate> availCoords, int r, int c, Board board) {
 		if (boundsChecker(r, c)) {
 			if (board.hasPiece(new Coordinate(r, c))) {// a piece is on this location
@@ -133,6 +170,9 @@ public class King extends Piece {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "King";
 	}
