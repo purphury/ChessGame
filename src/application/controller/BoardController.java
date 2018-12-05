@@ -4,16 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import application.model.AI;
 import application.model.Board;
 import application.model.Board.Type;
 import application.model.Coordinate;
-import application.model.Piece;
 import application.model.Timer;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
