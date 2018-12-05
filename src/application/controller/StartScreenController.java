@@ -28,10 +28,10 @@ public class StartScreenController implements Initializable{
 	@FXML private TextField playerTwo, timerTextField;
 	@FXML private Button startButton; 
 	@FXML private AnchorPane rootPane;
-	@FXML Label easyL, medL, hardL, timerLabel, errorLabel;
-	@FXML Slider difficultySlider;
-	@FXML TextField sliderText;
-	@FXML CheckBox fbCheckBox, compCheckBox;
+	@FXML private Label easyL, medL, hardL, timerLabel, errorLabel;
+	@FXML private Slider difficultySlider;
+	@FXML private TextField sliderText;
+	@FXML private CheckBox fbCheckBox, compCheckBox;
 	
 	public static ArrayList<String> names;
 
