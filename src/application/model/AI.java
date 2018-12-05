@@ -100,16 +100,16 @@ public class AI {
 		
 		if(fbValue+1 == 1 )
 			strFbValue="best";
-		else if((fbValue+1)%10 == 1 && fbValue != 11)
+		else if((fbValue+1)%10 == 1 && (fbValue+1) != 11)
 			strFbValue+="st best";
-		else if((fbValue+1) == 2|| (fbValue%10 == 2 && fbValue != 12))
+		else if((fbValue+1) == 2|| ((fbValue+1)%10 == 2 && (fbValue+1) != 12))
 			strFbValue +="nd best";
-		else if((fbValue+1) == 3|| (fbValue%10 == 3 && fbValue != 13))
+		else if((fbValue+1) == 3|| ((fbValue+1)%10 == 3 && (fbValue+1) != 13))
 			strFbValue +="rd best";
 		else 
 			strFbValue +="th best";
 		
-		
+		//System.out.println("fbValue: "+fbValue+" strFBV: "+strFbValue);
 		String str=convertMoveToString(board, oldLoc, newLoc)+
 				"\nC3PO:\n  By my calculations that was the "+
 						strFbValue+" move of "+String.valueOf(listOfMoves.size());
@@ -162,13 +162,13 @@ public class AI {
 			@Override
 			protected Coordinate[] call() throws Exception {
 				double value = StartScreenController.value;
-				double newMean = value/100*5;
+				double newMean = value/100*4+1;
 				//System.out.println("Cont value: "+StartScreenController.value+"(pre calc)newMean"
 				//			+(StartScreenController.value/100*5));
 				
 				double randomizer= -1;
-				while(randomizer<0 || randomizer > 5) {
-					randomizer = (rand.nextGaussian()*3/4+newMean);
+				while(randomizer<=1 || randomizer >= 5) {
+					randomizer = (rand.nextGaussian()*15/16+newMean);
 				//	System.out.println("randomizer: "+randomizer+" new mean: "+newMean);
 
 				}
@@ -177,7 +177,7 @@ public class AI {
 				//System.out.println("randomizer: "+roundedRandomizer);
 				double d = rand.nextDouble();
 				boolean setStrategy = setStrategy(d);
-				//System.out.println("randomizer "+randomizer);
+				//System.out.println("newMean: "+newMean+" randomizer: "+randomizer);
 
 				//System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
 				return bc.getMyAI().getBestMove(BoardController.boardModel, (int)roundedRandomizer, setStrategy, rand, true);

@@ -629,7 +629,7 @@ public class BoardController {
 				int player1Time = 60*StartScreenController.minutes;
 
 				long startTime = System.currentTimeMillis();
-				while(player1Time > 0 && !boardModel.isWhiteIsCheckmated()
+				while(player1Time >= 0 && !boardModel.isWhiteIsCheckmated()
 						&&!boardModel.isBlackIsCheckmated() && !isStalemate) {
 					if(getBoard().getTurn() == Type.WHITE) {
 						//final int p1FTime = player1Time;
@@ -668,7 +668,7 @@ public class BoardController {
 				int player2Time = origTime;
 
 				long startTime = System.currentTimeMillis();
-				while(player2Time > 0 && !boardModel.isWhiteIsCheckmated()
+				while(player2Time >= 0 && !boardModel.isWhiteIsCheckmated()
 						&&!boardModel.isBlackIsCheckmated() && !isStalemate) {
 					if(getBoard().getTurn() == Type.BLACK || player2Time == origTime) {
 						updateMessage(player2Time/60+":"+String.format("%02d", (player2Time%60)));
@@ -677,10 +677,7 @@ public class BoardController {
 					long elapsedTime = System.currentTimeMillis()- startTime;
 					Thread.sleep(1000-(elapsedTime%1000)+5);
 				}	
-				if(player2Time <= 0)
-					endGameLabel.setVisible(true);
-					String finishStr = "Times up!\n"+blackNameLabel.getText()+" wins";
-					endGameLabel.setText(finishStr);
+
 				return null;
 			}
 			
