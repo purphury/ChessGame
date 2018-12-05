@@ -11,20 +11,32 @@ public class Rook extends Piece
 		super (color, 50);
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#copyPiece(application.model.Piece)
+	 */
 	public Piece copyPiece(Piece piece) {
 		Rook nR = new Rook(piece.getType());
 		nR.setHasMoved(piece.getHasMoved());
 		return nR;
 	}
 
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrength(int, int)
+	 */
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 50 + StrengthBoard.RookStrengthBoard[r][c] : -50 - StrengthBoard.RookStrengthBoard[8-r-1][c]);
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrengthWOStrategy(int, int)
+	 */
 	public double getStrengthWOStrategy(int r, int c) {
 		return (this.getType() == Type.WHITE ? 50: -50 );
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getAvailableMovements(int, int, application.model.Board)
+	 */
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
 							
@@ -38,6 +50,15 @@ public class Rook extends Piece
 		return availCoords;
 	}
 	
+	/**
+	 * Adds locations to moveset if valid
+	 * @param availCoords
+	 * @param rowInc
+	 * @param columnInc
+	 * @param r
+	 * @param c
+	 * @param board
+	 */
 	public void addMovements(ArrayList<Coordinate> availCoords,int rowInc, int columnInc, int r, int c, Board board){		
 		for (int i = 1; i < 8 ; i++) {
 			if (boundsChecker(r+i*rowInc, c+i*columnInc)) {//Checks if location is on the board			
@@ -52,6 +73,9 @@ public class Rook extends Piece
 			}
 		}
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "Rook";
 	}

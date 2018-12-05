@@ -11,6 +11,9 @@ public class Knight extends Piece
 		super(color, 30);
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#copyPiece(application.model.Piece)
+	 */
 	public Piece copyPiece(Piece piece) {
 		Knight nk =  new Knight(piece.getType());
 		nk.setHasMoved(piece.getHasMoved());
@@ -18,14 +21,23 @@ public class Knight extends Piece
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrength(int, int)
+	 */
 	public double getStrength(int r, int c) {
 		return (this.getType() == Type.WHITE ? 30 + StrengthBoard.KnightStrengthBoard[r][c] : -30 - StrengthBoard.KnightStrengthBoard[8-r-1][c]);
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getStrengthWOStrategy(int, int)
+	 */
 	public double getStrengthWOStrategy(int r, int c) {
 		return (this.getType() == Type.WHITE ? 30 : -30 );
 	}
 	
+	/* (non-Javadoc)
+	 * @see application.model.Piece#getAvailableMovements(int, int, application.model.Board)
+	 */
 	@Override
 	public ArrayList<Coordinate> getAvailableMovements(int r, int c, Board board) {
 		ArrayList<Coordinate> availCoords = new ArrayList<>();
@@ -45,7 +57,14 @@ public class Knight extends Piece
 		return availCoords;
 	}
 
-	public void addMovement(ArrayList<Coordinate> availCoords,int r, int c, Board board) {
+	/**
+	 * Adds a location to this Knight's availCoords
+	 * @param availCoords
+	 * @param r
+	 * @param c
+	 * @param board
+	 */
+	public void addMovement(ArrayList<Coordinate> availCoords, int r, int c, Board board) {
 		if (boundsChecker(r, c)) {
 			if(board.hasPiece(new Coordinate(r, c))) {//a piece is on this location
 				if(board.getPiece(new Coordinate(r, c)).getType() == this.otherType()) {//its an enemy piece
@@ -59,6 +78,9 @@ public class Knight extends Piece
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "Knight";
 	}
