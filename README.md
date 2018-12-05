@@ -5,7 +5,7 @@ This is the basic chess game implemented in JavaFX. All of the pieces should beh
 Utilizes Java8 and JavaFX
 No real reqs but if your computer struggles with AI, lower the difficulty.
 
-# CONTRIBUTORS
+# Team 1 members
 
 Chris Crabtree 
 Daniel Nix  
