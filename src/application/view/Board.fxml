@@ -365,11 +365,6 @@
       <Label layoutX="631.0" layoutY="514.0" text="G" />
       <Label layoutX="631.0" layoutY="587.0" text="H" />
       <Label layoutX="17.0" layoutY="587.0" text="H" />
-      <Label fx:id="turnLabel" layoutX="663.0" layoutY="314.0" text="turn">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Label>
       <Label fx:id="checkLabel" layoutX="647.0" layoutY="357.0" prefHeight="17.0" prefWidth="150.0" text="Check!">
          <font>
             <Font size="30.0" />
@@ -450,5 +445,10 @@
             <DropShadow />
          </effect>
       </Pane>
+      <Label fx:id="turnLabel" layoutX="649.0" layoutY="237.0" prefHeight="109.0" prefWidth="137.0" text="turn khgk gjhhjgkhg khkhkh" wrapText="true">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
