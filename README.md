@@ -5,6 +5,8 @@ This is a basic chess game implemented in JavaFX. All of the pieces should behav
 Utilizes Java8 and JavaFX
 No real reqs but if your computer struggles with AI, lower the difficulty.
 
+Known bug: When playing against AI, if AI moves pawn to end and triggers Pawn Promotion, user is allowed to choose the promotion option for the AI.
+
 # Team 1 members
 
 Chris Crabtree 
