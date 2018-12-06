@@ -2,6 +2,12 @@ package application.model;
 
 import java.util.ArrayList;
 
+/**
+ * This is a class representation of a chess board
+ * 
+ * @author Chris Crabtree, Daniel Nix, Jonathan Balraj, Majd Hamoudah
+ *	UTSA Application Programming CS3443 Fall 2018
+ */
 public class Board implements Cloneable{
 	private String whiteName;
 	private String blackName;
@@ -21,6 +27,12 @@ public class Board implements Cloneable{
 	private Type turn;
 	private Piece[][] board;
 
+	/**
+	 * Constructor for Board class
+	 * 
+	 * @param whiteName
+	 * @param blackName
+	 */
 	public Board(String whiteName, String blackName) {
 		this.blackIsCheckmated = false;
 		this.whiteIsCheckmated= false;
@@ -60,6 +72,11 @@ public class Board implements Cloneable{
 		board[7][4] = new King(Type.WHITE);
 	}
 	
+	/**
+	 * Creates a copy of a board
+	 * 
+	 * @param oldBoard Board to be copied
+	 */
 	public Board(Board oldBoard) {
 		this.previousBoard = null;
 		this.blackIsCheckmated = oldBoard.blackIsCheckmated;
@@ -85,12 +102,10 @@ public class Board implements Cloneable{
 		return super.clone();
 	}
 	
+	/**
+	 * Undoes the previous move
+	 */
 	public void undo() {
-		//System.out.println("before undo ");
-		//display();
-
-		//System.out.println("after undo");
-		//board.display();
 		if(this.previousBoard == null)
 			return;
 		this.whiteName = this.previousBoard.getWhiteName();
@@ -103,10 +118,12 @@ public class Board implements Cloneable{
 		this.turn = this.previousBoard.getTurn();
 		this.board = this.previousBoard.getBoard();
 		this.previousBoard = null;
-		//System.out.println("after undo");
-		//display();
+
 	}
 	
+	/**
+	 * Displays the contents of the board to stdout
+	 */
 	public void display() {
 		for(int i = 0; i < 8 ; i++) {
 			for(int j = 0; j < 8 ; j++) {
@@ -157,6 +174,13 @@ public class Board implements Cloneable{
 		this.board = board;
 	}
 
+	/**
+	 * Checks if the board is in stalemate for a team
+	 * of Type type
+	 * 
+	 * @param type Team to check
+	 * @return
+	 */
 	public boolean isStalemate(Type type) {
 		ArrayList<Coordinate> possibleMoves= new ArrayList<Coordinate>();
 		for(int i =0; i< 8; i++) {
@@ -259,6 +283,7 @@ public class Board implements Cloneable{
 
 	/**
 	 * Moves piece at oldLoc to newLoc (removing piece at newLoc if there was one)
+	 * and checking for special moves, processing those when detected
 	 * 
 	 * @param oldLoc
 	 * @param newLoc
@@ -354,6 +379,13 @@ public class Board implements Cloneable{
 		return 0;
 	}
 	
+	/**
+	 * Checks if a pawn has crossed to the other side of the board
+	 * 
+	 * @param newLoc
+	 * @param turn
+	 * @return
+	 */
 	public boolean pawnCrossedTest(Coordinate newLoc, Type turn) {
 		if(turn == Type.WHITE && newLoc.getRowIndex() == 0)
 			return true;
@@ -362,6 +394,13 @@ public class Board implements Cloneable{
 		return false;
 	}
 	
+	/**
+	 * Checks if an en passant move occured
+	 * 
+	 * @param oldLoc
+	 * @param newLoc
+	 * @return
+	 */
 	public boolean enPassantTest(Coordinate oldLoc, Coordinate newLoc) {
 		if( (newLoc.getColumnIndex() - oldLoc.getColumnIndex()) != 0){
 			if (this.hasPiece(oldLoc.getRowIndex(), newLoc.getColumnIndex())) {
@@ -378,7 +417,12 @@ public class Board implements Cloneable{
 		return false;
 	}
 
-	// sets all double move flags to false for the team "type"
+	/**
+	 * Resets booleans that track if a pawn just did a double move on
+	 * the previous turn
+	 * 
+	 * @param type
+	 */
 	public void doubleMovesToFalse(Type type) {
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
@@ -390,7 +434,13 @@ public class Board implements Cloneable{
 		}
 	}
 
-	// checks if the move was done by a pawn and if it was a double move
+	/**
+	 *  checks if the move was done by a pawn and if it was a double move
+	 *  
+	 * @param piece
+	 * @param oldLoc
+	 * @param newLoc
+	 */
 	public void doubleMoveCheckAndSet(Piece piece, Coordinate oldLoc, Coordinate newLoc) {
 		if (piece instanceof Pawn) {
 			if (Math.abs((oldLoc.getRowIndex() - newLoc.getRowIndex())) == 2) {
@@ -407,7 +457,9 @@ public class Board implements Cloneable{
 		}
 	}
 
-	// uses print statements to double check which pawn just did a double move
+	/**
+	 *  uses print statements to double check which pawn just did a double move
+	 */
 	public void checkDoubleMoves() {
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
@@ -570,6 +622,13 @@ public class Board implements Cloneable{
 		}
 	}
 
+	/**
+	 * Simulates a move and checks if that move puts the other team in check
+	 * 
+	 * @param oldLoc
+	 * @param newLoc
+	 * @return
+	 */
 	public boolean movePutsTeamInCheck(Coordinate oldLoc, Coordinate newLoc) {
 		Piece killedPiece = null;
 		Piece movingPiece = board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()];

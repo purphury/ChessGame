@@ -1,5 +1,11 @@
 package application.model;
 
+/**
+ * This is a class representation of a King piece
+ * 
+ * @author Daniel Nix, Jonathan Balraj
+ *	UTSA Application Programming CS3443 Fall 2018
+ */
 public class StrengthBoard {
 	public static double[][] BishopStrengthBoard = 
 			{{-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0},

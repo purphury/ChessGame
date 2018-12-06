@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import application.model.Board.Type;
 
+/**
+ * This is a class representation of a King piece
+ * 
+ * @author Chris Crabtree, Daniel Nix, Jonathan Balraj, Majd Hamoudah
+ *	UTSA Application Programming CS3443 Fall 2018
+ */
 public class Queen extends Piece {
 	public Queen(Type color) {
 		super(color, 90);

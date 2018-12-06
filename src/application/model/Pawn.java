@@ -3,6 +3,13 @@ package application.model;
 import java.util.ArrayList;
 import application.model.Board.Type;
 
+/**
+ * This is a class representation of a King piece
+ * 
+ * @author Chris Crabtree
+ *	UTSA Application Programming CS3443 Fall 2018
+ */
+
 public class Pawn extends Piece {
 	private int startR, startC;
 	private enum IsAttack{NO, YES};

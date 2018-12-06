@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import application.model.Board.Type;
 
+/**
+ * This is a class representation of a chess piece
+ * 
+ * @author Daniel Nix, Jonathan Balraj, Majd Hamoudah
+ *	UTSA Application Programming CS3443 Fall 2018
+ */
 public abstract class Piece 
 {
 	private Type type;

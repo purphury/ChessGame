@@ -8,7 +8,6 @@ import application.model.AI;
 import application.model.Board;
 import application.model.Board.Type;
 import application.model.Coordinate;
-import application.model.Timer;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -43,8 +42,6 @@ public class BoardController {
 	@FXML
 	public Label p1Min, p2Min;
 	public Pane timer1Pane, timer2Pane, infoPane;
-	public static Timer timer;
-	public static Thread timeThread;
 	@FXML 
 	private Button suggestionButton, infoButton;
 
