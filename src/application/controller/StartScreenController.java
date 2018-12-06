@@ -18,6 +18,12 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * This is the controller for the board.fxml
+ * 
+ * @author Chris Crabtree, Daniel Nix
+ *	UTSA Application Programming CS3443 Fall 2018
+ */
 public class StartScreenController implements Initializable{
 	public static boolean isAI = false;
 	public static Integer value;
@@ -35,6 +41,11 @@ public class StartScreenController implements Initializable{
 	
 	public static ArrayList<String> names;
 
+	/**
+	 * Processes the check of the feedback box
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void feedbackCheck(ActionEvent event){
 		if(!fbCheckBox.isSelected()) {
@@ -52,6 +63,11 @@ public class StartScreenController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Processes the check of the competitive box
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void competitionCheck(ActionEvent event){
 		if(!compCheckBox.isSelected()) {
@@ -70,6 +86,10 @@ public class StartScreenController implements Initializable{
 		}
 	}
 	
+	/**
+	 * Preps info for board controller and
+	 * loads board.fxml
+	 */
 	public void loadNames() {
 		names = new ArrayList<String>();
 		names.add(playerOne.getText());
@@ -102,9 +122,20 @@ public class StartScreenController implements Initializable{
 
 	}
 	
+	/**
+	 * Calls method to process game start
+	 * 
+	 * @param event
+	 */
 	public void onEnter(ActionEvent event) {
 		loadNames();
 	}
+	
+	/**
+	 * Makes AI options visible
+	 * 
+	 * @param event
+	 */
 	public void setAI(ActionEvent event) {
 		if(isAI) {
 			isAI = false;
@@ -127,6 +158,11 @@ public class StartScreenController implements Initializable{
 		}
 	}
 
+	/**
+	 * Initializes the StartScreenController and sets up a listener 
+	 * for the AI dificulty slider
+	 * 
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		isAI = false;
