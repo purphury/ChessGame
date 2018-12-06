@@ -25,6 +25,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
+/**
+ * 
+ * @author 
+ *
+ */
 public class BoardController {
 	private ImageView selectedPiece;
 	private Coordinate clickedPieceCoordinate;
@@ -711,7 +716,7 @@ public class BoardController {
 		this.myAI = myAI;
 	}
 
-
+	
 	@FXML
 	void initialize() {
 		setTurn(Type.WHITE);

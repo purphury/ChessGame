@@ -11,7 +11,12 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 
-
+/**
+ * This is a class representation of a chess ai
+ * 
+ * @author Chris Crabtree, Daniel
+ *	UTSA Application Programming CS3443 Fall 2018
+ */
 public class AI {
 	private int count;
 	private int abCount;
@@ -292,7 +297,7 @@ public class AI {
 		//System.out.println("Count: "+count+" abCount: "+abCount);
 		if(adjustTime) {
 			try {
-				int sleepTime=0;
+				int sleepTime=4;
 				if(depth <=4)
 					sleepTime = depth;
 				Thread.sleep((4-sleepTime)*1000);
@@ -310,19 +315,22 @@ public class AI {
 		}
 		count++;
 
-		Board newBoard = new Board(board);
-		ArrayList<Coordinate[]> availableMoves2 = new ArrayList<Coordinate[]>();
+		ArrayList<MoveValue> availableMoves2 = new ArrayList<MoveValue>();
 
-		Type turn = newBoard.getTurn();
+		Type turn = board.getTurn();
+
 		double value, max = toMaximize ? -Double.MAX_VALUE : Double.MAX_VALUE; 
 
 		for(int i=0; i<8; i++) {
 			for(int j = 0; j<8; j++) {
 				Coordinate coord = new Coordinate(i, j);
-				if(newBoard.hasPiece(coord)&& newBoard.getPiece(coord).getType()==turn) {
-					ArrayList<Coordinate> availableMoves = newBoard.getMoves(coord);
+				if(board.hasPiece(coord)&& board.getPiece(coord).getType()==turn) {
+					ArrayList<Coordinate> availableMoves = board.getMoves(coord);
 					for(Coordinate c : availableMoves) {
-						availableMoves2.add(new Coordinate[]{coord, c});
+						Board newBoard = new Board(board);
+						newBoard.movePieces(coord, c);
+						Double d1 = evaluateBoard(newBoard, true);
+						availableMoves2.add(new MoveValue(coord, c, d1));
 
 					}
 						
@@ -331,36 +339,31 @@ public class AI {
 			}
 		}
 		if(toSort) {
-			availableMoves2.sort(new Comparator<Coordinate[]>() {
+			availableMoves2.sort(new Comparator<MoveValue>() {
 
 				@Override
-				public int compare(Coordinate[] o1, Coordinate[] o2) {
-					Board newBoard = new Board(board);
-					newBoard.movePieces(((Coordinate[])o1)[0], ((Coordinate[])o1)[1]);
-					Double d1 = evaluateBoard(newBoard, true);
+				public int compare(MoveValue o1, MoveValue o2) {
 
-					Board newBoard2 = new Board(board);
-					newBoard2.movePieces(((Coordinate[])o2)[0], ((Coordinate[])o2)[1]);
-					Double d2 = evaluateBoard(newBoard2,true);
 					if(toMaximize) {
 
-						return Double.compare(d2, d1);
+						return Double.compare(o2.getValue(), o1.getValue());
 					}
 					else {
-						return Double.compare(d1, d2);
+						return Double.compare(o1.getValue(), o2.getValue());
 
 					}
 				}
 
 			});
 		}
-		
-		for(Coordinate[] coord: availableMoves2) {
-			newBoard.setPreviousBoard(new Board(newBoard));
+	
+		Board newBoard2 = new Board(board);
+		for(MoveValue move: availableMoves2) {
+			newBoard2.setPreviousBoard(new Board(board));
 
-			newBoard.movePieces(coord[0], coord[1]);
-			value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, useStrategy, toSort);
-			newBoard.undo();
+			newBoard2.movePieces(move.getCoordinateFrom(), move.getCoordinateTo());
+			value = minimax(newBoard2, depth - 1, alpha, beta, !toMaximize, useStrategy, toSort);
+			newBoard2.undo();
 
 			if(toMaximize ? value > max : value < max) {
 				max = value;
