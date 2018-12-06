@@ -33,6 +33,7 @@ import javafx.scene.shape.Circle;
  */
 public class BoardController {
 	private ImageView selectedPiece;
+	private boolean isSuggesting;
 	private Coordinate clickedPieceCoordinate;
 	public static Board boardModel;
 	private Coordinate pawnToPromote;
@@ -107,34 +108,38 @@ public class BoardController {
 	 */
 	@FXML
 	public void handleSuggestion(ActionEvent event) {
-		timesUp = true;
-		Coordinate[] moveSug = myAI.getBestMove(boardModel, 3, true, new Random(), false);
-		if(clickedPieceCoordinate != null) {
-			unselectPiece(clickedPieceCoordinate);
-		}
-		selectPiece2(moveSug[0]);
-		Task<?> t3 = new Task() {
-
-			@Override
-			protected Object call() throws Exception {
-				Thread.sleep(1500);
-				return null;
+		if(!isSuggesting) {
+			isSuggesting = true;
+			timesUp = true;
+			Coordinate[] moveSug = myAI.getBestMove(boardModel, 3, true, new Random(), false);
+			if(clickedPieceCoordinate != null) {
+				unselectPiece(clickedPieceCoordinate);
 			}
-			
-		};
-		
-		t3.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-		    @Override
-		    public void handle(WorkerStateEvent t) {
-				moveAndReturn(moveSug);
-				timesUp = false;
-				selectedPiece = null;
-		    }
-		});
-		Thread th3 = new Thread(t3);
-		th3.setDaemon(true);
-		th3.start();
+			selectPiece2(moveSug[0]);
+			Task<?> t3 = new Task() {
 
+				@Override
+				protected Object call() throws Exception {
+					Thread.sleep(1500);
+					return null;
+				}
+
+			};
+
+			t3.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+				@Override
+				public void handle(WorkerStateEvent t) {
+					moveAndReturn(moveSug);
+					timesUp = false;
+					selectedPiece = null;
+					clickedPieceCoordinate = null;
+
+				}
+			});
+			Thread th3 = new Thread(t3);
+			th3.setDaemon(true);
+			th3.start();
+		}
 
 	}
 	
@@ -178,6 +183,7 @@ public class BoardController {
 					
 					pTo.getChildren().add(fKilledPiece);
 				}
+				isSuggesting = false;
 				
 		    }
 		});
@@ -872,6 +878,7 @@ public class BoardController {
 	void initialize() {
 		setTurn(Type.WHITE);
 		isStalemate = false;
+		isSuggesting = false;
 		assert whiteNameLabel != null : "fx:id=\"whiteName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert blackNameLabel != null : "fx:id=\"blackName\" was not injected: check your FXML file 'Board.fxml'.";
 		assert turnLabel != null : "fx:id=\"turnName\" was not injected: check your FXML file 'Board.fxml'.";
