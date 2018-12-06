@@ -427,8 +427,8 @@ public class AI {
 			});
 		}
 	
-		Board newBoard2 = new Board(board);
 		for(MoveValue move: availableMoves2) {
+			Board newBoard2 = new Board(board);
 			newBoard2.setPreviousBoard(new Board(board));
 
 			newBoard2.movePieces(move.getCoordinateFrom(), move.getCoordinateTo());
