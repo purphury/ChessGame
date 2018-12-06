@@ -281,8 +281,7 @@ public class AI {
 	public Coordinate[] getBestMove(Board board, int depth, boolean setStrategy, Random rand, boolean adjustTime) {
 		count = 0;
 		abCount= 0;
-		Board newBoard = new Board(board);
-		Type turn = newBoard.getTurn();
+		Type turn = board.getTurn();
 		boolean toSort = true;
 		ArrayList<Coordinate[]> availableMoves2 = new ArrayList<Coordinate[]>();
 		double value, max = turn.equals(Type.WHITE) ? -Double.MAX_VALUE : Double.MAX_VALUE; 
@@ -293,8 +292,8 @@ public class AI {
 		for(int i=0; i<8; i++) {
 			for(int j = 0; j<8; j++) {
 				Coordinate coord = new Coordinate(i, j);
-				if(newBoard.hasPiece(coord)&& newBoard.getPiece(coord).getType()==turn) {
-					ArrayList<Coordinate> availableMoves = newBoard.getMoves(coord);
+				if(board.hasPiece(coord)&& board.getPiece(coord).getType()==turn) {
+					ArrayList<Coordinate> availableMoves = board.getMoves(coord);
 					for(Coordinate c : availableMoves) {
 						availableMoves2.add(new Coordinate[]{coord, c});
 
@@ -325,12 +324,9 @@ public class AI {
 			
 		});
 		for(Coordinate[] coord: availableMoves2) {
-			newBoard.setPreviousBoard(new Board(newBoard));
-
+			Board newBoard = new Board(board);
 			newBoard.movePieces(coord[0], coord[1]);
 			value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, setStrategy, toSort);
-			newBoard.undo();
-
 
 			if(!setStrategy&& turn.equals(Type.WHITE)) {
 				value += 10*rand.nextDouble();
@@ -429,11 +425,8 @@ public class AI {
 	
 		for(MoveValue move: availableMoves2) {
 			Board newBoard2 = new Board(board);
-			newBoard2.setPreviousBoard(new Board(board));
-
 			newBoard2.movePieces(move.getCoordinateFrom(), move.getCoordinateTo());
 			value = minimax(newBoard2, depth - 1, alpha, beta, !toMaximize, useStrategy, toSort);
-			newBoard2.undo();
 
 			if(toMaximize ? value > max : value < max) {
 				max = value;
