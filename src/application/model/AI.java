@@ -34,7 +34,6 @@ public class AI {
 			@Override
 			protected String call() throws Exception {
 				String str = getFeedback(BoardController.boardModel.getPreviousBoard(), true, oldLoc, newLoc);
-				System.out.println(str);
 				return str;
 			}
 			
