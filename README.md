@@ -6,6 +6,7 @@ Utilizes Java8 and JavaFX
 No real reqs but if your computer struggles with AI, lower the difficulty.
 
 Known bug: When playing against AI, if AI moves pawn to end and triggers Pawn Promotion, user is allowed to choose the promotion option for the AI.
+When playing against human C3PO doesnt give feedabck on moves
 
 # Team 1 members
 
