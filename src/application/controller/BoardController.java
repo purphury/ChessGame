@@ -26,9 +26,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
 /**
+ * This is the controller for the board.fxml
  * 
- * @author 
- *
+ * @author Chris Crabtree, Daniel Nix, Majd Hamoudah
+ *	UTSA Application Programming CS3443 Fall 2018
  */
 public class BoardController {
 	private ImageView selectedPiece;
@@ -72,6 +73,11 @@ public class BoardController {
 	
 	private AI myAI = new AI();
 	
+	/**
+	 * Shows the info for C3PO
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void showInfo(ActionEvent event) {
 		infoPane.setVisible(true);
@@ -79,6 +85,12 @@ public class BoardController {
 		timesUp = true;
 	}
 	
+	/**
+	 * Allows the user to return to game after reading
+	 * C3PO info
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void returnToGame(ActionEvent event) {
 		timesUp = false;
@@ -88,6 +100,11 @@ public class BoardController {
 
 	}
 	
+	/**
+	 * Handles the processing when the suggestion button is pressed
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void handleSuggestion(ActionEvent event) {
 		timesUp = true;
@@ -121,6 +138,11 @@ public class BoardController {
 
 	}
 	
+	/**
+	 * Demonstrates a move suggestion to the user
+	 * 
+	 * @param moveSug Coordinate array representing a move
+	 */
 	public void moveAndReturn(Coordinate[] moveSug) {
 		Pane pFrom =getPaneByRowColumnIndex(clickedPieceCoordinate.getRowIndex()
 				, clickedPieceCoordinate.getColumnIndex());
@@ -168,6 +190,12 @@ public class BoardController {
 		
 	}
 	
+	/**
+	 * Handles when a player promotes a pawn and must decide what peice to
+	 * replace it with
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void handleChoice(ActionEvent event) {
 		String pieceChosenStr =((Button) event.getSource()).getText().toLowerCase();
@@ -189,10 +217,21 @@ public class BoardController {
 		
 	}
 	
+	/**
+	 * Getter for the model representation of the board
+	 * 
+	 * @return Board The board for the model
+	 */
 	synchronized Board getBoard() {
 		return this.boardModel;
 	}
 
+	/**
+	 * Handles The clicking of pieces and spaces on the board for 
+	 * the view
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void handlePieceClick(MouseEvent event) {
 		if((!StartScreenController.isAI || boardModel.getTurn() == Type.WHITE)
@@ -259,8 +298,6 @@ public class BoardController {
 
 					}
 
-
-
 					// Moved to enemy space
 					else {
 						killPiece(clickedPane);
@@ -288,6 +325,15 @@ public class BoardController {
 
 		}
 	}
+	
+	/**
+	 * Moves the AI for the thread controlling its movement, but
+	 * slows the movement to allow the user to see where the AI 
+	 * moved to
+	 * 
+	 * @param a Coordinate of where a move was from
+	 * @param b Coordinate of where a move was to
+	 */
 	synchronized public void moveAI(Coordinate a, Coordinate b) {
 		if(boardModel.isCheckmate(Type.BLACK)||boardModel.isWhiteIsCheckmated()|| timesUp|| this.isStalemate)
 			return;
@@ -317,6 +363,11 @@ public class BoardController {
 		th3.start();
 	}
 	
+	/**
+	 * Handles the second half of the movement of the AI
+	 * 
+	 * @param c
+	 */
 	synchronized public void moveAI2(Coordinate c) {
 		Pane clickedPane = (Pane) getPaneByRowColumnIndex(c.getRowIndex(), c.getColumnIndex());
 		int typeOfMove = boardModel.movePieces(clickedPieceCoordinate, c);
@@ -369,8 +420,6 @@ public class BoardController {
 
 			}
 
-
-
 			// Moved to enemy space
 			else {
 				killPiece(clickedPane);
@@ -380,11 +429,17 @@ public class BoardController {
 				}
 			}
 
-
 			// Reset variables and see if its check or checkmate
 			endOfMoveProcessing(c);
 		}
 	}
+	
+	/**
+	 * Handles pawn promotion processing
+	 * 
+	 * @param type	The turn of the player who is 
+	 * @param c		Coordinate of the pawn to promote
+	 */
 	public void promotePawn(Type type, Coordinate c) {
 		pawnToPromote = c;
 		promotionPane.setVisible(true);
@@ -403,6 +458,12 @@ public class BoardController {
 		}
 	}
 	
+	/**
+	 * Displays the images for the pawn promotion screen
+	 * 
+	 * @param view View for the image to be displayed
+	 * @param imagePath Filepath for the image
+	 */
 	public void putImage(ImageView view, String imagePath) {
 		File file = new File(imagePath);
 		Image image = new Image(file.toURI().toString());
@@ -411,6 +472,11 @@ public class BoardController {
 
 	}
 
+	/**
+	 * Processes the selecting of a piece
+	 * 
+	 * @param event
+	 */
 	public void selectPiece(MouseEvent event) {
 		clickedPieceCoordinate = findCoordinate(event);
 		Pane p = (Pane) event.getSource();
@@ -423,6 +489,11 @@ public class BoardController {
 		}
 	}
 	
+	/**
+	 * Processes the selecting of a piece by coordinate
+	 * 
+	 * @param c Coordinate of piece to select
+	 */
 	public void selectPiece2(Coordinate c) {
 		clickedPieceCoordinate = c;
 		Pane p = (Pane) getPaneByRowColumnIndex(clickedPieceCoordinate.getRowIndex()
@@ -436,6 +507,11 @@ public class BoardController {
 		}
 	}
 	
+	/**
+	 * A synchronized version of select piece to prevent thread overlap
+	 * 
+	 * @param c Coordinate of piece to select
+	 */
 	synchronized public void selectPiece(Coordinate c) {
 
 		clickedPieceCoordinate = c;
@@ -448,12 +524,22 @@ public class BoardController {
 			}
 		}
 	}
-
+	
+	/**
+	 * Move piece processing
+	 * 
+	 * @param clickedPane
+	 */
 	public void movePiece(Pane clickedPane) {
 		boardFX.getChildren().remove(selectedPiece);
 		clickedPane.getChildren().add(selectedPiece);
 	}
 
+	/**
+	 * Kill piece processing
+	 * 
+	 * @param clickedPane
+	 */
 	public void killPiece(Pane clickedPane) {
 		ImageView enemyPiece = (ImageView) clickedPane.getChildren().get(0);
 		clickedPane.getChildren().remove(enemyPiece);
@@ -461,12 +547,22 @@ public class BoardController {
 		clickedPane.getChildren().add(selectedPiece);
 	}
 
+	/**
+	 * Processing for end of move
+	 * 
+	 * @param c Coordinate for processing
+	 */
 	public void endOfMoveProcessing(Coordinate c) {
 		turnLabelAppearance();
 		testForCheckAndCheckmate(boardModel.getPiece(c).otherType());
 		unselectPiece(c);
 	}
 
+	/**
+	 * Processing for unselect piece
+	 * 
+	 * @param c
+	 */
 	public void unselectPiece(Coordinate c) {
 		removeDots(c);
 		availableMoves = null;
@@ -474,6 +570,12 @@ public class BoardController {
 		clickedPieceCoordinate = null;
 	}
 
+	/**
+	 * Tests for check, checkmate, and stalemate and processes 
+	 * accordingly
+	 * 
+	 * @param type Color of team to check
+	 */
 	public void testForCheckAndCheckmate(Type type) {
 
 		if (boardModel.isCheck(type)) {
@@ -514,6 +616,12 @@ public class BoardController {
 
 	}
 
+	/**
+	 * Processing for the en passant move
+	 * 
+	 * @param fromPosition
+	 * @param toPosition
+	 */
 	public void processEnPassant(Coordinate fromPosition, Coordinate toPosition) {
 		Pane p = (Pane) getPaneByRowColumnIndex(fromPosition.getRowIndex(), toPosition.getColumnIndex());
 		if (p.getChildren().get(0) != null) {
@@ -522,6 +630,11 @@ public class BoardController {
 		}
 	}
 
+	/**
+	 * Adds dots to display available moves
+	 * 
+	 * @param b Coordinate of source piece
+	 */
 	public void addDots(Coordinate b) {
 		Pane pane2 = (Pane) getPaneByRowColumnIndex(b.getRowIndex(), b.getColumnIndex());
 		pane2.setStyle("-fx-background-color: #F9A602;");
@@ -537,6 +650,11 @@ public class BoardController {
 		}
 	}
 
+	/**
+	 * Removes dots after move is selected
+	 * 
+	 * @param d Coordinate of source piece
+	 */
 	public void removeDots(Coordinate d) {
 		changeToOriginalColor(clickedPieceCoordinate);
 		for (Coordinate c : availableMoves) {
@@ -555,6 +673,11 @@ public class BoardController {
 		}
 	}
 
+	/**
+	 * Changes the colors of selected piece panes to their original color
+	 * 
+	 * @param a
+	 */
 	public void changeToOriginalColor(Coordinate a) {
 		Pane pane = (Pane) getPaneByRowColumnIndex(a.getRowIndex(), a.getColumnIndex());
 
@@ -564,6 +687,12 @@ public class BoardController {
 			pane.setStyle("-fx-background-color:  white;");
 	}
 
+	/**
+	 * Returns the gridpane coordinates of a mouse click
+	 * 
+	 * @param event Mouse click
+	 * @return Coordinat Coordinate of click
+	 */
 	private static Coordinate findCoordinate(MouseEvent event) {
 		Coordinate a = new Coordinate();
 		Node source;
@@ -584,6 +713,13 @@ public class BoardController {
 		return a;
 	}
 
+	/**
+	 * Returns the pane of that a mouse clicked
+	 * 
+	 * @param row Row of click
+	 * @param column Column of click
+	 * @return Pane
+	 */
 	public Pane getPaneByRowColumnIndex(final int row, final int column) {
 		Node result = null;
 		ObservableList<Node> childrens = boardFX.getChildren();
@@ -607,8 +743,9 @@ public class BoardController {
 		return (Pane) result;
 	}
 
-	// this will change the turn label
-
+	/**
+	 * Changes the turn label after a move
+	 */
 	public void turnLabelAppearance() {
 		Type turn = boardModel.getTurn();
 		int whiteName = whiteNameLabel.getText().length();
@@ -620,7 +757,9 @@ public class BoardController {
 		}
 	}
 	
-	
+	/**
+	 * Threaded Timers for competition mode
+	 */
 	public <T> void diffTimer2() {
 		Task<T> t1 = new Task<T>() {
 
@@ -708,15 +847,27 @@ public class BoardController {
 
 	}
 	
+	/**
+	 * Gets the AI
+	 * 
+	 * @return
+	 */
 	public AI getMyAI() {
 		return myAI;
 	}
 
+	/**
+	 * Sets the AI
+	 * 
+	 * @param myAI
+	 */
 	public void setMyAI(AI myAI) {
 		this.myAI = myAI;
 	}
 
-	
+	/**
+	 * Initializes the board class
+	 */
 	@FXML
 	void initialize() {
 		setTurn(Type.WHITE);

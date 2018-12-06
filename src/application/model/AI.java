@@ -12,16 +12,22 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 
 /**
- * This is a class representation of a chess ai
+ * This is a class representation of a chess AI
  * 
- * @author Chris Crabtree, Daniel
+ * @author Chris Crabtree, Daniel Nix, Jonathan Balraj
  *	UTSA Application Programming CS3443 Fall 2018
  */
 public class AI {
 	private int count;
 	private int abCount;
 	
-	
+	/**
+	 * Starts a thread to give feedback to user
+	 * 
+	 * @param bc A copy of the board controller
+	 * @param oldLoc Old location of piece
+	 * @param newLoc New location of piece
+	 */
 	public <T> void feedbackThread(BoardController bc, Coordinate oldLoc, Coordinate newLoc) {
 		Task<Object> t1 = new Task<Object>() {
 
@@ -46,6 +52,17 @@ public class AI {
 		th1.start();
 	}
 	
+	/**
+	 * Uses the minimax function to get the value of every possible 
+	 * move then ranks the one the user chose and returns a string
+	 * of feedback
+	 * 
+	 * @param board Copy of the board
+	 * @param setStrategy Designates whether to use stategy
+	 * @param oldLoc Old location of piece
+	 * @param newLoc New location of piece
+	 * @return
+	 */
 	public String getFeedback(Board board, boolean setStrategy, Coordinate oldLoc, Coordinate newLoc) {
 		int depth = 3;
 		ArrayList<MoveValue> listOfMoves = new ArrayList<MoveValue>(); 
@@ -125,6 +142,15 @@ public class AI {
 		return str;
 	}
 	
+	/**
+	 * Converts two locations representing a move and converts that
+	 * to a string in chess parlence 
+	 * 
+	 * @param board Copy of the board
+	 * @param oldLoc Old location of piece
+	 * @param newLoc New location of piece
+	 * @return String String describing the move
+	 */
 	private String convertMoveToString(Board board, Coordinate oldLoc, Coordinate newLoc) {
 		String ret= "";
 		if(board.getTurn() == Type.WHITE)
@@ -142,6 +168,12 @@ public class AI {
 		return ret;
 	}
 	
+	/**
+	 * Converts a row number to letter for chess game
+	 * 
+	 * @param row Integer of row number
+	 * @return String String of row number
+	 */
 	private String convertRow(int row) {
 		String ret = "";
 		if(row == 0)
@@ -163,6 +195,11 @@ public class AI {
 		return ret;
 	}
 	
+	/**
+	 * Creates and starts a thread that moves the AI
+	 * 
+	 * @param bc Copy of board controller
+	 */
 	public <T> void moveAIThread(BoardController bc) {
 		Random rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
@@ -201,11 +238,24 @@ public class AI {
 		th.start();
 	}
 	
+	/**
+	 * Randomizes the use of positional strategy
+	 * 
+	 * @param d Double of probability desired
+	 * @return boolean True if ai should use positional strategy
+	 */
 	private boolean setStrategy(Double d) {
 		double dou =StartScreenController.value;
 		return d < dou/100+.1;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param board
+	 * @param useStrategy
+	 * @return
+	 */
 	public double evaluateBoard(Board board, boolean useStrategy) {
 		double strength = 0;
 		Piece[][] boardM = board.getBoard();
@@ -217,7 +267,17 @@ public class AI {
 		return strength;
 	}
 
-
+	/**
+	 * Calculates the best move for a given depth of moves
+	 * 
+	 * @param board A copy of the board
+	 * @param depth Depth desired to check
+	 * @param setStrategy Designates whether it should consider positional strategy
+	 * @param rand Used to mimick human inconsistency
+	 * @param adjustTime Designates if the method should mask the difficulty of the AI
+	 * 						by sleeping a few seconds
+	 * @return Coordinat[] A set of coordinates to move to 
+	 */
 	public Coordinate[] getBestMove(Board board, int depth, boolean setStrategy, Random rand, boolean adjustTime) {
 		count = 0;
 		abCount= 0;
@@ -297,10 +357,7 @@ public class AI {
 		//System.out.println("Count: "+count+" abCount: "+abCount);
 		if(adjustTime) {
 			try {
-				int sleepTime=4;
-				if(depth <=4)
-					sleepTime = depth;
-				Thread.sleep((4-sleepTime)*1000);
+				Thread.sleep((5-depth)*1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -308,6 +365,19 @@ public class AI {
 		return move;
 	}
 
+	/**
+	 * A minimax algorith to search for the best move, but unlike get best move
+	 * it returns a score for the best move
+	 * 
+	 * @param board A copy of the board
+	 * @param depth Desired depth
+	 * @param alpha Used for alpha beta pruning
+	 * @param beta Used for alpha beta pruning
+	 * @param toMaximize Designate if it is a maximizer of a minimizer
+	 * @param useStrategy Designate if it should use positional strategy
+	 * @param toSort Designates if it should sort items to optimize alpha beta pruning
+	 * @return Double Value of the best move for that turn on the board
+	 */
 	private double minimax(Board board, int depth, double alpha, double beta, boolean toMaximize, boolean useStrategy, boolean toSort){
 		if(depth <= 0) {
 			count++;
