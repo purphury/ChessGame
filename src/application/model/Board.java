@@ -296,7 +296,7 @@ public class Board implements Cloneable{
 				}
 				
 				if(piece instanceof King  && piece.getHasMoved()==false) {
-					if (newLoc.getColumnIndex() < 4 && rook1 != null && !rook1.getHasMoved()) {
+					if (newLoc.getColumnIndex() < 3 && rook1 != null && !rook1.getHasMoved()) {
 						board[newLoc.getRowIndex()][newLoc.getColumnIndex() + 1] = rook1; // if new loc was occupied, the piece that
 						rook1.setHasMoved(true);
 						// was there is now deleted as there is
