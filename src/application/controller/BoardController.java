@@ -315,10 +315,6 @@ public class BoardController {
 					}
 					// Reset variables and see if its check or checkmate
 					endOfMoveProcessing(c);
-					//Coordinate[] h = myAI.getBestMove(boardModel, StartScreenController.value);
-					//System.out.println(h[0].toString() + " " + h[1].toString());
-					//boardModel.display();
-
 					if(StartScreenController.isAI) {
 						myAI.moveAIThread(this);
 					}

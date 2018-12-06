@@ -34,8 +34,8 @@ public class AI {
 			@Override
 			protected String call() throws Exception {
 				String str = getFeedback(BoardController.boardModel.getPreviousBoard(), true, oldLoc, newLoc);
+				System.out.println(str);
 				return str;
-				
 			}
 			
 		};
@@ -84,7 +84,6 @@ public class AI {
 					for(Coordinate c : availableMoves) {
 						newBoard.setPreviousBoard(new Board(newBoard));
 						newBoard.movePieces(coord, c);
-						//Printer.printNodeLabel(newBoard, c);
 						value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, setStrategy, toSort);
 						newBoard.undo();
 						Coordinate move[] = {null,null}; // old, new
@@ -115,8 +114,9 @@ public class AI {
 
 		int fbValue=0;
 		for(MoveValue v: listOfMoves) {
-			if(v.getCoordinateFrom().equals(oldLoc)&&v.getCoordinateTo().equals(newLoc))
+			if(v.getCoordinateFrom().equals(oldLoc)&&v.getCoordinateTo().equals(newLoc)) {
 				fbValue=listOfMoves.indexOf(v);
+			}
 		}
 		String strFbValue=String.valueOf(fbValue+1);
 		
@@ -135,10 +135,12 @@ public class AI {
 		String str=convertMoveToString(board, oldLoc, newLoc)+
 				"\nC3PO:\n  By my calculations that was the "+
 						strFbValue+" move of "+String.valueOf(listOfMoves.size());
+		
 		if(StartScreenController.value >=80)
 			str+=". But watch out! You're opponent is much smarter than me.";
 		else if(StartScreenController.value >= 60)
 			str+=". But watch out! You're opponent is a little smarter than me.";
+		
 		return str;
 	}
 	

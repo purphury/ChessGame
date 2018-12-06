@@ -166,6 +166,7 @@ public class StartScreenController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		isAI = false;
+		this.value= -1;
 		haveTimer= false;
 		giveFeedback = false;
 		minutes = null;
