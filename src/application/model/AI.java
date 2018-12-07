@@ -219,8 +219,8 @@ public class AI {
 				double roundedRandomizer = Math.round(randomizer);
 				double d = rand.nextDouble();
 				boolean setStrategy = setStrategy(d);
-				//System.out.println("newMean: "+newMean+" randomizer: "+randomizer);
-				//System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
+				System.out.println("newMean: "+newMean+" randomizer: "+randomizer);
+				System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
 				return bc.getMyAI().getBestMove(BoardController.boardModel, (int)roundedRandomizer, setStrategy, rand, true);
 			}
 		};
@@ -279,14 +279,15 @@ public class AI {
 	 * 						by sleeping a few seconds
 	 * @return Coordinat[] A set of coordinates to move to 
 	 */
-	public Coordinate[] getBestMove(Board board, int depth, boolean setStrategy, Random rand, boolean adjustTime) {
+	public Coordinate[] getBestMove(Board board, int depth, boolean useStrategy, Random rand, boolean adjustTime) {
 		count = 0;
 		abCount= 0;
+		//int depth = 4;
 		Type turn = board.getTurn();
 		boolean toSort = true;
-		ArrayList<Coordinate[]> availableMoves2 = new ArrayList<Coordinate[]>();
+		ArrayList<MoveValue> availableMoves2 = new ArrayList<MoveValue>();
 		double value, max = turn.equals(Type.WHITE) ? -Double.MAX_VALUE : Double.MAX_VALUE; 
-		Coordinate move[] = {null, null}; // old, new
+		Coordinate finalMove[] = {null, null}; // old, new
 		double alpha = -100000;
 		double beta = 100000;
 		boolean toMaximize = turn.equals(Type.WHITE) ? true : false;//p1 maximizes p2 minimizes
@@ -296,70 +297,60 @@ public class AI {
 				if(board.hasPiece(coord)&& board.getPiece(coord).getType()==turn) {
 					ArrayList<Coordinate> availableMoves = board.getMoves(coord);
 					for(Coordinate c : availableMoves) {
-						availableMoves2.add(new Coordinate[]{coord, c});
+						Board newBoard = new Board(board);
+						newBoard.movePieces(coord, c);
+						Double d1 = minimax(newBoard, 1, alpha, beta, !toMaximize, true, toSort);
+						availableMoves2.add(new MoveValue(coord, c, d1));
 
-					}									
+					}
+						
+										
 				}
 			}
 		}
-		
-		availableMoves2.sort(new Comparator<Coordinate[]>() {
+		if(toSort) {
+			availableMoves2.sort(new Comparator<MoveValue>() {
 
-			@Override
-			public int compare(Coordinate[] o1, Coordinate[] o2) {
-				Board newBoard = new Board(board);
-				newBoard.movePieces(((Coordinate[])o1)[0], ((Coordinate[])o1)[1]);
-				Double d1 = evaluateBoard(newBoard, true);
-			
-				Board newBoard2 = new Board(board);
-				newBoard2.movePieces(((Coordinate[])o2)[0], ((Coordinate[])o2)[1]);
-				Double d2 = evaluateBoard(newBoard2,true);
-				if(toMaximize) {					
-					return Double.compare(d2, d1);
+				@Override
+				public int compare(MoveValue o1, MoveValue o2) {
+
+					if(toMaximize) {
+
+						return Double.compare(o2.getValue(), o1.getValue());
+					}
+					else {
+						return Double.compare(o1.getValue(), o2.getValue());
+
+					}
 				}
-				else {
-					return Double.compare(d1, d2);
 
-				}
-			}
-			
-		});
-		for(Coordinate[] coord: availableMoves2) {
-			Board newBoard = new Board(board);
-			newBoard.movePieces(coord[0], coord[1]);
-			value = minimax(newBoard, depth - 1, alpha, beta, !toMaximize, setStrategy, toSort);
-
-			if(!setStrategy&& turn.equals(Type.WHITE)) {
-				value += 10*rand.nextDouble();
-			}
-			if(!setStrategy && turn.equals(Type.BLACK)){
-				value -= 10*rand.nextDouble();
-			}
+			});
+		}
+	
+		for(MoveValue move: availableMoves2) {
+			Board newBoard2 = new Board(board);
+			newBoard2.movePieces(move.getCoordinateFrom(), move.getCoordinateTo());
+			value = minimax(newBoard2, depth - 1, alpha, beta, !toMaximize, useStrategy, toSort);
 
 			if(toMaximize ? value > max : value < max) {
-				move[0] = coord[0]; move[1] = coord[1];
 				max = value;
+				finalMove[0] = move.getCoordinateFrom();
+				finalMove[1] = move.getCoordinateTo();
 			}
-
+			
 			if(toMaximize) {
 				alpha = Math.max(alpha, max);
 			}
 
 			if(!toMaximize) {
 				beta = Math.min(beta, max);
-			}
 
+			}				
+		
 		}
-
-		//System.out.println("Count: "+count+" abCount: "+abCount);
-		if(adjustTime) {
-			try {
-				Thread.sleep((5-depth)*1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		return move;
+		
+		System.out.println("count: " +count+" abCount: "+abCount);
+		return finalMove;
 	}
 
 	/**
