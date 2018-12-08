@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 public class AI {
 	private int count;
 	private int abCount;
+	boolean printCheck = false;
 	
 	/**
 	 * Starts a thread to give feedback to user
@@ -219,8 +220,10 @@ public class AI {
 				double roundedRandomizer = Math.round(randomizer);
 				double d = rand.nextDouble();
 				boolean setStrategy = setStrategy(d);
-				System.out.println("newMean: "+newMean+" randomizer: "+randomizer);
-				System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
+				if(printCheck) {
+					System.out.println("newMean: "+newMean+" randomizer: "+randomizer);
+					System.out.println("setStrat "+setStrategy+" d: "+d +" RR: "+ roundedRandomizer);
+				}
 				return bc.getMyAI().getBestMove(BoardController.boardModel, (int)roundedRandomizer, setStrategy, rand, true);
 			}
 		};
@@ -282,7 +285,7 @@ public class AI {
 	public Coordinate[] getBestMove(Board board, int depth, boolean useStrategy, Random rand, boolean adjustTime) {
 		count = 0;
 		abCount= 0;
-		//int depth = 4;
+		//int depth = 5;
 		Type turn = board.getTurn();
 		boolean toSort = true;
 		ArrayList<MoveValue> availableMoves2 = new ArrayList<MoveValue>();
@@ -290,7 +293,10 @@ public class AI {
 		Coordinate finalMove[] = {null, null}; // old, new
 		double alpha = -100000;
 		double beta = 100000;
-		boolean toMaximize = turn.equals(Type.WHITE) ? true : false;//p1 maximizes p2 minimizes
+		boolean toMaximize = turn.equals(Type.WHITE) ? true : false;
+		int lookAheadDepth =0;
+		if(depth ==5)
+			lookAheadDepth = 3;//p1 maximizes p2 minimizes
 		for(int i=0; i<8; i++) {
 			for(int j = 0; j<8; j++) {
 				Coordinate coord = new Coordinate(i, j);
@@ -299,7 +305,8 @@ public class AI {
 					for(Coordinate c : availableMoves) {
 						Board newBoard = new Board(board);
 						newBoard.movePieces(coord, c);
-						Double d1 = minimax(newBoard, 1, alpha, beta, !toMaximize, true, toSort);
+						//Double d1 = evaluateBoard(newBoard, true);
+						Double d1 = minimax(newBoard, lookAheadDepth, alpha, beta, !toMaximize, true, toSort);
 						availableMoves2.add(new MoveValue(coord, c, d1));
 
 					}
@@ -348,8 +355,8 @@ public class AI {
 			}				
 		
 		}
-		
-		System.out.println("count: " +count+" abCount: "+abCount);
+		if(printCheck)
+			System.out.println("count: " +count+" abCount: "+abCount);
 		return finalMove;
 	}
 

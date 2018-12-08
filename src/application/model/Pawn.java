@@ -131,9 +131,9 @@ public class Pawn extends Piece {
 	public void addEnPassant(ArrayList<Coordinate> availCoords,int r, int c, Board board, Type type) {
 		if(boundsChecker(r,c)) {
 			if(board.hasPiece(r, c)) {
-				Piece pieceRight = board.getPiece(r, c);
-				if(pieceRight instanceof Pawn && pieceRight.getType() != type
-												&&((Pawn)pieceRight).justDidDoubleMove) {
+				Piece pieceNextTo = board.getPiece(r, c);
+				if(pieceNextTo instanceof Pawn && pieceNextTo.getType() != type
+												&&((Pawn)pieceNextTo).justDidDoubleMove) {
 					if(type == Type.WHITE)
 						availCoords.add(new Coordinate(r-1,c));
 					if(type == Type.BLACK)

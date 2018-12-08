@@ -18,6 +18,7 @@ public class Board implements Cloneable{
 	private Board previousBoard;
 	public boolean blackIsCheckmated;
 	public boolean whiteIsCheckmated;
+	private Pawn pawnDoubleMoved;
 
 	public static enum Type {
 		BLACK, WHITE
@@ -36,6 +37,8 @@ public class Board implements Cloneable{
 	public Board(String whiteName, String blackName) {
 		this.blackIsCheckmated = false;
 		this.whiteIsCheckmated= false;
+		this.pawnDoubleMoved=null;
+
 		this.previousBoard = null;
 		this.whiteName = whiteName;
 		this.blackName = blackName;
@@ -79,6 +82,8 @@ public class Board implements Cloneable{
 	 */
 	public Board(Board oldBoard) {
 		this.previousBoard = null;
+		this.pawnDoubleMoved=oldBoard.pawnDoubleMoved;
+
 		this.blackIsCheckmated = oldBoard.blackIsCheckmated;
 		this.whiteIsCheckmated = oldBoard.whiteIsCheckmated;
 		this.whiteName = oldBoard.getWhiteName();
@@ -344,10 +349,13 @@ public class Board implements Cloneable{
 					piece.setHasMoved(true);
 
 				if (piece instanceof Pawn ) {
+						didDoubleMoveCheck(oldLoc, newLoc);
 						wasEnPassant = enPassantTest(oldLoc, newLoc);
 						pawnCrossed = pawnCrossedTest(newLoc, piece.getType());
+				}else if(this.pawnDoubleMoved != null){
+					this.pawnDoubleMoved.justDidDoubleMove = false;
+					this.pawnDoubleMoved = null;
 				}
-
 
 				board[newLoc.getRowIndex()][newLoc.getColumnIndex()] = piece; // if new loc was occupied, the piece that
 				// was there is now deleted as there is
@@ -355,7 +363,7 @@ public class Board implements Cloneable{
 				board[oldLoc.getRowIndex()][oldLoc.getColumnIndex()] = null;
 
 				// sets and unsets the double moves for pawns
-				doubleMoveCheckAndSet(piece, oldLoc, newLoc);
+				//doubleMoveCheckAndSet(piece, oldLoc, newLoc);
 
 				changeTurn();
 				//Printer.boardCheck(previousBoard,this);
@@ -394,6 +402,17 @@ public class Board implements Cloneable{
 		return false;
 	}
 	
+	public void didDoubleMoveCheck(Coordinate oldLoc, Coordinate newLoc) {
+		if(this.hasPiece(oldLoc) ) {
+			Piece p = this.getPiece(oldLoc);
+			if(p instanceof Pawn && Math.abs(oldLoc.getRowIndex() - newLoc.getRowIndex()) == 2) {
+					((Pawn)this.getPiece(oldLoc)).justDidDoubleMove = true;
+					this.pawnDoubleMoved = (Pawn) this.getPiece(oldLoc);
+			}else if( p instanceof Pawn)
+				this.pawnDoubleMoved = null;
+		}
+	}
+	
 	/**
 	 * Checks if an en passant move occured
 	 * 
@@ -423,16 +442,7 @@ public class Board implements Cloneable{
 	 * 
 	 * @param type
 	 */
-	public void doubleMovesToFalse(Type type) {
-		for (int r = 0; r < 8; r++) {
-			for (int c = 0; c < 8; c++) {
-				if (this.hasPiece(r, c) && this.getPiece(r, c).getType() == type) {
-					if (this.getPiece(r, c) instanceof Pawn)
-						((Pawn) this.getPiece(r, c)).justDidDoubleMove = false;
-				}
-			}
-		}
-	}
+
 
 	/**
 	 *  checks if the move was done by a pawn and if it was a double move
@@ -441,7 +451,7 @@ public class Board implements Cloneable{
 	 * @param oldLoc
 	 * @param newLoc
 	 */
-	public void doubleMoveCheckAndSet(Piece piece, Coordinate oldLoc, Coordinate newLoc) {
+	/*public void doubleMoveCheckAndSet(Piece piece, Coordinate oldLoc, Coordinate newLoc) {
 		if (piece instanceof Pawn) {
 			if (Math.abs((oldLoc.getRowIndex() - newLoc.getRowIndex())) == 2) {
 				((Pawn) piece).justDidDoubleMove = true;
@@ -455,12 +465,12 @@ public class Board implements Cloneable{
 			doubleMovesToFalse(piece.getType());
 			doubleMovesToFalse(piece.otherType());
 		}
-	}
+	}*/
 
 	/**
 	 *  uses print statements to double check which pawn just did a double move
 	 */
-	public void checkDoubleMoves() {
+/*	public void checkDoubleMoves() {
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
 				if (this.hasPiece(r, c)) {
@@ -470,7 +480,7 @@ public class Board implements Cloneable{
 				}
 			}
 		}
-	}
+	}*/
 
 	/**
 	 * Checks if board is in Check for a color
